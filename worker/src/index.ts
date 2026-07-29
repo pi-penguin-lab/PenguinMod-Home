@@ -465,6 +465,17 @@ const stub = getUserStub(env, username);
             return json({ id: Math.floor(Math.random() * 1000000) });
           }
 
+          if (resource === "studios" && action === "projects" && method === "GET") {
+            const offset = parseInt(q.get("offset") || "0");
+            const app = getAppStub(env);
+            const allProjects = await app.searchProjects("", Math.floor(offset / 50));
+            return json(allProjects.slice(0, 40).map((p) => ({
+              id: p.project_id,
+              title: p.title,
+              username: p.author_username,
+            })));
+          }
+
           if (resource === "updateProject" && method === "POST") {
             return json({ id: q.get("projectID") || body.projectID || "0" });
           }
