@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		
+		<meta property="theme-color" content="#51D3F4">
+		<meta property="og:type" content="website">
+		<meta property="og:image" content="/favicon.png">
+		<meta property="twitter:image" content="/favicon.png">
+
+		<link rel="icon" href="/favicon.png" />
+		<meta name="viewport" content="width=device-width" />
+
+		<!-- Google tag (gtag.js) -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=G-JEVT078EB6"></script>
+		<script>
+		  window.dataLayer = window.dataLayer || [];
+		  function gtag(){dataLayer.push(arguments);}
+		  gtag('js', new Date());
+		
+		  gtag('config', 'G-JEVT078EB6');
+		</script>
+
+		
+		<link href="../_app/immutable/assets/2.26babca1.css" rel="stylesheet">
+		<link href="../_app/immutable/assets/NavMargin.1686ce92.css" rel="stylesheet">
+		<link href="../_app/immutable/assets/18.7c39cb69.css" rel="stylesheet">
+		<link rel="modulepreload" href="../_app/immutable/entry/start.82f43028.js">
+		<link rel="modulepreload" href="../_app/immutable/chunks/index.5ed2f220.js">
+		<link rel="modulepreload" href="../_app/immutable/chunks/singletons.0d3e0209.js">
+		<link rel="modulepreload" href="../_app/immutable/entry/app.6e7eb3bb.js">
+		<link rel="modulepreload" href="../_app/immutable/chunks/preload-helper.a4192956.js">
+		<link rel="modulepreload" href="../_app/immutable/nodes/0.f7de5fb5.js">
+		<link rel="modulepreload" href="../_app/immutable/nodes/4.4b7fb08c.js">
+		<link rel="modulepreload" href="../_app/immutable/chunks/NavMargin.8f9d1426.js">
+		<link rel="modulepreload" href="../_app/immutable/chunks/stores.5562c7e1.js">
+		<link rel="modulepreload" href="../_app/immutable/chunks/public.d7286744.js">
+		<link rel="modulepreload" href="../_app/immutable/chunks/authentication.6c0b5fd9.js">
+		<link rel="modulepreload" href="../_app/immutable/chunks/_commonjsHelpers.de833af9.js">
+		<link rel="modulepreload" href="../_app/immutable/chunks/language.8ac18006.js">
+		<link rel="modulepreload" href="../_app/immutable/nodes/18.f0413642.js">
+		<link rel="modulepreload" href="../_app/immutable/chunks/environment.60829b93.js">
+		<link rel="modulepreload" href="../_app/immutable/chunks/index.188d7fa0.js">
+		<link rel="modulepreload" href="../_app/immutable/chunks/pages.b94fd9c5.js"><title>PenguinMod - Uploading Guidelines</title><!-- HEAD_svelte-c8jpkv_START --><meta name="title" content="PenguinMod - Uploading Guidelines"><meta property="og:title" content="PenguinMod - Uploading Guidelines"><meta property="twitter:title" content="PenguinMod - Uploading Guidelines"><meta name="description" content="PenguinMod's official rules on uploaded projects"><meta property="twitter:description" content="PenguinMod's official rules on uploaded projects"><meta property="og:url" content="https://penguinmod.com/guidelines/uploading"><meta property="twitter:url" content="https://penguinmod.com/guidelines/uploading"><!-- HEAD_svelte-c8jpkv_END -->
+		
+		<style>
+			.guidelines-warning-box {
+				padding: 8px;
+				border-radius: 4px;
+				border: 1px solid rgb(255, 153, 0);
+				background: rgb(255, 217, 0, 0.5);
+				color: black;
+			}
+			body.dark-mode .guidelines-warning-box {
+				color: white;
+				background: rgb(255, 217, 0, 0.2);
+			}
+
+			.profile-bio-emoji {
+				width: 1.4lh;
+				height: 1.4lh;
+				object-fit: contain;
+				vertical-align: bottom;
+			}
+			em .profile-bio-emoji {
+			    transform: skew(-12deg, 0deg);
+			}
+			strong .profile-bio-emoji {
+			    filter: contrast(2);
+			}
+			s .profile-bio-emoji {
+			    filter: blur(2px);
+			}
+
+    		.donate-card-html p,
+    		.donate-card-html h1 {
+    		    margin-block: 0;
+    		}
+    		.donate-card-html h1 {
+    		    font-size: 48px;
+    		}
+		</style>
+	</head>
+	<body data-sveltekit-preload-data="hover" id="PAGE_BODY">
+		<script>
+			/**
+			 * String.prototype.indexOf, but it returns NaN not -1 on failure
+			 * @param {string} str The string to check in
+			 * @param {string} key The vaue to search for
+			 * @param {number?} offset The offset into the string to start from
+			 * @returns {number} The index of the key, or NaN if no instances where found
+			 */
+			const _lastIndexNaN = (str, key, offset = Infinity) => {
+				if (!str) return NaN;
+				const val = str.lastIndexOf(key, offset);
+				if (val === -1) return NaN;
+				return val;
+			};
+			const browserHasStack = !!new Error().stack;
+			const _parseFirefoxStack = stack => stack.split('\n')
+				.map(line => {
+					const at = line.indexOf('@');
+					const secondCol = line.lastIndexOf(':');
+					const firstCol = line.lastIndexOf(':', secondCol -1);
+					const endLine = line.length;
+					const name = line.slice(0, at);
+					let url = line.slice(at +1, firstCol);
+					let evalType = null;
+					let origin = [
+						Number(line.slice(firstCol +1, secondCol)),
+						Number(line.slice(secondCol +1, endLine))
+					];
+					let evalOrigin = null;
+					/** @type {RegExpMatchArray} */
+					let match;
+					if ((match = url.match(/^ line ([0-9]+) > /))) {
+						url = line.slice(at, match.index);
+						evalOrigin = origin;
+						evalType = line.slice(match.index + match[0].length, firstCol);
+						origin = [Number(match[1]), NaN];
+					}
+
+					return {
+						name,
+						url,
+						evalOrigin,
+						evalType,
+						origin
+					};
+				});
+			const _parseChromeStack = stack => stack.split('\n').slice(1)
+				.map(line => {
+					// we have no use for the human readable fluff
+					line = line.slice(7);
+					let firstOpenParen = line.indexOf('(');
+					const secondOpenParen = line.indexOf('(', firstOpenParen +1);
+					const firstCloseParen = line.indexOf(')');
+					const secondCloseParen = line.indexOf(')', firstCloseParen +1);
+					let fourthCol = line.lastIndexOf(':');
+					let thirdCol = line.lastIndexOf(':', (fourthCol || line.length) -1);
+					let secondCol = _lastIndexNaN(line, ':', (thirdCol || line.length) -1);
+					let firstCol = _lastIndexNaN(line, ':', (secondCol || line.length) -1);
+					if (secondOpenParen === -1) {
+						secondCol = fourthCol;
+						firstCol = thirdCol;
+						fourthCol = NaN;
+						thirdCol = NaN;
+					}
+					if (firstOpenParen === -1) {
+						firstOpenParen = firstCol +1;
+						thirdCol = line.length;
+					}
+					const name = line.slice(0, firstOpenParen -1);
+					const origin = [
+						Number(line.slice(firstCol +1, secondCol)),
+						Number(line.slice(secondCol +1, thirdCol || firstCloseParen))
+					];
+					let url = line.slice(firstOpenParen +1, firstCol);
+					if (!url) url = name;
+					let evalType = null;
+					let evalOrigin = null;
+					if (secondOpenParen !== -1) {
+						url = line.slice(secondOpenParen +1, firstCol);
+						evalType = 'anonymous';
+						evalOrigin = [
+							Number(line.slice(thirdCol +1, fourthCol)),
+							Number(line.slice(fourthCol +1, secondCloseParen))
+						];
+					}
+
+					return {
+						name,
+						url,
+						evalOrigin,
+						evalType,
+						origin
+					};
+				});
+			const parseStack = (stack, url, line, column) => {
+				if (!browserHasStack || !stack) {
+					return [{
+						name: '<inaccessible>',
+						url,
+						origin: [line, column]
+					}];
+				}
+				// firefox has a *completely* different style rule compared to chrome
+				if (stack.split('\n', 2)[0].includes('@')) return _parseFirefoxStack(stack);
+				return _parseChromeStack(stack);
+			};
+
+			class ObjectViewer extends HTMLElement {
+				static observedAttributes = ['key', 'object', 'type'];
+				/** @type {[string,any]} */
+				entries = [];
+				isError = false;
+				constructor() {
+					super();
+					this.attachShadow({ mode: 'open' });
+					const proto = document.createElement('div');
+					proto.style.marginLeft = '6px';
+					const check = document.createElement('div');
+					check.setAttribute('id', 'check');
+					check.style.transform = 'rotate(45deg)';
+					check.style.border = '1px solid grey';
+					check.style.borderTop = 'none';
+					check.style.borderLeft = 'none';
+					check.style.marginRight = '3px';
+					check.style.display = 'inline-block';
+					check.style.width = '0.5rem';
+					check.style.height = '0.5rem';
+					proto.appendChild(check);
+					const key = document.createElement('span');
+					key.setAttribute('id', 'key');
+					proto.appendChild(key);
+					const label = document.createElement('span');
+					label.textContent = '{}';
+					label.setAttribute('id', 'text');
+					proto.appendChild(label);
+					this.shadowRoot.appendChild(proto);
+					const entries = document.createElement('div');
+					entries.hidden = true;
+					entries.style.marginLeft = '6px';
+					proto.onclick = e => {
+						e.preventDefault();
+						e.stopPropagation();
+						if (this.isError) {
+							selectLog(this.object);
+							return;
+						}
+						entries.hidden = !entries.hidden;
+						check.style.transform = entries.hidden
+							? 'rotate(45deg)'
+							: 'rotate(-135deg)';
+
+						const entriesBox = this.shadowRoot.getElementById('entries');
+						for (const [key, value] of this.entries) {
+							const item = new ObjectViewer();
+							item.key = key;
+							item.object = value;
+							item.isError = value instanceof Error;
+							entriesBox.appendChild(item);
+						}
+					}
+					entries.setAttribute('id', 'entries');
+					proto.setAttribute('id', 'prototype');
+					this.shadowRoot.appendChild(entries);
+				}
+				get object() { return Object.fromEntries(this.entries); }
+				set object(value) {
+					if (value instanceof Error) {
+						this.isError = true;
+						value = {
+							cause: value.cause,
+							message: value.message,
+							stack: value.stack,
+							name: value.name,
+							...value
+						}
+					}
+					const text = this.shadowRoot.getElementById('text');
+					text.style.color = 'inherit';
+					const check = this.shadowRoot.getElementById('check');
+					if (typeof value !== 'object' || value === null) {
+						check.style.display = 'none';
+						text.textContent = JSON.stringify(value);
+						text.style.color = typeof value === 'string'
+							? '#A87'
+							: '#6799AE';
+						return;
+					}
+					check.style.display = 'inline-block';
+					const isArray = value instanceof Array;
+					this.entries = Object.entries(value);
+					if (this.entries.length >= 1)
+						text.textContent = isArray ? '[...]' : '{...}';
+					if (this.isError) 
+						text.textContent = value.message;
+				}
+				set key(value) {
+					const keyName = this.shadowRoot.getElementById('key');
+					keyName.textContent = value + ': ';
+				}
+				attributeChangedCallback(name, old, newValue) {
+					if (name !== 'object' && name !== 'key') return;
+					if (name === 'key') return this.key = newValue;
+					if (name === 'type') {
+						if (newValue === '[object Error]') this.isError = true;
+						this.object = this.object;
+						return;
+					}
+					this.object = JSONCircular.parse(newValue);
+				}
+			}
+			window.customElements.define('object-viewer', ObjectViewer);
+			const body = document.getElementById("PAGE_BODY");
+			const isEmbed = location.pathname.replace(/\//gmi, "").startsWith("embed");
+
+			const checkAndApplyLauncher = () => {
+				// check for launcher params
+				const urlParams = new URLSearchParams(location.search);
+				const isLauncher = String(urlParams.get('using_launcher')) === 'true';
+				window._isPenguinModLauncher = false;
+				if (isLauncher) {
+					body.classList.add("launcher-mode");
+					window._isPenguinModLauncher = true;
+				}
+			};
+			const checkAndApplyAprilFools = () => {
+				// check local date or test params
+				const date = new Date(Date.now());
+				const urlParams = new URLSearchParams(location.search);
+				const isAprilFools = date.getMonth() === 3 && date.getDate() === 1; // month is 0 indexed for literally no reason
+				const runningLocal = String(urlParams.get('forceaprilfools')) === 'true' && location.hostname === 'localhost';
+				window._isAprilFools = isAprilFools || runningLocal;
+				if (isAprilFools || runningLocal) {
+					body.classList.add("april-fools");
+				}
+			};
+
+			let prefersDarkMode = false;
+			try {
+				prefersDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
+			} catch {
+				prefersDarkMode = false;
+			}
+			const getDarkModeSetting = () => {
+				const savedDarkMode = localStorage.getItem('darkmode');
+				if (savedDarkMode !== null && savedDarkMode !== undefined) {
+					return String(savedDarkMode) === "true";
+				}
+				return prefersDarkMode;
+			};
+
+			const loop = () => {
+				const darkmode = isEmbed ?
+					location.hash.replace(/#/gmi, "") === "dark=true"
+					: getDarkModeSetting();
+				if (darkmode) {
+					body.classList.add("dark-mode");
+					body.style.background = "#111";
+					return;
+				}
+				body.classList.remove("dark-mode");
+				body.style.background = "";
+			}
+			setInterval(loop, 100);
+			loop();
+			
+			if (!isEmbed) {
+				// checkAndApplyLauncher();
+				checkAndApplyAprilFools();
+			}
+			
+			// warning in case of people pasting random code here
+			console.log(
+				"%cSCAM ALERT! %cDo NOT paste things into here that other people sent you!",
+				"color:red;font-family:sans-serif;font-size:2rem;font-weight:900",
+				"color:white;font-family:sans-serif;font-size:1.75rem;font-weight:900;-webkit-text-stroke: .5px black"
+			);
+			console.log("If you don't know what this window does, EXIT NOW! People can use this to upload inappropriate projects under YOUR name, delete YOUR projects, and get YOU banned from PenguinMod!");
+		</script>
+		<div style="display: contents">
+
+
+
+<div style="display: none;" class="languageSelect svelte-ce1rlr"><button class="languageOption svelte-ce1rlr" style="margin-bottom: 8px;">Same as browser</button>
+    <p class="languageCount svelte-ce1rlr">25 languages translated</p>
+    <button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg -0.7317073170731447deg, transparent -0.7317073170731447deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg -0.7317073170731447deg, transparent -0.7317073170731447deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">100
+                </span></div>
+            العربية
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 69.51219512195122deg, transparent 69.51219512195122deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 69.51219512195122deg, transparent 69.51219512195122deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">81
+                </span></div>
+            Čeština
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 6.951219512195115deg, transparent 6.951219512195115deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 6.951219512195115deg, transparent 6.951219512195115deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">98
+                </span></div>
+            Dansk
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 248.78048780487805deg, transparent 248.78048780487805deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 248.78048780487805deg, transparent 248.78048780487805deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">31
+                </span></div>
+            Deutsch
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 0deg, transparent 0deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 0deg, transparent 0deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">100
+                </span></div>
+            English
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 2.195121951219514deg, transparent 2.195121951219514deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 2.195121951219514deg, transparent 2.195121951219514deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">99
+                </span></div>
+            Español (España)
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 1.8292682926829418deg, transparent 1.8292682926829418deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 1.8292682926829418deg, transparent 1.8292682926829418deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">99
+                </span></div>
+            Español (Latinoamericano)
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 54.5121951219512deg, transparent 54.5121951219512deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 54.5121951219512deg, transparent 54.5121951219512deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">85
+                </span></div>
+            فارسی
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 206.34146341463418deg, transparent 206.34146341463418deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 206.34146341463418deg, transparent 206.34146341463418deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">43
+                </span></div>
+            Français
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 260.8536585365854deg, transparent 260.8536585365854deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 260.8536585365854deg, transparent 260.8536585365854deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">28
+                </span></div>
+            Français (Canada)
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 163.53658536585365deg, transparent 163.53658536585365deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 163.53658536585365deg, transparent 163.53658536585365deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">55
+                </span></div>
+            עברית
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 236.34146341463415deg, transparent 236.34146341463415deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 236.34146341463415deg, transparent 236.34146341463415deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">34
+                </span></div>
+            Hrvatski
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 233.41463414634148deg, transparent 233.41463414634148deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 233.41463414634148deg, transparent 233.41463414634148deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">35
+                </span></div>
+            Italiano
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg -0.36585365853657237deg, transparent -0.36585365853657237deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg -0.36585365853657237deg, transparent -0.36585365853657237deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">100
+                </span></div>
+            日本語
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 18.65853658536587deg, transparent 18.65853658536587deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 18.65853658536587deg, transparent 18.65853658536587deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">95
+                </span></div>
+            Nederlands
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 201.95121951219514deg, transparent 201.95121951219514deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 201.95121951219514deg, transparent 201.95121951219514deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">44
+                </span></div>
+            Norsk
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 276.9512195121951deg, transparent 276.9512195121951deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 276.9512195121951deg, transparent 276.9512195121951deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">23
+                </span></div>
+            Polski
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 11.707317073170715deg, transparent 11.707317073170715deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 11.707317073170715deg, transparent 11.707317073170715deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">97
+                </span></div>
+            Português (Brasil)
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 233.78048780487805deg, transparent 233.78048780487805deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 233.78048780487805deg, transparent 233.78048780487805deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">35
+                </span></div>
+            Română
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 1.097560975609757deg, transparent 1.097560975609757deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 1.097560975609757deg, transparent 1.097560975609757deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">100
+                </span></div>
+            Русский
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 271.82926829268297deg, transparent 271.82926829268297deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 271.82926829268297deg, transparent 271.82926829268297deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">24
+                </span></div>
+            Slovenčina
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 270deg, transparent 270deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 270deg, transparent 270deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">25
+                </span></div>
+            Svenska
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 1.8292682926829418deg, transparent 1.8292682926829418deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 1.8292682926829418deg, transparent 1.8292682926829418deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">99
+                </span></div>
+            Türkçe
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 227.1951219512195deg, transparent 227.1951219512195deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 227.1951219512195deg, transparent 227.1951219512195deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">37
+                </span></div>
+            Українська
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 61.097560975609746deg, transparent 61.097560975609746deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 61.097560975609746deg, transparent 61.097560975609746deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">83
+                </span></div>
+            Tiếng Việt
+        </button></div>
+<div style="display: none;" class="profile-dropdown-menu svelte-ce1rlr"><a href="/profile?user="><button class="svelte-ce1rlr">Profile
+            </button></a>
+    <a href="/mystuff"><button class="svelte-ce1rlr">My Stuff</button></a>
+    <a href="/settings"><button class="svelte-ce1rlr">Settings</button></a>
+    <div class="seperated-navopt svelte-ce1rlr"></div>
+    <button class="svelte-ce1rlr">Logout</button></div>
+<div class="bar svelte-ce1rlr" style=""><a class="logo svelte-ce1rlr" href="/"><img class="logo-image svelte-ce1rlr" src="/navicon.png" alt="PenguinMod"></a>
+    <div style="margin-right: 12px;"></div>
+    <div class="logo-launcher-margin svelte-ce1rlr"></div>
+    <button class="button ca-themeSwitcher svelte-1e8yjh4" style="padding:0.5rem" id="" title="Switch theme"><!-- HTML_TAG_START --><img src='/moon.svg' alt='ThemeSwitcher'><!-- HTML_TAG_END -->
+        </button>
+    <div class="only-non-launcher svelte-ce1rlr"><a href="https://penguinlab-studio.pages.dev/editor.html" target="_self" style="text-decoration: none;" class=" svelte-1e8yjh4" title=""><button class="button svelte-1e8yjh4" style="" id=""><!-- HTML_TAG_START --><!-- HTML_TAG_END -->
+            Create </button></a></div>
+    <div class="only-launcher svelte-ce1rlr"><button class="button svelte-1e8yjh4" style="" id="__home_navigation_create_button" title=""><!-- HTML_TAG_START --><!-- HTML_TAG_END -->
+        <img src="/create.png" alt="Create"></button></div>
+    <div class="search svelte-p82v40"><button class="search-button svelte-p82v40"><svg xmlns="http://www.w3.org/2000/svg" style="width: 30px;height: 20px;margin-bottom:5px; margin-top: 5px;" viewBox="0 0 19.9 19.7"><g class="search-path" fill="none" stroke="#ffffff" stroke-width="2px"><path stroke-linecap="square" d="M18.5 18.3l-5.4-5.4"></path><circle cx="8" cy="8" r="7"></circle></g></svg></button>
+    <input class="search-bar svelte-p82v40" value="" placeholder="Search for projects..." name="search">
+</div>
+    
+    
+    
+    
+    
+    <button class="button ca-languageButton svelte-1e8yjh4" style="padding: 0.5rem; position: absolute; left: 4px;" id="" title="Switch Language"><!-- HTML_TAG_START --><img src='/globe.svg' alt='LanguageSwitcher'><img src='/dropdown-caret.png' style='margin: 0 4px' alt='v'><!-- HTML_TAG_END -->
+        </button>
+</div>
+
+<div class="main svelte-od4hl5"><div style="height: 3rem;"></div>
+
+    
+
+<div class="container svelte-n6l6ic"><!-- HTML_TAG_START --><h1>Project Uploading &amp; Updating guidelines</h1>
+<p>These guidelines <strong>only apply to PenguinMod's project sharing</strong>.<br>
+If you are <a href="https://studio.penguinmod.com/PenguinMod-Packager/">packaging your project</a> to post on other websites, you should follow their rules instead.</p>
+<p>Also, let us know of any necessary changes we should make by talking to us <a href="https://studio.penguinmod.com/contact.html">using any of these contact methods here.</a></p>
+<h2>How to report projects/users</h2>
+<p>Clicking on a &quot;Report&quot; link on a user's profile will open a new tab to report the person.<br>
+Clicking on a &quot;Report&quot; link below a project on PenguinMod Studio will open a new tab to report the project.<br>
+Please use these menus to report content as it is easy for our moderators to view &amp; handle.</p>
+<p>Using the report feature multiple times on the same content will result in moderation action on your account.<br>
+Please only report projects or users once. You may specify multiple reasons to report content on the report page by choosing &quot;Other&quot; as a report reason.</p>
+<p>If for any reason you cannot access the report page, please contact us <a href="https://studio.penguinmod.com/contact.html">using any of these contact methods here.</a></p>
+<hr>
+<h1>Base requirements for a project</h1>
+<p>Uploading empty or default projects will get your project removed.<br>
+Please do not do this multiple times as your account's ability to upload will be limited if we see you doing this.</p>
+<p>An empty/blank project is defined as a project that just contains a default sprite or costume on the stage, and there is nothing like art or a message from the creator.<br>
+This does not include projects that have a realistic use, like a library of sounds or costumes or fonts or maybe a template.</p>
+<h1>Projects that display websites (iframes)</h1>
+<div class="guidelines-warning-box">This rule only applies as of October 6th, 2023 due to miscommunication, any project uploaded on an older date will not have to follow this rule.
+</div><p>You can use iframes in your projects, but they cannot be the main purpose of the project. (&quot;Browser&quot; projects are a good example.)</p>
+<p>Projects that are just about displaying other websites or projects using iframes (or similar tools) will be removed.<br>
+This rule exists because these tools are only used to show content that is not yours or can already be seen in your browser.</p>
+<h1>Credit</h1>
+<p>Users should be properly credited within your project's info.<br>
+Your project may be removed if moderators are informed that specific people or groups are not mentioned in your project's notes &amp; credits.</p>
+<p>Using short-terms like &quot;credit to all&quot; or &quot;C2A&quot; cannot replace the use of individual mentions.<br>
+If a user or group is not on PenguinMod, you may use their name instead.</p>
+<p>Please note, you do not need to credit the use of:</p>
+<ul>
+<li>PenguinMod as a platform</li>
+<li>PenguinMod extensions used inside the project (custom extensions not included)</li>
+<li>Your own created content (if you don't want to mention yourself)</li>
+</ul>
+<h1>Spam / Project updates</h1>
+<p>Do not just upload the same project multiple times.<br>
+To properly update a project, you can either:</p>
+<ul>
+<li>Click on the Update button on the Upload page, and click on any project.</li>
+<li>Go to the &quot;My Stuff&quot; page (or click the folder icon) on PenguinMod's home page and click the 3 dots on any project, then click &quot;Edit Project&quot;.</li>
+</ul>
+<p>If you keep uploading the same project multiple times, you may not be able to post projects for a day or more<br>
+(depending on if you already got punished for it).</p>
+<h1>Projects uploaded that were shared on Scratch (Scratch Reuploads)</h1>
+<p>If you are just taking a Scratch project that was shared on Scratch and uploading it onto PenguinMod, please note the following:</p>
+<ul>
+<li>You must own the project you are reuploading. Reuploading other user's projects is not allowed as of January 27th, 2024.</li>
+<li>If you are given permission to reupload another user's project, please include proof in the project's notes.</li>
+</ul>
+<p>Moderators may remove your project if you reupload other people's projects without their permission.</p>
+<p>The original creators of the project have the right to remove your PenguinMod reupload if they report the project.<br>
+This is also true even if you have stated you have permission to reupload the project by the original creator.</p>
+<h1>PenguinMod Mods / Forks</h1>
+<p>If your project only works outside of PenguinMod, don't upload it to our site.<br>
+All PenguinMod projects should actually work on PenguinMod, please upload your project to it's respective site to avoid problems for us.</p>
+<p><em>(Note for developers: If we get a lot of projects uploaded from your mod that don't work on PenguinMod, we'll likely end up blocking your site from the API. See <a href="https://github.com/PenguinMod/penguinmod.github.io/blob/develop/FORKING.md">here for details</a>.)</em></p>
+<h1>&quot;Chatroom&quot; Projects or Projects based around online chatting</h1>
+<div class="guidelines-warning-box">As of November 14th, 2023, PenguinMod has decided to ban uploaded projects based around chatting with other users.
+</div><p>Please do not upload these types of projects anymore.<br>
+Old projects may also be reported and taken down, but you will not receive punishment for them.</p>
+<p>These types of projects are no longer allowed due to the PenguinMod team not being able to control these spaces properly,<br>
+and we do not believe we will be able to keep these types of projects safe for everyone in the future.</p>
+<h1>Projects with an online chat feature</h1>
+<div class="guidelines-warning-box">As of November 14th, 2023, PenguinMod has decided to ban uploaded projects based around chatting with other users.
+</div><p>This section is talking about projects that have online chat, but aren't focused around it.</p>
+<p>As of now, you are not currently allowed to have online chatting within your project unless:</p>
+<ul>
+<li>Users can only use hand-picked phrases or sentences to chat</li>
+<li>Users can use specific emotes or &quot;emoji&quot; that are hand-picked to ensure safe chat</li>
+</ul>
+<p>We are planning on developing online chat systems to allow creators to have a moderated but easily usable chatting feature.</p>
+<p>There is no estimated time when this guideline will be lifted, or when our online chat system will be usable for these projects.</p>
+<h1>Preventing or Removing access to parts of PenguinMod</h1>
+<p>You may not remove or prevent access to any part of the project or website.<br>
+You may change what the pause and stop buttons do on a project if they do similar actions to what they did originally.<br>
+Pausing a project should always pause or stop all audio or video aswell.</p>
+<p>Actions that may result in the removal of your project include, but are not limited to:</p>
+<ul>
+<li>Removing or preventing the use of the &quot;See Inside&quot;, &quot;File&quot;, or &quot;Report&quot; button</li>
+<li>Removing access to the project or site if the user is not a specific person</li>
+<li>Removing sprites, costumes or sounds if the project is opened</li>
+</ul>
+<p>If the moderators can not access the project and its contents from within the site, it will be removed.<br>
+Using these actions to prevent remixing or reuploading will be implemented into PenguinMod at a later date.<br>
+Preventing remixing or reuploading currently will get your project removed as it will limit the ability for moderators to access your project.</p>
+<h1>Exploiting or Abusing PenguinMod systems</h1>
+<p>You are not allowed to encourage, create, or upload projects that abuse PenguinMod's systems.<br>
+This means you can't make projects that:</p>
+<ul>
+<li>Report other users or projects in large amounts (mass-reporting)</li>
+<li>Reward or encourage others to break PenguinMod's rules</li>
+<li>Try to get around PenguinMod's time limits, like uploading projects too quickly</li>
+<li>Include or use tools to spam reports, project views/loves/votes, or create fake/bot accounts</li>
+<li>Show ways to avoid bans, account deletions, or other punishments</li>
+<li>Abuse a bug/glitch in PenguinMod to harm other users or projects</li>
+</ul>
+<p>Your account may be banned or deleted for breaking these rules and your project may be removed.</p>
+<h1>Limits on Audio/Sound</h1>
+<p>If you are using a loud or disruptive sound for a short period of time, this will not apply. Try to keep loud audio under one second, and disruptive audio under three seconds.<br>
+Examples of loud or disruptive sounds are impact sounds, short distorted police chatter, or gun shots which start with loud &quot;BANG!&quot; effects.</p>
+<p>If any audio clips in your project are past the top of the audio preview in the Sounds tab,<br>
+moderators are allowed to mute/remove the offending audio or remove your project entirely.</p>
+<p>Disruptive/unpleasant audio is also not allowed for a long period of time. This refers to distorted or high-pitched sounds.<br>
+A high-pitched sound would be something like ear-ringing.</p>
+<p>This rule also applies if you are using multiple audio clips to play loud/unpleasant audio.</p>
+<p>If you intend to include loud/disruptive audio for long periods of time in the project, you must display a warning screen that the user must interact with to continue.<br>
+Stating loud sounds are in the project using the title, instructions or notes is not sufficent.</p>
+<h1>Be respectful to others</h1>
+<p>Your project cannot contain any derogatory terms (slurs).<br>
+Your project will be removed and repeated violation will cause your account to be banned.</p>
+<p>Be respectful of any real-world events that harmed others in any way.<br>
+(don't make fun of people who were affected, or don't make a comedic version of the event.)</p>
+<p>You cannot threaten, intimidate, harass, or bully others in any form. This includes but is not limited to:</p>
+<ul>
+<li>Harassment, intimidation, or humiliation of PenguinMod users through other platforms</li>
+<li>Direct threats of physical harm or violence against individuals or groups</li>
+<li>Stalking or repeated messages, comments, or requests for personal information of another user</li>
+<li>Sharing personal information about another user, mainly with the intent to harm or intimidate them</li>
+</ul>
+<p>You cannot make reference to discrimination or discriminate of certain things like:</p>
+<ul>
+<li>Age</li>
+<li>Race</li>
+<li>Religion</li>
+<li>Sexual Orientation</li>
+<li>Gender &amp; Pronouns</li>
+<li>Disabilities</li>
+</ul>
+<p>Any content that promotes or encourages harassment, bullying, mass-reporting or intimidation based on the prior characteristics or rules will be removed.<br>
+This may be noted as &quot;drama&quot; and repeated violation will cause your account to be banned.</p>
+<h1>Acts of extreme violence or death</h1>
+<p>You cannot make reference to:</p>
+<ul>
+<li>Suicide</li>
+<li>Self-harm</li>
+<li>Terrorism</li>
+<li>Death Threats towards real people, places, organizations or groups</li>
+</ul>
+<p>Any content that promotes or encourages suicide, self-harm or creating/sending death threats will not be tolerated, and your account will be banned.<br>
+Terrorism in the form of mass-shootings or bombings is not allowed even if it is not towards real people, places, organizations or groups.</p>
+<p>Content related to, glorifying, or referencing mass shootings, bombings, or any form of violent extremism will be removed.<br>
+Repeated violation will cause your account to be banned.</p>
+<h1>Sensitive/Personal information</h1>
+<p>You should not include personal information about yourself in your project.<br>
+This means you should not share:</p>
+<ul>
+<li>Your real name</li>
+<li>How old you are or when you were born</li>
+<li>Where you live</li>
+<li>Your password or your email</li>
+<li>Pictures of yourself</li>
+</ul>
+<p>We will delete or censor your project if it contains this information.<br>
+This is to protect you and your safety. We may ban your account for sharing your personal information if you continue to do it.</p>
+<p>We may remove projects that share other private or personal information for any legal reason.</p>
+<h1>Keeping others safe</h1>
+<p>Your project should not put others in danger. General rules for this are:</p>
+<ul>
+<li>You cannot force others to download malicious material or link them to malicious material</li>
+<li>You cannot use their general location without full consent</li>
+<li>You cannot ask others for their full name, password on any site, phone number, email address, or legal details</li>
+<li>You cannot take pictures of others without full consent</li>
+<li>You cannot constantly ask others for any details that they consider private or personal</li>
+</ul>
+<p>Faking personal information (ex: showing a fake IP address) should be noted in the project itself or the project's notes.<br>
+If you need to use the user's general location, it is recommended to use a simple and understandable &quot;yes or no&quot; prompt for permission.</p>
+<p>Downloading malicious material may be an executable application or DLL that contains spyware, malware, ransomware, etc.<br>
+Your account will be instantly banned and you may be reported to the Scratch Team or security services if your project does this.</p>
+<h1>Relationships/Online dating</h1>
+<p>You cannot use PenguinMod as a platform for online dating, or creating/sharing romantic or sexual relationships.<br>
+You cannot show real people, or characters that represent people doing:</p>
+<ul>
+<li>Dating</li>
+<li>Kissing</li>
+<li>Similar romantic behavior</li>
+</ul>
+<p>You should not call other users &quot;boyfriend&quot; or &quot;girlfriend&quot; on PenguinMod as other users can be of any age, and we need to keep everyone safe.<br>
+Online dating or relationships with strangers is seriously dangerous and we will remove users from interacting with the platform if we need to.</p>
+<h1>Profanity (Curse words/Swear words, Swearing, Explicit/Strong language)</h1>
+<p>Swearing is allowed inside of projects, but it should be used sparingly and in moderation.<br>
+Avoid excessive swearing, such as including profanity in every other sentence, or using more than two swear words per sentence.</p>
+<p>If additional profanity is necessary for your project's content, you must either censor the profanity<br>
+or provide a clear warning at the beginning indicating that the project contains explicit language.</p>
+<p>Projects may not use profanity, swear words, or explicit/strong language inside of their title, instructions, notes &amp; credits, or thumbnail.<br>
+Your project may be edited or removed if this is the case.</p>
+<h1>Limits on Blood and Gore</h1>
+<p>If your project contains large amounts of blood, it must have a warning somewhere at the start of the project and in the project instructions.<br>
+Cartoon gore may also fall under this rule if it contains constant or extreme use of body parts or blood.</p>
+<p>Blood cannot be realistic or be taken from a real-world picture.<br>
+Skeletons of humans or animals may be allowed if the context contains them inside of a currently alive character, and non-graphic or lighthearted.<br>
+Use of skeletons for comedic effect is allowed if the context is non-graphic and lighthearted.</p>
+<p>Dead bodies of human characters should not be used more than once or twice at a time.<br>
+Dead bodies should be used in a non-graphic manner.<br>
+Human bodies/skeletons should be used sparingly with caution, and cannot be piled or contain blood.</p>
+<h1>Disturbing content</h1>
+<p>Content that actively attempts to trigger phobias such as arachnophobia (fear of spiders) should be behind a warning.<br>
+If not intentional, you likely wont receive any punishment other than a project removal.</p>
+<p>You cannot include content containing:</p>
+<ul>
+<li>Animal abuse, mutilation and or torture</li>
+<li>Realistic, graphic or real-world depictions of extreme gore, graphic violence, or death</li>
+</ul>
+<p>Uploading a project including this content may result in your account being banned from the platform.</p>
+<h1>Sexual content or references</h1>
+<p>Sexual content cannot be included at all in your project, including references to sexual material such as genitals or pornographic websites.<br>
+Sexual activities or themes may not be referenced, encouraged, or shown either.</p>
+<p>Disturbing content (ex: characters consuming each-other, &quot;inflating&quot; a character) may also fall under these rules.<br>
+Content or references to kinks or fetishes will also be removed.</p>
+<p>You may receive heavy punishment including an account ban if these rules are broken.</p>
+<h1>Drugs, alcohol and illegal material</h1>
+<p>You cannot display or encourage others to take drugs (medical, illegal, etc.), drink alcohol, or vape.<br>
+Displaying drugs (medical, illegal, etc.) in any context is not allowed. This also includes the act of dealing/providing drugs.</p>
+<p>Do not use PenguinMod to break laws in your country, region, or area.</p>
+<p>You cannot encourage others to use real-life guns or explosives.<br>
+You also cannot:</p>
+<ul>
+<li>Encourage or make reference to shooting living things in real life</li>
+<li>Encourage or make reference to shooting buildings in real life</li>
+</ul>
+<h1>Political content</h1>
+<p>Please note PenguinMod is not a platform for primarily political projects or messages.</p>
+<p>Projects that primarily exist to promote political ideologies, parties, candidates, or causes are not allowed on PenguinMod.</p>
+<p>Usage of political themes for educational purposes or the setting of a story is allowed.</p>
+<h1>Use other platforms sparingly</h1>
+<p>If you are linking to a seperate Discord or site anywhere on your project (including iframes),<br>
+your actions on that site (or the site itself if it is not a major platform) must not endanger others<br>
+or display content to them that is only appropriate for certain ages.</p>
+<p>External sites also cannot be scams or information-stealing websites.</p>
+<p>Ideally, external links should follow all rules here wherever they can.</p>
+<h1>Money</h1>
+<p>You cannot sell products for real money inside your project to prevent any misleading messages or scam products.</p>
+<p>However, you are allowed to use the external platforms here for monetization:</p>
+<ul>
+<li>Patreon</li>
+<li>Ko-fi</li>
+<li>GitHub Sponsors</li>
+</ul>
+<p>When linking to these external platforms, please ensure that the content and activities on these platforms align with our guidelines.</p>
+<p>Please note that any monetization efforts should be transparent and respectful.<br>
+Avoid using deceptive practices or misleading users around your products.<br>
+If you do not abide by these rules, your account can still be punished even if you are using an allowed platform.</p>
+<p>If you need any extra details for your specific use of these platforms, please talk to us <a href="https://studio.penguinmod.com/contact.html">using any of these contact methods here.</a><br>
+If you would like to use other platforms not mentioned here, please reach out to us for approval. Do note it is very unlikely we will allow more platforms.</p>
+<h1>Copyright</h1>
+<p>You are responsible for making sure you have the necessary rights, licenses, or permission for any user-generated content you submit to PenguinMod.<br>
+PenguinMod will remove your project if the project violates copyright rules for any specific company or individual, and you may face further punishment.<br>
+Any company, business, or individual reserves the right to take down your project if they believe it violates their copyright.</p>
+<p>You also may not include pirated content or instructions/tools that allow the viewing/use of paid content without actually paying.<br>
+Including pirated content means you cannot provide audio, videos, software, video games, or other types of media for free via link, attachable tool or downloadable file that would otherwise require payment to access.</p>
+<p>Reasons your project might be removed include, but are not limited to:</p>
+<ul>
+<li>Including logos or designs without explicit permission from the owner(s)</li>
+<li>Using other people's artwork or music without explicit permission from the owner(s)</li>
+<li>Using/Repurposing content from another PenguinMod user without their permission</li>
+</ul>
+<p>If you are a company or individual and believe your copyright has been violated, <a href="https://studio.penguinmod.com/contact.html">please check contact methods here.</a></p>
+<!-- HTML_TAG_END -->
+</div>
+</div>
+
+
+			
+			<script>
+				{
+					__sveltekit_1l2pga8 = {
+						base: new URL("..", location).pathname.slice(0, -1),
+						env: {"PUBLIC_API_URL":"https://penguinlab-api.isairethebest.workers.dev","PUBLIC_STUDIO_URL":"https://penguinlab-studio.pages.dev","PUBLIC_MAX_UPLOAD_SIZE":"32","PUBLIC_CAPTCHA_ENABLED":"false"}
+					};
+
+					const element = document.currentScript.parentElement;
+
+					const data = [null,null,null];
+
+					Promise.all([
+						import("../_app/immutable/entry/start.82f43028.js"),
+						import("../_app/immutable/entry/app.6e7eb3bb.js")
+					]).then(([kit, app]) => {
+						kit.start(app, element, {
+							node_ids: [0, 4, 18],
+							data,
+							form: null,
+							error: null
+						});
+					});
+				}
+			</script>
+		</div>
+	</body>
+</html>

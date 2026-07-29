@@ -14,7 +14,6 @@
     import NavigationMargin from "$lib/NavigationBar/NavMargin.svelte";
     import LoadingSpinner from "$lib/LoadingSpinner/Spinner.svelte";
     import Button from "$lib/Button/Button.svelte";
-    import Captcha from "$lib/Captcha.svelte";
     // translations
     import LocalizedText from "$lib/LocalizedText/Node.svelte";
     import Language from "../../resources/language.js";
@@ -53,7 +52,6 @@
     let showingPassword = false;
 
     let wrongInfo = false;
-    let captcha_token = false;
 
     let apiOnlineChecking = true;
     let apiOnlineResponding = false;
@@ -78,7 +76,6 @@
         const token = await Authentication.verifyPassword(
             username,
             password,
-            captcha_token,
         );
 
         if (token) {
@@ -92,8 +89,6 @@
 
     const LoginAccountSafe = () => {
         if (loggingIn) return;
-        if (!captcha_token) return;
-
         loggingIn = true;
         login()
             .then(
@@ -411,15 +406,9 @@
                 </button>
             </div>
 
-            <Captcha
-                on:update={(event) => {
-                    captcha_token = event.detail;
-                }}
-            />
-
             <button
                 class="Login-acc"
-                data-canClick={!!captcha_token}
+                data-canClick={true}
                 on:click={LoginAccountSafe}
             >
                 {#if loggingIn}

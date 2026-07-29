@@ -6,10 +6,8 @@ class Authentication {
     static createAccount(
         username,
         password,
-        email = "",
         birthday,
         country,
-        hCaptcha_token,
     ) {
         return new Promise((resolve, reject) => {
             fetch(`${ProjectApi.OriginApiUrl}/api/v1/users/createAccount`, {
@@ -20,10 +18,8 @@ class Authentication {
                 body: JSON.stringify({
                     username,
                     password,
-                    email,
                     birthday,
                     country,
-                    captcha_token: hCaptcha_token,
                 }),
             })
                 .then((r) =>
@@ -41,13 +37,12 @@ class Authentication {
         });
     }
 
-    static verifyPassword(username, password, captcha_token) {
+    static verifyPassword(username, password) {
         const url = `${ProjectApi.OriginApiUrl}/api/v1/users/passwordlogin`;
 
         const body = {
             username,
             password,
-            captcha_token,
         };
 
         return new Promise((resolve, reject) => {
@@ -62,8 +57,6 @@ class Authentication {
                     r
                         .json()
                         .then((j) => {
-                            if (j.error === "InvalidCaptcha")
-                                return reject("InvalidCaptcha");
                             if (j.error) return resolve(false);
 
                             this.fireAuthenticated(username, j.token);
@@ -176,11 +169,9 @@ class Authentication {
             }
         });
     }
-    static async usernameFromCode(_username, token) {
-        // name is a misnomer, was just to lazy to change after new api update.
-        // TODO: make this less misleading
+    static async usernameFromCode(username, token) {
         const j = await fetch(
-            `${ProjectApi.OriginApiUrl}/api/v1/users/userfromcode?token=${token}`,
+            `${ProjectApi.OriginApiUrl}/api/v1/users/userfromcode?token=${token}&username=${encodeURIComponent(username)}`,
         ).then((r) => r.json());
 
         if (j.error) throw j.error;
@@ -258,7 +249,7 @@ class Authentication {
         });
     }
 
-    static sendResetPasswordEmail(email, captcha_token) {
+    static sendResetPasswordEmail(email) {
         return new Promise((resolve, reject) => {
             fetch(
                 `${ProjectApi.OriginApiUrl}/api/v1/users/resetpassword/sendEmail`,
@@ -267,7 +258,7 @@ class Authentication {
                     headers: {
                         "Content-Type": "application/json",
                     },
-                    body: JSON.stringify({ email, captcha_token }),
+                    body: JSON.stringify({ email }),
                 },
             )
                 .then((r) =>

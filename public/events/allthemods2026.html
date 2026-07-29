@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		
+		<meta property="theme-color" content="#51D3F4">
+		<meta property="og:type" content="website">
+		<meta property="og:image" content="/favicon.png">
+		<meta property="twitter:image" content="/favicon.png">
+
+		<link rel="icon" href="/favicon.png" />
+		<meta name="viewport" content="width=device-width" />
+
+		<!-- Google tag (gtag.js) -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=G-JEVT078EB6"></script>
+		<script>
+		  window.dataLayer = window.dataLayer || [];
+		  function gtag(){dataLayer.push(arguments);}
+		  gtag('js', new Date());
+		
+		  gtag('config', 'G-JEVT078EB6');
+		</script>
+
+		
+		<link href="../_app/immutable/assets/2.26babca1.css" rel="stylesheet">
+		<link href="../_app/immutable/assets/NavMargin.1686ce92.css" rel="stylesheet">
+		<link href="../_app/immutable/assets/15.437b81c7.css" rel="stylesheet">
+		<link rel="modulepreload" href="../_app/immutable/entry/start.82f43028.js">
+		<link rel="modulepreload" href="../_app/immutable/chunks/index.5ed2f220.js">
+		<link rel="modulepreload" href="../_app/immutable/chunks/singletons.0d3e0209.js">
+		<link rel="modulepreload" href="../_app/immutable/entry/app.6e7eb3bb.js">
+		<link rel="modulepreload" href="../_app/immutable/chunks/preload-helper.a4192956.js">
+		<link rel="modulepreload" href="../_app/immutable/nodes/0.f7de5fb5.js">
+		<link rel="modulepreload" href="../_app/immutable/nodes/3.4b7fb08c.js">
+		<link rel="modulepreload" href="../_app/immutable/chunks/NavMargin.8f9d1426.js">
+		<link rel="modulepreload" href="../_app/immutable/chunks/stores.5562c7e1.js">
+		<link rel="modulepreload" href="../_app/immutable/chunks/public.d7286744.js">
+		<link rel="modulepreload" href="../_app/immutable/chunks/authentication.6c0b5fd9.js">
+		<link rel="modulepreload" href="../_app/immutable/chunks/_commonjsHelpers.de833af9.js">
+		<link rel="modulepreload" href="../_app/immutable/chunks/language.8ac18006.js">
+		<link rel="modulepreload" href="../_app/immutable/nodes/15.a3614f1c.js">
+		<link rel="modulepreload" href="../_app/immutable/chunks/environment.60829b93.js">
+		<link rel="modulepreload" href="../_app/immutable/chunks/index.188d7fa0.js">
+		<link rel="modulepreload" href="../_app/immutable/chunks/pages.8444751c.js"><title>PenguinMod - All The Mods</title><!-- HEAD_svelte-1u3luyl_START --><meta name="title" content="PenguinMod - All The Mods"><meta property="og:title" content="PenguinMod - All The Mods"><meta property="twitter:title" content="PenguinMod - All The Mods"><meta name="description" content="View this event on PenguinMod's website!"><meta property="twitter:description" content="View this event on PenguinMod's website!"><meta property="og:url" content="https://penguinmod.com/events/allthemods2026"><meta property="twitter:url" content="https://penguinmod.com/events/allthemods2026"><!-- HEAD_svelte-1u3luyl_END -->
+		
+		<style>
+			.guidelines-warning-box {
+				padding: 8px;
+				border-radius: 4px;
+				border: 1px solid rgb(255, 153, 0);
+				background: rgb(255, 217, 0, 0.5);
+				color: black;
+			}
+			body.dark-mode .guidelines-warning-box {
+				color: white;
+				background: rgb(255, 217, 0, 0.2);
+			}
+
+			.profile-bio-emoji {
+				width: 1.4lh;
+				height: 1.4lh;
+				object-fit: contain;
+				vertical-align: bottom;
+			}
+			em .profile-bio-emoji {
+			    transform: skew(-12deg, 0deg);
+			}
+			strong .profile-bio-emoji {
+			    filter: contrast(2);
+			}
+			s .profile-bio-emoji {
+			    filter: blur(2px);
+			}
+
+    		.donate-card-html p,
+    		.donate-card-html h1 {
+    		    margin-block: 0;
+    		}
+    		.donate-card-html h1 {
+    		    font-size: 48px;
+    		}
+		</style>
+	</head>
+	<body data-sveltekit-preload-data="hover" id="PAGE_BODY">
+		<script>
+			/**
+			 * String.prototype.indexOf, but it returns NaN not -1 on failure
+			 * @param {string} str The string to check in
+			 * @param {string} key The vaue to search for
+			 * @param {number?} offset The offset into the string to start from
+			 * @returns {number} The index of the key, or NaN if no instances where found
+			 */
+			const _lastIndexNaN = (str, key, offset = Infinity) => {
+				if (!str) return NaN;
+				const val = str.lastIndexOf(key, offset);
+				if (val === -1) return NaN;
+				return val;
+			};
+			const browserHasStack = !!new Error().stack;
+			const _parseFirefoxStack = stack => stack.split('\n')
+				.map(line => {
+					const at = line.indexOf('@');
+					const secondCol = line.lastIndexOf(':');
+					const firstCol = line.lastIndexOf(':', secondCol -1);
+					const endLine = line.length;
+					const name = line.slice(0, at);
+					let url = line.slice(at +1, firstCol);
+					let evalType = null;
+					let origin = [
+						Number(line.slice(firstCol +1, secondCol)),
+						Number(line.slice(secondCol +1, endLine))
+					];
+					let evalOrigin = null;
+					/** @type {RegExpMatchArray} */
+					let match;
+					if ((match = url.match(/^ line ([0-9]+) > /))) {
+						url = line.slice(at, match.index);
+						evalOrigin = origin;
+						evalType = line.slice(match.index + match[0].length, firstCol);
+						origin = [Number(match[1]), NaN];
+					}
+
+					return {
+						name,
+						url,
+						evalOrigin,
+						evalType,
+						origin
+					};
+				});
+			const _parseChromeStack = stack => stack.split('\n').slice(1)
+				.map(line => {
+					// we have no use for the human readable fluff
+					line = line.slice(7);
+					let firstOpenParen = line.indexOf('(');
+					const secondOpenParen = line.indexOf('(', firstOpenParen +1);
+					const firstCloseParen = line.indexOf(')');
+					const secondCloseParen = line.indexOf(')', firstCloseParen +1);
+					let fourthCol = line.lastIndexOf(':');
+					let thirdCol = line.lastIndexOf(':', (fourthCol || line.length) -1);
+					let secondCol = _lastIndexNaN(line, ':', (thirdCol || line.length) -1);
+					let firstCol = _lastIndexNaN(line, ':', (secondCol || line.length) -1);
+					if (secondOpenParen === -1) {
+						secondCol = fourthCol;
+						firstCol = thirdCol;
+						fourthCol = NaN;
+						thirdCol = NaN;
+					}
+					if (firstOpenParen === -1) {
+						firstOpenParen = firstCol +1;
+						thirdCol = line.length;
+					}
+					const name = line.slice(0, firstOpenParen -1);
+					const origin = [
+						Number(line.slice(firstCol +1, secondCol)),
+						Number(line.slice(secondCol +1, thirdCol || firstCloseParen))
+					];
+					let url = line.slice(firstOpenParen +1, firstCol);
+					if (!url) url = name;
+					let evalType = null;
+					let evalOrigin = null;
+					if (secondOpenParen !== -1) {
+						url = line.slice(secondOpenParen +1, firstCol);
+						evalType = 'anonymous';
+						evalOrigin = [
+							Number(line.slice(thirdCol +1, fourthCol)),
+							Number(line.slice(fourthCol +1, secondCloseParen))
+						];
+					}
+
+					return {
+						name,
+						url,
+						evalOrigin,
+						evalType,
+						origin
+					};
+				});
+			const parseStack = (stack, url, line, column) => {
+				if (!browserHasStack || !stack) {
+					return [{
+						name: '<inaccessible>',
+						url,
+						origin: [line, column]
+					}];
+				}
+				// firefox has a *completely* different style rule compared to chrome
+				if (stack.split('\n', 2)[0].includes('@')) return _parseFirefoxStack(stack);
+				return _parseChromeStack(stack);
+			};
+
+			class ObjectViewer extends HTMLElement {
+				static observedAttributes = ['key', 'object', 'type'];
+				/** @type {[string,any]} */
+				entries = [];
+				isError = false;
+				constructor() {
+					super();
+					this.attachShadow({ mode: 'open' });
+					const proto = document.createElement('div');
+					proto.style.marginLeft = '6px';
+					const check = document.createElement('div');
+					check.setAttribute('id', 'check');
+					check.style.transform = 'rotate(45deg)';
+					check.style.border = '1px solid grey';
+					check.style.borderTop = 'none';
+					check.style.borderLeft = 'none';
+					check.style.marginRight = '3px';
+					check.style.display = 'inline-block';
+					check.style.width = '0.5rem';
+					check.style.height = '0.5rem';
+					proto.appendChild(check);
+					const key = document.createElement('span');
+					key.setAttribute('id', 'key');
+					proto.appendChild(key);
+					const label = document.createElement('span');
+					label.textContent = '{}';
+					label.setAttribute('id', 'text');
+					proto.appendChild(label);
+					this.shadowRoot.appendChild(proto);
+					const entries = document.createElement('div');
+					entries.hidden = true;
+					entries.style.marginLeft = '6px';
+					proto.onclick = e => {
+						e.preventDefault();
+						e.stopPropagation();
+						if (this.isError) {
+							selectLog(this.object);
+							return;
+						}
+						entries.hidden = !entries.hidden;
+						check.style.transform = entries.hidden
+							? 'rotate(45deg)'
+							: 'rotate(-135deg)';
+
+						const entriesBox = this.shadowRoot.getElementById('entries');
+						for (const [key, value] of this.entries) {
+							const item = new ObjectViewer();
+							item.key = key;
+							item.object = value;
+							item.isError = value instanceof Error;
+							entriesBox.appendChild(item);
+						}
+					}
+					entries.setAttribute('id', 'entries');
+					proto.setAttribute('id', 'prototype');
+					this.shadowRoot.appendChild(entries);
+				}
+				get object() { return Object.fromEntries(this.entries); }
+				set object(value) {
+					if (value instanceof Error) {
+						this.isError = true;
+						value = {
+							cause: value.cause,
+							message: value.message,
+							stack: value.stack,
+							name: value.name,
+							...value
+						}
+					}
+					const text = this.shadowRoot.getElementById('text');
+					text.style.color = 'inherit';
+					const check = this.shadowRoot.getElementById('check');
+					if (typeof value !== 'object' || value === null) {
+						check.style.display = 'none';
+						text.textContent = JSON.stringify(value);
+						text.style.color = typeof value === 'string'
+							? '#A87'
+							: '#6799AE';
+						return;
+					}
+					check.style.display = 'inline-block';
+					const isArray = value instanceof Array;
+					this.entries = Object.entries(value);
+					if (this.entries.length >= 1)
+						text.textContent = isArray ? '[...]' : '{...}';
+					if (this.isError) 
+						text.textContent = value.message;
+				}
+				set key(value) {
+					const keyName = this.shadowRoot.getElementById('key');
+					keyName.textContent = value + ': ';
+				}
+				attributeChangedCallback(name, old, newValue) {
+					if (name !== 'object' && name !== 'key') return;
+					if (name === 'key') return this.key = newValue;
+					if (name === 'type') {
+						if (newValue === '[object Error]') this.isError = true;
+						this.object = this.object;
+						return;
+					}
+					this.object = JSONCircular.parse(newValue);
+				}
+			}
+			window.customElements.define('object-viewer', ObjectViewer);
+			const body = document.getElementById("PAGE_BODY");
+			const isEmbed = location.pathname.replace(/\//gmi, "").startsWith("embed");
+
+			const checkAndApplyLauncher = () => {
+				// check for launcher params
+				const urlParams = new URLSearchParams(location.search);
+				const isLauncher = String(urlParams.get('using_launcher')) === 'true';
+				window._isPenguinModLauncher = false;
+				if (isLauncher) {
+					body.classList.add("launcher-mode");
+					window._isPenguinModLauncher = true;
+				}
+			};
+			const checkAndApplyAprilFools = () => {
+				// check local date or test params
+				const date = new Date(Date.now());
+				const urlParams = new URLSearchParams(location.search);
+				const isAprilFools = date.getMonth() === 3 && date.getDate() === 1; // month is 0 indexed for literally no reason
+				const runningLocal = String(urlParams.get('forceaprilfools')) === 'true' && location.hostname === 'localhost';
+				window._isAprilFools = isAprilFools || runningLocal;
+				if (isAprilFools || runningLocal) {
+					body.classList.add("april-fools");
+				}
+			};
+
+			let prefersDarkMode = false;
+			try {
+				prefersDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
+			} catch {
+				prefersDarkMode = false;
+			}
+			const getDarkModeSetting = () => {
+				const savedDarkMode = localStorage.getItem('darkmode');
+				if (savedDarkMode !== null && savedDarkMode !== undefined) {
+					return String(savedDarkMode) === "true";
+				}
+				return prefersDarkMode;
+			};
+
+			const loop = () => {
+				const darkmode = isEmbed ?
+					location.hash.replace(/#/gmi, "") === "dark=true"
+					: getDarkModeSetting();
+				if (darkmode) {
+					body.classList.add("dark-mode");
+					body.style.background = "#111";
+					return;
+				}
+				body.classList.remove("dark-mode");
+				body.style.background = "";
+			}
+			setInterval(loop, 100);
+			loop();
+			
+			if (!isEmbed) {
+				// checkAndApplyLauncher();
+				checkAndApplyAprilFools();
+			}
+			
+			// warning in case of people pasting random code here
+			console.log(
+				"%cSCAM ALERT! %cDo NOT paste things into here that other people sent you!",
+				"color:red;font-family:sans-serif;font-size:2rem;font-weight:900",
+				"color:white;font-family:sans-serif;font-size:1.75rem;font-weight:900;-webkit-text-stroke: .5px black"
+			);
+			console.log("If you don't know what this window does, EXIT NOW! People can use this to upload inappropriate projects under YOUR name, delete YOUR projects, and get YOU banned from PenguinMod!");
+		</script>
+		<div style="display: contents">
+
+
+
+<div style="display: none;" class="languageSelect svelte-ce1rlr"><button class="languageOption svelte-ce1rlr" style="margin-bottom: 8px;">Same as browser</button>
+    <p class="languageCount svelte-ce1rlr">25 languages translated</p>
+    <button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg -0.7317073170731447deg, transparent -0.7317073170731447deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg -0.7317073170731447deg, transparent -0.7317073170731447deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">100
+                </span></div>
+            العربية
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 69.51219512195122deg, transparent 69.51219512195122deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 69.51219512195122deg, transparent 69.51219512195122deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">81
+                </span></div>
+            Čeština
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 6.951219512195115deg, transparent 6.951219512195115deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 6.951219512195115deg, transparent 6.951219512195115deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">98
+                </span></div>
+            Dansk
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 248.78048780487805deg, transparent 248.78048780487805deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 248.78048780487805deg, transparent 248.78048780487805deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">31
+                </span></div>
+            Deutsch
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 0deg, transparent 0deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 0deg, transparent 0deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">100
+                </span></div>
+            English
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 2.195121951219514deg, transparent 2.195121951219514deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 2.195121951219514deg, transparent 2.195121951219514deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">99
+                </span></div>
+            Español (España)
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 1.8292682926829418deg, transparent 1.8292682926829418deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 1.8292682926829418deg, transparent 1.8292682926829418deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">99
+                </span></div>
+            Español (Latinoamericano)
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 54.5121951219512deg, transparent 54.5121951219512deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 54.5121951219512deg, transparent 54.5121951219512deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">85
+                </span></div>
+            فارسی
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 206.34146341463418deg, transparent 206.34146341463418deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 206.34146341463418deg, transparent 206.34146341463418deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">43
+                </span></div>
+            Français
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 260.8536585365854deg, transparent 260.8536585365854deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 260.8536585365854deg, transparent 260.8536585365854deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">28
+                </span></div>
+            Français (Canada)
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 163.53658536585365deg, transparent 163.53658536585365deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 163.53658536585365deg, transparent 163.53658536585365deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">55
+                </span></div>
+            עברית
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 236.34146341463415deg, transparent 236.34146341463415deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 236.34146341463415deg, transparent 236.34146341463415deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">34
+                </span></div>
+            Hrvatski
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 233.41463414634148deg, transparent 233.41463414634148deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 233.41463414634148deg, transparent 233.41463414634148deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">35
+                </span></div>
+            Italiano
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg -0.36585365853657237deg, transparent -0.36585365853657237deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg -0.36585365853657237deg, transparent -0.36585365853657237deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">100
+                </span></div>
+            日本語
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 18.65853658536587deg, transparent 18.65853658536587deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 18.65853658536587deg, transparent 18.65853658536587deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">95
+                </span></div>
+            Nederlands
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 201.95121951219514deg, transparent 201.95121951219514deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 201.95121951219514deg, transparent 201.95121951219514deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">44
+                </span></div>
+            Norsk
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 276.9512195121951deg, transparent 276.9512195121951deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 276.9512195121951deg, transparent 276.9512195121951deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">23
+                </span></div>
+            Polski
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 11.707317073170715deg, transparent 11.707317073170715deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 11.707317073170715deg, transparent 11.707317073170715deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">97
+                </span></div>
+            Português (Brasil)
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 233.78048780487805deg, transparent 233.78048780487805deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 233.78048780487805deg, transparent 233.78048780487805deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">35
+                </span></div>
+            Română
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 1.097560975609757deg, transparent 1.097560975609757deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 1.097560975609757deg, transparent 1.097560975609757deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">100
+                </span></div>
+            Русский
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 271.82926829268297deg, transparent 271.82926829268297deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 271.82926829268297deg, transparent 271.82926829268297deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">24
+                </span></div>
+            Slovenčina
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 270deg, transparent 270deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 270deg, transparent 270deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">25
+                </span></div>
+            Svenska
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 1.8292682926829418deg, transparent 1.8292682926829418deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 1.8292682926829418deg, transparent 1.8292682926829418deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">99
+                </span></div>
+            Türkçe
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 227.1951219512195deg, transparent 227.1951219512195deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 227.1951219512195deg, transparent 227.1951219512195deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">37
+                </span></div>
+            Українська
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 61.097560975609746deg, transparent 61.097560975609746deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 61.097560975609746deg, transparent 61.097560975609746deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">83
+                </span></div>
+            Tiếng Việt
+        </button></div>
+<div style="display: none;" class="profile-dropdown-menu svelte-ce1rlr"><a href="/profile?user="><button class="svelte-ce1rlr">Profile
+            </button></a>
+    <a href="/mystuff"><button class="svelte-ce1rlr">My Stuff</button></a>
+    <a href="/settings"><button class="svelte-ce1rlr">Settings</button></a>
+    <div class="seperated-navopt svelte-ce1rlr"></div>
+    <button class="svelte-ce1rlr">Logout</button></div>
+<div class="bar svelte-ce1rlr" style=""><a class="logo svelte-ce1rlr" href="/"><img class="logo-image svelte-ce1rlr" src="/navicon.png" alt="PenguinMod"></a>
+    <div style="margin-right: 12px;"></div>
+    <div class="logo-launcher-margin svelte-ce1rlr"></div>
+    <button class="button ca-themeSwitcher svelte-1e8yjh4" style="padding:0.5rem" id="" title="Switch theme"><!-- HTML_TAG_START --><img src='/moon.svg' alt='ThemeSwitcher'><!-- HTML_TAG_END -->
+        </button>
+    <div class="only-non-launcher svelte-ce1rlr"><a href="https://penguinlab-studio.pages.dev/editor.html" target="_self" style="text-decoration: none;" class=" svelte-1e8yjh4" title=""><button class="button svelte-1e8yjh4" style="" id=""><!-- HTML_TAG_START --><!-- HTML_TAG_END -->
+            Create </button></a></div>
+    <div class="only-launcher svelte-ce1rlr"><button class="button svelte-1e8yjh4" style="" id="__home_navigation_create_button" title=""><!-- HTML_TAG_START --><!-- HTML_TAG_END -->
+        <img src="/create.png" alt="Create"></button></div>
+    <div class="search svelte-p82v40"><button class="search-button svelte-p82v40"><svg xmlns="http://www.w3.org/2000/svg" style="width: 30px;height: 20px;margin-bottom:5px; margin-top: 5px;" viewBox="0 0 19.9 19.7"><g class="search-path" fill="none" stroke="#ffffff" stroke-width="2px"><path stroke-linecap="square" d="M18.5 18.3l-5.4-5.4"></path><circle cx="8" cy="8" r="7"></circle></g></svg></button>
+    <input class="search-bar svelte-p82v40" value="" placeholder="Search for projects..." name="search">
+</div>
+    
+    
+    
+    
+    
+    <button class="button ca-languageButton svelte-1e8yjh4" style="padding: 0.5rem; position: absolute; left: 4px;" id="" title="Switch Language"><!-- HTML_TAG_START --><img src='/globe.svg' alt='LanguageSwitcher'><img src='/dropdown-caret.png' style='margin: 0 4px' alt='v'><!-- HTML_TAG_END -->
+        </button>
+</div>
+
+<div class="main svelte-od4hl5"><div style="height: 3rem;"></div>
+
+    
+
+<div class="container svelte-16d19w8"><h1><!-- HTML_TAG_START -->All The Mods<!-- HTML_TAG_END --></h1>
+
+    
+    
+    <p><i>Hosted by PenguinMod, TurboWarp, Warpdrive, MistWarp, NitroBolt, Scratch Everywhere!</i></p>
+    <p><i>This event is hosted in collaboration with: TurboWarp, Warpdrive, MistWarp, NitroBolt, Scratch Everywhere!</i></p>
+
+    <img src="/events/en/allthemods2026.webp" alt="All The Mods" class="event-banner svelte-16d19w8">
+
+    <!-- HTML_TAG_START --><h1><a href="https://itch.io/jam/all-the-mods-game-jam">Join our itch.io page for project submissions and exact event dates!</a></h1>
+<div style="display:flex;flex-direction:row">
+    <!-- NOTE: For some absolutely stupid reason the allthemods_penguinmod.webp logo just refreshes constantly -->
+    <a href="https://penguinmod.com/" target="_blank"><img src="https://penguinmod.com/favicon.png" width="48"></img></a>
+    <a href="https://turbowarp.org/" target="_blank"><img src="https://penguinmod.com/events/assets/allthemods_turbowarp.webp" width="48"></img></a>
+    <a href="https://warpdrive.team/" target="_blank"><img src="https://penguinmod.com/events/assets/allthemods_warpdrive.webp?r=1" width="48"></img></a>
+    <a href="https://warp.mistium.com/" target="_blank"><img src="https://penguinmod.com/events/assets/allthemods_mistwarp.webp" width="48"></img></a>
+    <a href="https://nitrobolt.org/" target="_blank"><img src="https://penguinmod.com/events/assets/allthemods_nitrobolt.webp" width="48"></img></a>
+    <a href="https://scratcheverywhere.github.io/" target="_blank"><img src="https://penguinmod.com/events/assets/allthemods_se.webp" width="48"></img></a>
+</div>
+<h1>What is this event?</h1>
+<p>Many different Scratch mods (featuring PenguinMod, TurboWarp, and more) have all come together to start a game jam!</p>
+<p>This is a <em>shared event</em>, meaning you <strong>will not be submitting on the PenguinMod website itself!</strong></p>
+<p>The official All The Mods Game Jam page can be found here: <a href="https://itch.io/jam/all-the-mods-game-jam">https://itch.io/jam/all-the-mods-game-jam</a></p>
+<p>Scroll to the &quot;What is a Game Jam?&quot; section if you don't know what a Game Jam is.</p>
+<h2>When is it?</h2>
+<p>The jam will be running from <em><strong>June 1st at 10:00 AM (Mountain Time)</strong></em> to <em><strong>June 15th at 10:00 AM (Mountain Time)</strong></em>.</p>
+<p>The theme will be revealed on <em><strong>June 1st at 10:00 AM (Mountain Time)</strong></em>.</p>
+<p>See the <a href="https://itch.io/jam/all-the-mods-game-jam">itch.io page</a> for exact timings in your timezone.</p>
+<h2>How do I submit my game?</h2>
+<p>You need to submit your theme-related game to the <a href="https://itch.io/jam/all-the-mods-game-jam">itch.io page</a> <strong>as a packaged project!</strong></p>
+<p>You should use the <a href="https://studio.penguinmod.com/PenguinMod-Packager/">PenguinMod Packager</a> and create a <strong>Plain HTML</strong> package of your game.</p>
+<p>Make sure to submit your games by <em><strong>June 15th at 10:00 AM (Mountain Time)</strong></em>! Do not submit them any later than that.</p>
+<p>We highly recommend you finish and submit your projects a day early.</p>
+<h2>What's the prize?</h2>
+<p>You must be 13 years or older to receive the prize for this game jam. If you are not of this age, you will need a parent/guardian to do this for you.</p>
+<p><strong>1st Place</strong> will receive a <strong>$100 Gift Card</strong> to a platform of choice.<br>
+<strong>2nd Place</strong> will receive a <strong>$70 Gift Card</strong> to a platform of choice.<br>
+<strong>3rd Place</strong> will receive a <strong>$50 Gift Card</strong> to a platform of choice.</p>
+<ul>
+<li>You must be 13 years or older to receive the prize. If you are not of this age, you will need a parent/guardian to do this for you.</li>
+<li>NOTE: If working in a team, the prize will be split as even as possible between all team members.</li>
+</ul>
+<p>If you land in one of the top 3 places, please contact us or reply to our own contact <em>as soon as possible</em>!</p>
+<p>For participants 13 years or older, please contact us via <a href="https://penguinmod.com/redirect?t=aHR0cHM6Ly9kaXNjb3JkLmdnL2VwcWtyRWV3Unc%3D">Discord</a>.</p>
+<p>For participants under the age of 13, please contact us using <a href="https://studio.penguinmod.com/contact.html">the email listed on our contact page</a>.</p>
+<p>You do not have to receive a prize if you don't want to. The prize will be handed off to others if so.</p>
+<h1>What is a Game Jam?</h1>
+<p>How the All The Mods Game Jam will work is:</p>
+<h2>We will reveal a theme</h2>
+<p>You need to create a PenguinMod project based on a theme.</p>
+<p>You can make a game that relates to the theme we give you in any way. <strong>It should be a big part of your game's design.</strong></p>
+<h2>Submit a project</h2>
+<p>See the &quot;How do I submit my project?&quot; section for details.</p>
+<p>Make sure to submit your games by <em><strong>June 15th at 10:00 AM (Mountain Time)</strong></em>! Do not submit them any later than that.</p>
+<h2>We will rank your games</h2>
+<p>Staff members and developers will go through all of the submissions and check out what everyone did with the theme.</p>
+<p>The more creative your interpretation of the theme is, the better.</p>
+<p>However, your games <strong>still need to be fun to play in general.</strong></p>
+<h2>We will give out rewards</h2>
+<p>We will choose the top 3 games, and the best creators will get <strong>a real monetary reward</strong>!</p>
+<p>See the &quot;What's the prize?&quot; section for more details.</p>
+<h1>Community</h1>
+<p>For participants 13 years or older, you can join our Discord server:</p>
+<p><a href="https://penguinmod.com/redirect?t=aHR0cHM6Ly9kaXNjb3JkLmdnL2VwcWtyRWV3Unc%3D">Discord</a></p>
+<!-- HTML_TAG_END -->
+</div>
+</div>
+
+
+			
+			<script>
+				{
+					__sveltekit_1l2pga8 = {
+						base: new URL("..", location).pathname.slice(0, -1),
+						env: {"PUBLIC_API_URL":"https://penguinlab-api.isairethebest.workers.dev","PUBLIC_STUDIO_URL":"https://penguinlab-studio.pages.dev","PUBLIC_MAX_UPLOAD_SIZE":"32","PUBLIC_CAPTCHA_ENABLED":"false"}
+					};
+
+					const element = document.currentScript.parentElement;
+
+					const data = [null,null,null];
+
+					Promise.all([
+						import("../_app/immutable/entry/start.82f43028.js"),
+						import("../_app/immutable/entry/app.6e7eb3bb.js")
+					]).then(([kit, app]) => {
+						kit.start(app, element, {
+							node_ids: [0, 3, 15],
+							data,
+							form: null,
+							error: null
+						});
+					});
+				}
+			</script>
+		</div>
+	</body>
+</html>

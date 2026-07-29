@@ -452,37 +452,7 @@
             </div>
         {/if}
 
-        <div class="section-links">
-            <Button link={LINK.packager}>
-                <LocalizedText
-                    text="Packager"
-                    key="home.footer.sections.website.packager"
-                    lang={currentLang}
-                />
-            </Button>
-            <Button link={LINK.credits}>
-                <LocalizedText
-                    text="Credits"
-                    key="home.footer.sections.website.credits"
-                    lang={currentLang}
-                />
-            </Button>
-            <Button link={"/support"}>
-                <LocalizedText
-                    text="Funding"
-                    key="home.footer.sections.donate"
-                    lang={currentLang}
-                />
-            </Button>
-            <Button label="GitHub" link={LINK.github} />
-            <Button link={LINK.wiki}>
-                <LocalizedText
-                    text="Community Wiki"
-                    key="home.footer.sections.community.wiki"
-                    lang={currentLang}
-                />
-            </Button>
-        </div>
+
     {/if}
 
     {#if langDecided && currentLang != "en" && loggedIn}
@@ -1346,7 +1316,7 @@
     }
 
     .section-info {
-        background: #00c3ffad;
+        background: #a3b493;
         height: 24rem;
         color: white;
         display: flex;
@@ -1359,18 +1329,6 @@
     :global(html[dir="rtl"]) .section-info {
         justify-content: space-around;
     }
-    .section-links {
-        background: #00c3ff28;
-        color: white;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: center;
-        width: 100%;
-        padding: 0.5rem 0;
-        margin: 0px;
-    }
-
     .section-categories {
         display: flex;
         flex-direction: row;

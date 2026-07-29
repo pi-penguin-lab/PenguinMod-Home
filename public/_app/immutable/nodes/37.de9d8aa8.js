@@ -1,0 +1,1 @@
+import{S as s,i as t,s as e,o as a}from"../chunks/index.5ed2f220.js";function i(n){return a(()=>{location.pathname="/sucessdonation"}),[]}class r extends s{constructor(o){super(),t(this,o,i,null,e,{})}}export{r as component};

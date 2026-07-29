@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		
+		<meta property="theme-color" content="#51D3F4">
+		<meta property="og:type" content="website">
+		<meta property="og:image" content="/favicon.png">
+		<meta property="twitter:image" content="/favicon.png">
+
+		<link rel="icon" href="/favicon.png" />
+		<meta name="viewport" content="width=device-width" />
+
+		<!-- Google tag (gtag.js) -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=G-JEVT078EB6"></script>
+		<script>
+		  window.dataLayer = window.dataLayer || [];
+		  function gtag(){dataLayer.push(arguments);}
+		  gtag('js', new Date());
+		
+		  gtag('config', 'G-JEVT078EB6');
+		</script>
+
+		
+		<link rel="modulepreload" href="./_app/immutable/entry/start.82f43028.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/index.5ed2f220.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/singletons.0d3e0209.js">
+		<link rel="modulepreload" href="./_app/immutable/entry/app.6e7eb3bb.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/preload-helper.a4192956.js">
+		<link rel="modulepreload" href="./_app/immutable/nodes/0.f7de5fb5.js">
+		<link rel="modulepreload" href="./_app/immutable/nodes/6.97c1b52a.js">
+		
+		<style>
+			.guidelines-warning-box {
+				padding: 8px;
+				border-radius: 4px;
+				border: 1px solid rgb(255, 153, 0);
+				background: rgb(255, 217, 0, 0.5);
+				color: black;
+			}
+			body.dark-mode .guidelines-warning-box {
+				color: white;
+				background: rgb(255, 217, 0, 0.2);
+			}
+
+			.profile-bio-emoji {
+				width: 1.4lh;
+				height: 1.4lh;
+				object-fit: contain;
+				vertical-align: bottom;
+			}
+			em .profile-bio-emoji {
+			    transform: skew(-12deg, 0deg);
+			}
+			strong .profile-bio-emoji {
+			    filter: contrast(2);
+			}
+			s .profile-bio-emoji {
+			    filter: blur(2px);
+			}
+
+    		.donate-card-html p,
+    		.donate-card-html h1 {
+    		    margin-block: 0;
+    		}
+    		.donate-card-html h1 {
+    		    font-size: 48px;
+    		}
+		</style>
+	</head>
+	<body data-sveltekit-preload-data="hover" id="PAGE_BODY">
+		<script>
+			/**
+			 * String.prototype.indexOf, but it returns NaN not -1 on failure
+			 * @param {string} str The string to check in
+			 * @param {string} key The vaue to search for
+			 * @param {number?} offset The offset into the string to start from
+			 * @returns {number} The index of the key, or NaN if no instances where found
+			 */
+			const _lastIndexNaN = (str, key, offset = Infinity) => {
+				if (!str) return NaN;
+				const val = str.lastIndexOf(key, offset);
+				if (val === -1) return NaN;
+				return val;
+			};
+			const browserHasStack = !!new Error().stack;
+			const _parseFirefoxStack = stack => stack.split('\n')
+				.map(line => {
+					const at = line.indexOf('@');
+					const secondCol = line.lastIndexOf(':');
+					const firstCol = line.lastIndexOf(':', secondCol -1);
+					const endLine = line.length;
+					const name = line.slice(0, at);
+					let url = line.slice(at +1, firstCol);
+					let evalType = null;
+					let origin = [
+						Number(line.slice(firstCol +1, secondCol)),
+						Number(line.slice(secondCol +1, endLine))
+					];
+					let evalOrigin = null;
+					/** @type {RegExpMatchArray} */
+					let match;
+					if ((match = url.match(/^ line ([0-9]+) > /))) {
+						url = line.slice(at, match.index);
+						evalOrigin = origin;
+						evalType = line.slice(match.index + match[0].length, firstCol);
+						origin = [Number(match[1]), NaN];
+					}
+
+					return {
+						name,
+						url,
+						evalOrigin,
+						evalType,
+						origin
+					};
+				});
+			const _parseChromeStack = stack => stack.split('\n').slice(1)
+				.map(line => {
+					// we have no use for the human readable fluff
+					line = line.slice(7);
+					let firstOpenParen = line.indexOf('(');
+					const secondOpenParen = line.indexOf('(', firstOpenParen +1);
+					const firstCloseParen = line.indexOf(')');
+					const secondCloseParen = line.indexOf(')', firstCloseParen +1);
+					let fourthCol = line.lastIndexOf(':');
+					let thirdCol = line.lastIndexOf(':', (fourthCol || line.length) -1);
+					let secondCol = _lastIndexNaN(line, ':', (thirdCol || line.length) -1);
+					let firstCol = _lastIndexNaN(line, ':', (secondCol || line.length) -1);
+					if (secondOpenParen === -1) {
+						secondCol = fourthCol;
+						firstCol = thirdCol;
+						fourthCol = NaN;
+						thirdCol = NaN;
+					}
+					if (firstOpenParen === -1) {
+						firstOpenParen = firstCol +1;
+						thirdCol = line.length;
+					}
+					const name = line.slice(0, firstOpenParen -1);
+					const origin = [
+						Number(line.slice(firstCol +1, secondCol)),
+						Number(line.slice(secondCol +1, thirdCol || firstCloseParen))
+					];
+					let url = line.slice(firstOpenParen +1, firstCol);
+					if (!url) url = name;
+					let evalType = null;
+					let evalOrigin = null;
+					if (secondOpenParen !== -1) {
+						url = line.slice(secondOpenParen +1, firstCol);
+						evalType = 'anonymous';
+						evalOrigin = [
+							Number(line.slice(thirdCol +1, fourthCol)),
+							Number(line.slice(fourthCol +1, secondCloseParen))
+						];
+					}
+
+					return {
+						name,
+						url,
+						evalOrigin,
+						evalType,
+						origin
+					};
+				});
+			const parseStack = (stack, url, line, column) => {
+				if (!browserHasStack || !stack) {
+					return [{
+						name: '<inaccessible>',
+						url,
+						origin: [line, column]
+					}];
+				}
+				// firefox has a *completely* different style rule compared to chrome
+				if (stack.split('\n', 2)[0].includes('@')) return _parseFirefoxStack(stack);
+				return _parseChromeStack(stack);
+			};
+
+			class ObjectViewer extends HTMLElement {
+				static observedAttributes = ['key', 'object', 'type'];
+				/** @type {[string,any]} */
+				entries = [];
+				isError = false;
+				constructor() {
+					super();
+					this.attachShadow({ mode: 'open' });
+					const proto = document.createElement('div');
+					proto.style.marginLeft = '6px';
+					const check = document.createElement('div');
+					check.setAttribute('id', 'check');
+					check.style.transform = 'rotate(45deg)';
+					check.style.border = '1px solid grey';
+					check.style.borderTop = 'none';
+					check.style.borderLeft = 'none';
+					check.style.marginRight = '3px';
+					check.style.display = 'inline-block';
+					check.style.width = '0.5rem';
+					check.style.height = '0.5rem';
+					proto.appendChild(check);
+					const key = document.createElement('span');
+					key.setAttribute('id', 'key');
+					proto.appendChild(key);
+					const label = document.createElement('span');
+					label.textContent = '{}';
+					label.setAttribute('id', 'text');
+					proto.appendChild(label);
+					this.shadowRoot.appendChild(proto);
+					const entries = document.createElement('div');
+					entries.hidden = true;
+					entries.style.marginLeft = '6px';
+					proto.onclick = e => {
+						e.preventDefault();
+						e.stopPropagation();
+						if (this.isError) {
+							selectLog(this.object);
+							return;
+						}
+						entries.hidden = !entries.hidden;
+						check.style.transform = entries.hidden
+							? 'rotate(45deg)'
+							: 'rotate(-135deg)';
+
+						const entriesBox = this.shadowRoot.getElementById('entries');
+						for (const [key, value] of this.entries) {
+							const item = new ObjectViewer();
+							item.key = key;
+							item.object = value;
+							item.isError = value instanceof Error;
+							entriesBox.appendChild(item);
+						}
+					}
+					entries.setAttribute('id', 'entries');
+					proto.setAttribute('id', 'prototype');
+					this.shadowRoot.appendChild(entries);
+				}
+				get object() { return Object.fromEntries(this.entries); }
+				set object(value) {
+					if (value instanceof Error) {
+						this.isError = true;
+						value = {
+							cause: value.cause,
+							message: value.message,
+							stack: value.stack,
+							name: value.name,
+							...value
+						}
+					}
+					const text = this.shadowRoot.getElementById('text');
+					text.style.color = 'inherit';
+					const check = this.shadowRoot.getElementById('check');
+					if (typeof value !== 'object' || value === null) {
+						check.style.display = 'none';
+						text.textContent = JSON.stringify(value);
+						text.style.color = typeof value === 'string'
+							? '#A87'
+							: '#6799AE';
+						return;
+					}
+					check.style.display = 'inline-block';
+					const isArray = value instanceof Array;
+					this.entries = Object.entries(value);
+					if (this.entries.length >= 1)
+						text.textContent = isArray ? '[...]' : '{...}';
+					if (this.isError) 
+						text.textContent = value.message;
+				}
+				set key(value) {
+					const keyName = this.shadowRoot.getElementById('key');
+					keyName.textContent = value + ': ';
+				}
+				attributeChangedCallback(name, old, newValue) {
+					if (name !== 'object' && name !== 'key') return;
+					if (name === 'key') return this.key = newValue;
+					if (name === 'type') {
+						if (newValue === '[object Error]') this.isError = true;
+						this.object = this.object;
+						return;
+					}
+					this.object = JSONCircular.parse(newValue);
+				}
+			}
+			window.customElements.define('object-viewer', ObjectViewer);
+			const body = document.getElementById("PAGE_BODY");
+			const isEmbed = location.pathname.replace(/\//gmi, "").startsWith("embed");
+
+			const checkAndApplyLauncher = () => {
+				// check for launcher params
+				const urlParams = new URLSearchParams(location.search);
+				const isLauncher = String(urlParams.get('using_launcher')) === 'true';
+				window._isPenguinModLauncher = false;
+				if (isLauncher) {
+					body.classList.add("launcher-mode");
+					window._isPenguinModLauncher = true;
+				}
+			};
+			const checkAndApplyAprilFools = () => {
+				// check local date or test params
+				const date = new Date(Date.now());
+				const urlParams = new URLSearchParams(location.search);
+				const isAprilFools = date.getMonth() === 3 && date.getDate() === 1; // month is 0 indexed for literally no reason
+				const runningLocal = String(urlParams.get('forceaprilfools')) === 'true' && location.hostname === 'localhost';
+				window._isAprilFools = isAprilFools || runningLocal;
+				if (isAprilFools || runningLocal) {
+					body.classList.add("april-fools");
+				}
+			};
+
+			let prefersDarkMode = false;
+			try {
+				prefersDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
+			} catch {
+				prefersDarkMode = false;
+			}
+			const getDarkModeSetting = () => {
+				const savedDarkMode = localStorage.getItem('darkmode');
+				if (savedDarkMode !== null && savedDarkMode !== undefined) {
+					return String(savedDarkMode) === "true";
+				}
+				return prefersDarkMode;
+			};
+
+			const loop = () => {
+				const darkmode = isEmbed ?
+					location.hash.replace(/#/gmi, "") === "dark=true"
+					: getDarkModeSetting();
+				if (darkmode) {
+					body.classList.add("dark-mode");
+					body.style.background = "#111";
+					return;
+				}
+				body.classList.remove("dark-mode");
+				body.style.background = "";
+			}
+			setInterval(loop, 100);
+			loop();
+			
+			if (!isEmbed) {
+				// checkAndApplyLauncher();
+				checkAndApplyAprilFools();
+			}
+			
+			// warning in case of people pasting random code here
+			console.log(
+				"%cSCAM ALERT! %cDo NOT paste things into here that other people sent you!",
+				"color:red;font-family:sans-serif;font-size:2rem;font-weight:900",
+				"color:white;font-family:sans-serif;font-size:1.75rem;font-weight:900;-webkit-text-stroke: .5px black"
+			);
+			console.log("If you don't know what this window does, EXIT NOW! People can use this to upload inappropriate projects under YOUR name, delete YOUR projects, and get YOU banned from PenguinMod!");
+		</script>
+		<div style="display: contents">
+
+
+
+
+
+
+			
+			<script>
+				{
+					__sveltekit_1l2pga8 = {
+						base: new URL(".", location).pathname.slice(0, -1),
+						env: {"PUBLIC_API_URL":"https://penguinlab-api.isairethebest.workers.dev","PUBLIC_STUDIO_URL":"https://penguinlab-studio.pages.dev","PUBLIC_MAX_UPLOAD_SIZE":"32","PUBLIC_CAPTCHA_ENABLED":"false"}
+					};
+
+					const element = document.currentScript.parentElement;
+
+					const data = [null,null];
+
+					Promise.all([
+						import("./_app/immutable/entry/start.82f43028.js"),
+						import("./_app/immutable/entry/app.6e7eb3bb.js")
+					]).then(([kit, app]) => {
+						kit.start(app, element, {
+							node_ids: [0, 6],
+							data,
+							form: null,
+							error: null
+						});
+					});
+				}
+			</script>
+		</div>
+	</body>
+</html>

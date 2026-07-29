@@ -1,0 +1,1 @@
+import{S as o,i as s,s as e,o as a}from"../chunks/index.5ed2f220.js";function r(n){return a(()=>{location.pathname="/support"}),[]}class p extends o{constructor(t){super(),s(this,t,r,null,e,{})}}export{p as component};

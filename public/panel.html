@@ -1,0 +1,1160 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		
+		<meta property="theme-color" content="#51D3F4">
+		<meta property="og:type" content="website">
+		<meta property="og:image" content="/favicon.png">
+		<meta property="twitter:image" content="/favicon.png">
+
+		<link rel="icon" href="/favicon.png" />
+		<meta name="viewport" content="width=device-width" />
+
+		<!-- Google tag (gtag.js) -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=G-JEVT078EB6"></script>
+		<script>
+		  window.dataLayer = window.dataLayer || [];
+		  function gtag(){dataLayer.push(arguments);}
+		  gtag('js', new Date());
+		
+		  gtag('config', 'G-JEVT078EB6');
+		</script>
+
+		
+		<link href="./_app/immutable/assets/24.87224af9.css" rel="stylesheet">
+		<link href="./_app/immutable/assets/NavMargin.1686ce92.css" rel="stylesheet">
+		<link href="./_app/immutable/assets/stats.4b9853b3.css" rel="stylesheet">
+		<link href="./_app/immutable/assets/Spinner.17db674d.css" rel="stylesheet">
+		<link href="./_app/immutable/assets/Project.33e87590.css" rel="stylesheet">
+		<link href="./_app/immutable/assets/Button.e1d26f19.css" rel="stylesheet">
+		<link rel="modulepreload" href="./_app/immutable/entry/start.82f43028.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/index.5ed2f220.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/singletons.0d3e0209.js">
+		<link rel="modulepreload" href="./_app/immutable/entry/app.6e7eb3bb.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/preload-helper.a4192956.js">
+		<link rel="modulepreload" href="./_app/immutable/nodes/0.f7de5fb5.js">
+		<link rel="modulepreload" href="./_app/immutable/nodes/24.c2fecf13.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/stores.5562c7e1.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/public.d7286744.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/authentication.6c0b5fd9.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/_commonjsHelpers.de833af9.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/NavMargin.8f9d1426.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/language.8ac18006.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/badges.b733f389.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/FileSaver.min.d4d319f9.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/stats.1d374af8.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/Spinner.8a7051ce.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/Project.076fc865.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/Button.5f6fc478.js"><title>PenguinMod - Admin Panel</title><!-- HEAD_svelte-okgnkm_START --><meta name="robots" content="noindex,nofollow,noarchive,nosnippet,noimageindex,nocache,none" class="svelte-kpy2gu"><meta name="title" content="PenguinMod - Home" class="svelte-kpy2gu"><meta property="og:title" content="PenguinMod - Home" class="svelte-kpy2gu"><meta property="twitter:title" content="PenguinMod - Home" class="svelte-kpy2gu"><meta name="description" content="The area where featured projects and community stuff & info is shown." class="svelte-kpy2gu"><meta property="twitter:description" content="The area where featured projects and community stuff & info is shown." class="svelte-kpy2gu"><meta property="og:url" content="https://penguinmod.com/" class="svelte-kpy2gu"><meta property="twitter:url" content="https://penguinmod.com/" class="svelte-kpy2gu"><!-- HEAD_svelte-okgnkm_END -->
+		
+		<style>
+			.guidelines-warning-box {
+				padding: 8px;
+				border-radius: 4px;
+				border: 1px solid rgb(255, 153, 0);
+				background: rgb(255, 217, 0, 0.5);
+				color: black;
+			}
+			body.dark-mode .guidelines-warning-box {
+				color: white;
+				background: rgb(255, 217, 0, 0.2);
+			}
+
+			.profile-bio-emoji {
+				width: 1.4lh;
+				height: 1.4lh;
+				object-fit: contain;
+				vertical-align: bottom;
+			}
+			em .profile-bio-emoji {
+			    transform: skew(-12deg, 0deg);
+			}
+			strong .profile-bio-emoji {
+			    filter: contrast(2);
+			}
+			s .profile-bio-emoji {
+			    filter: blur(2px);
+			}
+
+    		.donate-card-html p,
+    		.donate-card-html h1 {
+    		    margin-block: 0;
+    		}
+    		.donate-card-html h1 {
+    		    font-size: 48px;
+    		}
+		</style>
+	</head>
+	<body data-sveltekit-preload-data="hover" id="PAGE_BODY">
+		<script>
+			/**
+			 * String.prototype.indexOf, but it returns NaN not -1 on failure
+			 * @param {string} str The string to check in
+			 * @param {string} key The vaue to search for
+			 * @param {number?} offset The offset into the string to start from
+			 * @returns {number} The index of the key, or NaN if no instances where found
+			 */
+			const _lastIndexNaN = (str, key, offset = Infinity) => {
+				if (!str) return NaN;
+				const val = str.lastIndexOf(key, offset);
+				if (val === -1) return NaN;
+				return val;
+			};
+			const browserHasStack = !!new Error().stack;
+			const _parseFirefoxStack = stack => stack.split('\n')
+				.map(line => {
+					const at = line.indexOf('@');
+					const secondCol = line.lastIndexOf(':');
+					const firstCol = line.lastIndexOf(':', secondCol -1);
+					const endLine = line.length;
+					const name = line.slice(0, at);
+					let url = line.slice(at +1, firstCol);
+					let evalType = null;
+					let origin = [
+						Number(line.slice(firstCol +1, secondCol)),
+						Number(line.slice(secondCol +1, endLine))
+					];
+					let evalOrigin = null;
+					/** @type {RegExpMatchArray} */
+					let match;
+					if ((match = url.match(/^ line ([0-9]+) > /))) {
+						url = line.slice(at, match.index);
+						evalOrigin = origin;
+						evalType = line.slice(match.index + match[0].length, firstCol);
+						origin = [Number(match[1]), NaN];
+					}
+
+					return {
+						name,
+						url,
+						evalOrigin,
+						evalType,
+						origin
+					};
+				});
+			const _parseChromeStack = stack => stack.split('\n').slice(1)
+				.map(line => {
+					// we have no use for the human readable fluff
+					line = line.slice(7);
+					let firstOpenParen = line.indexOf('(');
+					const secondOpenParen = line.indexOf('(', firstOpenParen +1);
+					const firstCloseParen = line.indexOf(')');
+					const secondCloseParen = line.indexOf(')', firstCloseParen +1);
+					let fourthCol = line.lastIndexOf(':');
+					let thirdCol = line.lastIndexOf(':', (fourthCol || line.length) -1);
+					let secondCol = _lastIndexNaN(line, ':', (thirdCol || line.length) -1);
+					let firstCol = _lastIndexNaN(line, ':', (secondCol || line.length) -1);
+					if (secondOpenParen === -1) {
+						secondCol = fourthCol;
+						firstCol = thirdCol;
+						fourthCol = NaN;
+						thirdCol = NaN;
+					}
+					if (firstOpenParen === -1) {
+						firstOpenParen = firstCol +1;
+						thirdCol = line.length;
+					}
+					const name = line.slice(0, firstOpenParen -1);
+					const origin = [
+						Number(line.slice(firstCol +1, secondCol)),
+						Number(line.slice(secondCol +1, thirdCol || firstCloseParen))
+					];
+					let url = line.slice(firstOpenParen +1, firstCol);
+					if (!url) url = name;
+					let evalType = null;
+					let evalOrigin = null;
+					if (secondOpenParen !== -1) {
+						url = line.slice(secondOpenParen +1, firstCol);
+						evalType = 'anonymous';
+						evalOrigin = [
+							Number(line.slice(thirdCol +1, fourthCol)),
+							Number(line.slice(fourthCol +1, secondCloseParen))
+						];
+					}
+
+					return {
+						name,
+						url,
+						evalOrigin,
+						evalType,
+						origin
+					};
+				});
+			const parseStack = (stack, url, line, column) => {
+				if (!browserHasStack || !stack) {
+					return [{
+						name: '<inaccessible>',
+						url,
+						origin: [line, column]
+					}];
+				}
+				// firefox has a *completely* different style rule compared to chrome
+				if (stack.split('\n', 2)[0].includes('@')) return _parseFirefoxStack(stack);
+				return _parseChromeStack(stack);
+			};
+
+			class ObjectViewer extends HTMLElement {
+				static observedAttributes = ['key', 'object', 'type'];
+				/** @type {[string,any]} */
+				entries = [];
+				isError = false;
+				constructor() {
+					super();
+					this.attachShadow({ mode: 'open' });
+					const proto = document.createElement('div');
+					proto.style.marginLeft = '6px';
+					const check = document.createElement('div');
+					check.setAttribute('id', 'check');
+					check.style.transform = 'rotate(45deg)';
+					check.style.border = '1px solid grey';
+					check.style.borderTop = 'none';
+					check.style.borderLeft = 'none';
+					check.style.marginRight = '3px';
+					check.style.display = 'inline-block';
+					check.style.width = '0.5rem';
+					check.style.height = '0.5rem';
+					proto.appendChild(check);
+					const key = document.createElement('span');
+					key.setAttribute('id', 'key');
+					proto.appendChild(key);
+					const label = document.createElement('span');
+					label.textContent = '{}';
+					label.setAttribute('id', 'text');
+					proto.appendChild(label);
+					this.shadowRoot.appendChild(proto);
+					const entries = document.createElement('div');
+					entries.hidden = true;
+					entries.style.marginLeft = '6px';
+					proto.onclick = e => {
+						e.preventDefault();
+						e.stopPropagation();
+						if (this.isError) {
+							selectLog(this.object);
+							return;
+						}
+						entries.hidden = !entries.hidden;
+						check.style.transform = entries.hidden
+							? 'rotate(45deg)'
+							: 'rotate(-135deg)';
+
+						const entriesBox = this.shadowRoot.getElementById('entries');
+						for (const [key, value] of this.entries) {
+							const item = new ObjectViewer();
+							item.key = key;
+							item.object = value;
+							item.isError = value instanceof Error;
+							entriesBox.appendChild(item);
+						}
+					}
+					entries.setAttribute('id', 'entries');
+					proto.setAttribute('id', 'prototype');
+					this.shadowRoot.appendChild(entries);
+				}
+				get object() { return Object.fromEntries(this.entries); }
+				set object(value) {
+					if (value instanceof Error) {
+						this.isError = true;
+						value = {
+							cause: value.cause,
+							message: value.message,
+							stack: value.stack,
+							name: value.name,
+							...value
+						}
+					}
+					const text = this.shadowRoot.getElementById('text');
+					text.style.color = 'inherit';
+					const check = this.shadowRoot.getElementById('check');
+					if (typeof value !== 'object' || value === null) {
+						check.style.display = 'none';
+						text.textContent = JSON.stringify(value);
+						text.style.color = typeof value === 'string'
+							? '#A87'
+							: '#6799AE';
+						return;
+					}
+					check.style.display = 'inline-block';
+					const isArray = value instanceof Array;
+					this.entries = Object.entries(value);
+					if (this.entries.length >= 1)
+						text.textContent = isArray ? '[...]' : '{...}';
+					if (this.isError) 
+						text.textContent = value.message;
+				}
+				set key(value) {
+					const keyName = this.shadowRoot.getElementById('key');
+					keyName.textContent = value + ': ';
+				}
+				attributeChangedCallback(name, old, newValue) {
+					if (name !== 'object' && name !== 'key') return;
+					if (name === 'key') return this.key = newValue;
+					if (name === 'type') {
+						if (newValue === '[object Error]') this.isError = true;
+						this.object = this.object;
+						return;
+					}
+					this.object = JSONCircular.parse(newValue);
+				}
+			}
+			window.customElements.define('object-viewer', ObjectViewer);
+			const body = document.getElementById("PAGE_BODY");
+			const isEmbed = location.pathname.replace(/\//gmi, "").startsWith("embed");
+
+			const checkAndApplyLauncher = () => {
+				// check for launcher params
+				const urlParams = new URLSearchParams(location.search);
+				const isLauncher = String(urlParams.get('using_launcher')) === 'true';
+				window._isPenguinModLauncher = false;
+				if (isLauncher) {
+					body.classList.add("launcher-mode");
+					window._isPenguinModLauncher = true;
+				}
+			};
+			const checkAndApplyAprilFools = () => {
+				// check local date or test params
+				const date = new Date(Date.now());
+				const urlParams = new URLSearchParams(location.search);
+				const isAprilFools = date.getMonth() === 3 && date.getDate() === 1; // month is 0 indexed for literally no reason
+				const runningLocal = String(urlParams.get('forceaprilfools')) === 'true' && location.hostname === 'localhost';
+				window._isAprilFools = isAprilFools || runningLocal;
+				if (isAprilFools || runningLocal) {
+					body.classList.add("april-fools");
+				}
+			};
+
+			let prefersDarkMode = false;
+			try {
+				prefersDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
+			} catch {
+				prefersDarkMode = false;
+			}
+			const getDarkModeSetting = () => {
+				const savedDarkMode = localStorage.getItem('darkmode');
+				if (savedDarkMode !== null && savedDarkMode !== undefined) {
+					return String(savedDarkMode) === "true";
+				}
+				return prefersDarkMode;
+			};
+
+			const loop = () => {
+				const darkmode = isEmbed ?
+					location.hash.replace(/#/gmi, "") === "dark=true"
+					: getDarkModeSetting();
+				if (darkmode) {
+					body.classList.add("dark-mode");
+					body.style.background = "#111";
+					return;
+				}
+				body.classList.remove("dark-mode");
+				body.style.background = "";
+			}
+			setInterval(loop, 100);
+			loop();
+			
+			if (!isEmbed) {
+				// checkAndApplyLauncher();
+				checkAndApplyAprilFools();
+			}
+			
+			// warning in case of people pasting random code here
+			console.log(
+				"%cSCAM ALERT! %cDo NOT paste things into here that other people sent you!",
+				"color:red;font-family:sans-serif;font-size:2rem;font-weight:900",
+				"color:white;font-family:sans-serif;font-size:1.75rem;font-weight:900;-webkit-text-stroke: .5px black"
+			);
+			console.log("If you don't know what this window does, EXIT NOW! People can use this to upload inappropriate projects under YOUR name, delete YOUR projects, and get YOU banned from PenguinMod!");
+		</script>
+		<div style="display: contents">
+
+
+
+
+
+<div style="display: none;" class="languageSelect svelte-ce1rlr"><button class="languageOption svelte-ce1rlr" style="margin-bottom: 8px;">Same as browser</button>
+    <p class="languageCount svelte-ce1rlr">25 languages translated</p>
+    <button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg -0.7317073170731447deg, transparent -0.7317073170731447deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg -0.7317073170731447deg, transparent -0.7317073170731447deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">100
+                </span></div>
+            العربية
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 69.51219512195122deg, transparent 69.51219512195122deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 69.51219512195122deg, transparent 69.51219512195122deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">81
+                </span></div>
+            Čeština
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 6.951219512195115deg, transparent 6.951219512195115deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 6.951219512195115deg, transparent 6.951219512195115deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">98
+                </span></div>
+            Dansk
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 248.78048780487805deg, transparent 248.78048780487805deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 248.78048780487805deg, transparent 248.78048780487805deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">31
+                </span></div>
+            Deutsch
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 0deg, transparent 0deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 0deg, transparent 0deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">100
+                </span></div>
+            English
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 2.195121951219514deg, transparent 2.195121951219514deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 2.195121951219514deg, transparent 2.195121951219514deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">99
+                </span></div>
+            Español (España)
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 1.8292682926829418deg, transparent 1.8292682926829418deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 1.8292682926829418deg, transparent 1.8292682926829418deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">99
+                </span></div>
+            Español (Latinoamericano)
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 54.5121951219512deg, transparent 54.5121951219512deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 54.5121951219512deg, transparent 54.5121951219512deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">85
+                </span></div>
+            فارسی
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 206.34146341463418deg, transparent 206.34146341463418deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 206.34146341463418deg, transparent 206.34146341463418deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">43
+                </span></div>
+            Français
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 260.8536585365854deg, transparent 260.8536585365854deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 260.8536585365854deg, transparent 260.8536585365854deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">28
+                </span></div>
+            Français (Canada)
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 163.53658536585365deg, transparent 163.53658536585365deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 163.53658536585365deg, transparent 163.53658536585365deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">55
+                </span></div>
+            עברית
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 236.34146341463415deg, transparent 236.34146341463415deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 236.34146341463415deg, transparent 236.34146341463415deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">34
+                </span></div>
+            Hrvatski
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 233.41463414634148deg, transparent 233.41463414634148deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 233.41463414634148deg, transparent 233.41463414634148deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">35
+                </span></div>
+            Italiano
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg -0.36585365853657237deg, transparent -0.36585365853657237deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg -0.36585365853657237deg, transparent -0.36585365853657237deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">100
+                </span></div>
+            日本語
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 18.65853658536587deg, transparent 18.65853658536587deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 18.65853658536587deg, transparent 18.65853658536587deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">95
+                </span></div>
+            Nederlands
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 201.95121951219514deg, transparent 201.95121951219514deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 201.95121951219514deg, transparent 201.95121951219514deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">44
+                </span></div>
+            Norsk
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 276.9512195121951deg, transparent 276.9512195121951deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 276.9512195121951deg, transparent 276.9512195121951deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">23
+                </span></div>
+            Polski
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 11.707317073170715deg, transparent 11.707317073170715deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 11.707317073170715deg, transparent 11.707317073170715deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">97
+                </span></div>
+            Português (Brasil)
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 233.78048780487805deg, transparent 233.78048780487805deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 233.78048780487805deg, transparent 233.78048780487805deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">35
+                </span></div>
+            Română
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 1.097560975609757deg, transparent 1.097560975609757deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 1.097560975609757deg, transparent 1.097560975609757deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">100
+                </span></div>
+            Русский
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 271.82926829268297deg, transparent 271.82926829268297deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 271.82926829268297deg, transparent 271.82926829268297deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">24
+                </span></div>
+            Slovenčina
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 270deg, transparent 270deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 270deg, transparent 270deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">25
+                </span></div>
+            Svenska
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 1.8292682926829418deg, transparent 1.8292682926829418deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 1.8292682926829418deg, transparent 1.8292682926829418deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">99
+                </span></div>
+            Türkçe
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 227.1951219512195deg, transparent 227.1951219512195deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 227.1951219512195deg, transparent 227.1951219512195deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">37
+                </span></div>
+            Українська
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 61.097560975609746deg, transparent 61.097560975609746deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 61.097560975609746deg, transparent 61.097560975609746deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">83
+                </span></div>
+            Tiếng Việt
+        </button></div>
+<div style="display: none;" class="profile-dropdown-menu svelte-ce1rlr"><a href="/profile?user="><button class="svelte-ce1rlr">Profile
+            </button></a>
+    <a href="/mystuff"><button class="svelte-ce1rlr">My Stuff</button></a>
+    <a href="/settings"><button class="svelte-ce1rlr">Settings</button></a>
+    <div class="seperated-navopt svelte-ce1rlr"></div>
+    <button class="svelte-ce1rlr">Logout</button></div>
+<div class="bar svelte-ce1rlr" style=""><a class="logo svelte-ce1rlr" href="/"><img class="logo-image svelte-ce1rlr" src="/navicon.png" alt="PenguinMod"></a>
+    <div style="margin-right: 12px;"></div>
+    <div class="logo-launcher-margin svelte-ce1rlr"></div>
+    <button class="button ca-themeSwitcher svelte-1e8yjh4" style="padding:0.5rem" id="" title="Switch theme"><!-- HTML_TAG_START --><img src='/moon.svg' alt='ThemeSwitcher'><!-- HTML_TAG_END -->
+        </button>
+    <div class="only-non-launcher svelte-ce1rlr"><a href="https://penguinlab-studio.pages.dev/editor.html" target="_self" style="text-decoration: none;" class=" svelte-1e8yjh4" title=""><button class="button svelte-1e8yjh4" style="" id=""><!-- HTML_TAG_START --><!-- HTML_TAG_END -->
+            Create </button></a></div>
+    <div class="only-launcher svelte-ce1rlr"><button class="button svelte-1e8yjh4" style="" id="__home_navigation_create_button" title=""><!-- HTML_TAG_START --><!-- HTML_TAG_END -->
+        <img src="/create.png" alt="Create"></button></div>
+    <div class="search svelte-p82v40"><button class="search-button svelte-p82v40"><svg xmlns="http://www.w3.org/2000/svg" style="width: 30px;height: 20px;margin-bottom:5px; margin-top: 5px;" viewBox="0 0 19.9 19.7"><g class="search-path" fill="none" stroke="#ffffff" stroke-width="2px"><path stroke-linecap="square" d="M18.5 18.3l-5.4-5.4"></path><circle cx="8" cy="8" r="7"></circle></g></svg></button>
+    <input class="search-bar svelte-p82v40" value="" placeholder="Search for projects..." name="search">
+</div>
+    
+    
+    
+    
+    
+    <button class="button ca-languageButton svelte-1e8yjh4" style="padding: 0.5rem; position: absolute; left: 4px;" id="" title="Switch Language"><!-- HTML_TAG_START --><img src='/globe.svg' alt='LanguageSwitcher'><img src='/dropdown-caret.png' style='margin: 0 4px' alt='v'><!-- HTML_TAG_END -->
+        </button>
+</div>
+
+<div style="height: 3rem;"></div>
+    <div class="centerer svelte-1qieie8"><img src="/loading.png" alt="Loading" class="spinner-load svelte-1qieie8" style="width: 64px; height: 64px;">
+        <br class="svelte-1qieie8">
+            <p class="svelte-1qieie8">i am a tip</p></div>
+
+<div class="main svelte-kpy2gu" style="display:none"><div style="height: 3rem;"></div>
+
+    <div class="front-card-page svelte-kpy2gu" style="z-index: 20000;display:none;"><div class="card-page big-card-page svelte-kpy2gu"><div class="card-header svelte-kpy2gu"><h1 class="svelte-kpy2gu">Reject Project</h1></div>
+            <div class="card-reject svelte-kpy2gu" style="display:block"><p class="svelte-kpy2gu">Rejecting <b class="svelte-kpy2gu"></b></p>
+                <img src="https://penguinlab-api.isairethebest.workers.dev/api/v1/projects/getproject?projectID=0&amp;requestType=thumbnail" alt="Image of " width="240" height="180" class="svelte-kpy2gu">
+                
+                <textarea placeholder="Reason for rejecting..." style="width: 95%;" autofocus class="svelte-kpy2gu"></textarea>
+                <details class="svelte-kpy2gu"><summary class="svelte-kpy2gu">Dangerous options</summary>
+                    <label style="color:red" class="svelte-kpy2gu"><input type="checkbox" class="svelte-kpy2gu">
+                        Don&#39;t allow the uploader to edit the project after reject
+                        (hard reject)
+                    </label></details>
+                <br class="svelte-kpy2gu">
+                <br class="svelte-kpy2gu">
+                <h2 class="svelte-kpy2gu"><b class="svelte-kpy2gu">Quick-Reject</b></h2>
+                <div style="display:flex;flex-direction:column;align-items: flex-start;"><details class="svelte-xq9spi"><summary>Project Uploading</summary>
+        <button class="svelte-xq9spi">Blank Project</button>
+        <button class="svelte-xq9spi">Duplicate Project / Spam Uploading</button>
+        <button class="svelte-xq9spi">Doesn&#39;t Work on PenguinMod</button>
+        <button class="svelte-xq9spi">Iframe-Browser Project</button>
+        <button class="svelte-xq9spi">Scratch Reupload (No Permission)</button>
+        <button class="svelte-xq9spi">Breaks or Disables Aspects of the Site</button></details>
+
+    <details class="svelte-xq9spi"><summary>Credit &amp; Ownership</summary>
+        <button class="svelte-xq9spi">Missing Credit</button></details>
+
+    <details class="svelte-xq9spi"><summary>Respect &amp; Safety</summary>
+        <button class="svelte-xq9spi">Harassment or Bullying</button>
+        <button class="svelte-xq9spi">Derogatory Language or Slurs</button>
+        <button class="svelte-xq9spi">Discriminatory Content</button>
+        <button class="svelte-xq9spi">Violence or Harmful Behavior</button>
+        <button class="svelte-xq9spi">Threat</button>
+        <button class="svelte-xq9spi">Sensitive Real-World Events</button></details>
+
+    <details class="svelte-xq9spi"><summary>Audio &amp; Visual Content</summary>
+        <button class="svelte-xq9spi">Loud or Disruptive Audio</button></details>
+
+    <details class="svelte-xq9spi"><summary>Sensitive &amp; Inappropriate Content</summary>
+        <button data-serious class="svelte-xq9spi">Sexual Content or References</button>
+        <button data-serious class="svelte-xq9spi">Excessive or Realistic Gore</button>
+        <button data-serious class="svelte-xq9spi">Disturbing/Fetish Themes</button>
+        <button class="svelte-xq9spi">Online Dating / Romantic Content</button>
+        <button class="svelte-xq9spi">Drug/Alcohol References</button></details>
+
+    <details class="svelte-xq9spi"><summary>Privacy &amp; Security</summary>
+        <button class="svelte-xq9spi">Personal Information (Yourself)</button>
+        <button class="svelte-xq9spi">Personal Information (Others)</button>
+        <button class="svelte-xq9spi">Malicious or Dangerous Links/Files</button>
+        <button class="svelte-xq9spi">Malware</button></details>
+
+    <details class="svelte-xq9spi"><summary>Chat &amp; User-Generated Content</summary>
+        <button class="svelte-xq9spi">Chatroom Project</button>
+        <button class="svelte-xq9spi">User-Generated Content</button></details>
+
+    <details class="svelte-xq9spi"><summary>Policy &amp; Platform Use</summary>
+        <button class="svelte-xq9spi">Misuse of an External Platform</button>
+        <button class="svelte-xq9spi">References an Unsafe External Platform</button>
+        <button class="svelte-xq9spi">Attempts to Sell an Untrusted Product</button>
+        <button class="svelte-xq9spi">Political Project</button>
+        <button class="svelte-xq9spi">Profanity in Title/Notes</button>
+        <button class="svelte-xq9spi">Copyright Violation</button>
+        <button class="svelte-xq9spi">Encouraging Rule-Breaking or Exploits</button>
+        <button class="svelte-xq9spi">Pirating Paid Music, Video or Other Media</button></details>
+
+</div></div>
+            <div style="display:flex;flex-direction:row;padding:1em" class="svelte-kpy2gu">
+<button class="button red svelte-8hivfr">
+        <!-- HTML_TAG_START -->Reject<!-- HTML_TAG_END -->
+        </button>
+                
+<button class="button svelte-8hivfr">
+        <!-- HTML_TAG_START -->Cancel<!-- HTML_TAG_END -->
+        </button></div></div></div>
+
+    <div class="front-card-page svelte-kpy2gu" style="z-index: 20000;display:none;"><div class="card-page big-card-page svelte-kpy2gu"><div class="card-header svelte-kpy2gu"><h1 class="svelte-kpy2gu">Delete Project</h1></div>
+            <div class="card-reject svelte-kpy2gu" style="display:block"><p class="svelte-kpy2gu">Deleting <b class="svelte-kpy2gu"></b></p>
+                <img src="https://penguinlab-api.isairethebest.workers.dev/api/v1/projects/getproject?projectID=0&amp;requestType=thumbnail" alt="Image of " width="240" height="180" class="svelte-kpy2gu">
+                
+                <textarea placeholder="Reason for deletion..." style="width: 95%;" autofocus class="svelte-kpy2gu"></textarea>
+                <br class="svelte-kpy2gu">
+                <br class="svelte-kpy2gu">
+                <h2 class="svelte-kpy2gu"><b class="svelte-kpy2gu">Quick-Delete</b></h2>
+                <div style="display:flex;flex-direction:column;align-items: flex-start;"><details class="svelte-xq9spi"><summary>Project Uploading</summary>
+        <button class="svelte-xq9spi">Blank Project</button>
+        <button class="svelte-xq9spi">Duplicate Project / Spam Uploading</button>
+        <button class="svelte-xq9spi">Doesn&#39;t Work on PenguinMod</button>
+        <button class="svelte-xq9spi">Iframe-Browser Project</button>
+        <button class="svelte-xq9spi">Scratch Reupload (No Permission)</button>
+        <button class="svelte-xq9spi">Breaks or Disables Aspects of the Site</button></details>
+
+    <details class="svelte-xq9spi"><summary>Credit &amp; Ownership</summary>
+        <button class="svelte-xq9spi">Missing Credit</button></details>
+
+    <details class="svelte-xq9spi"><summary>Respect &amp; Safety</summary>
+        <button class="svelte-xq9spi">Harassment or Bullying</button>
+        <button class="svelte-xq9spi">Derogatory Language or Slurs</button>
+        <button class="svelte-xq9spi">Discriminatory Content</button>
+        <button class="svelte-xq9spi">Violence or Harmful Behavior</button>
+        <button class="svelte-xq9spi">Threat</button>
+        <button class="svelte-xq9spi">Sensitive Real-World Events</button></details>
+
+    <details class="svelte-xq9spi"><summary>Audio &amp; Visual Content</summary>
+        <button class="svelte-xq9spi">Loud or Disruptive Audio</button></details>
+
+    <details class="svelte-xq9spi"><summary>Sensitive &amp; Inappropriate Content</summary>
+        <button data-serious class="svelte-xq9spi">Sexual Content or References</button>
+        <button data-serious class="svelte-xq9spi">Excessive or Realistic Gore</button>
+        <button data-serious class="svelte-xq9spi">Disturbing/Fetish Themes</button>
+        <button class="svelte-xq9spi">Online Dating / Romantic Content</button>
+        <button class="svelte-xq9spi">Drug/Alcohol References</button></details>
+
+    <details class="svelte-xq9spi"><summary>Privacy &amp; Security</summary>
+        <button class="svelte-xq9spi">Personal Information (Yourself)</button>
+        <button class="svelte-xq9spi">Personal Information (Others)</button>
+        <button class="svelte-xq9spi">Malicious or Dangerous Links/Files</button>
+        <button class="svelte-xq9spi">Malware</button></details>
+
+    <details class="svelte-xq9spi"><summary>Chat &amp; User-Generated Content</summary>
+        <button class="svelte-xq9spi">Chatroom Project</button>
+        <button class="svelte-xq9spi">User-Generated Content</button></details>
+
+    <details class="svelte-xq9spi"><summary>Policy &amp; Platform Use</summary>
+        <button class="svelte-xq9spi">Misuse of an External Platform</button>
+        <button class="svelte-xq9spi">References an Unsafe External Platform</button>
+        <button class="svelte-xq9spi">Attempts to Sell an Untrusted Product</button>
+        <button class="svelte-xq9spi">Political Project</button>
+        <button class="svelte-xq9spi">Profanity in Title/Notes</button>
+        <button class="svelte-xq9spi">Copyright Violation</button>
+        <button class="svelte-xq9spi">Encouraging Rule-Breaking or Exploits</button>
+        <button class="svelte-xq9spi">Pirating Paid Music, Video or Other Media</button></details>
+
+</div></div>
+            <div style="display:flex;flex-direction:row;padding:1em" class="svelte-kpy2gu">
+<button class="button red svelte-8hivfr">
+        <!-- HTML_TAG_START -->Hard Delete<!-- HTML_TAG_END -->
+        </button>
+                
+<button class="button svelte-8hivfr">
+        <!-- HTML_TAG_START -->Cancel<!-- HTML_TAG_END -->
+        </button></div></div></div>
+
+    
+    
+
+    
+
+    <div class="section-info svelte-kpy2gu"><div class="svelte-kpy2gu"><h1 style="margin-block:8px" class="svelte-kpy2gu">Admin Panel</h1></div></div>
+
+    <div class="double-list svelte-kpy2gu"><div class="full svelte-kpy2gu"><p class="svelte-kpy2gu"><a class="guidelines-link svelte-kpy2gu" target="_blank" href="/guidelines/moderation">PenguinMod Moderation Expectations
+                </a></p>
+
+            <div class="card svelte-kpy2gu"><h2 style="margin-block-start:0" class="svelte-kpy2gu">Projects</h2>
+                <p class="svelte-kpy2gu">Project ID:
+                    <input type="string" value="0" class="svelte-kpy2gu"></p>
+                <p class="svelte-kpy2gu">
+<button class="button orange svelte-8hivfr">
+        <!-- HTML_TAG_START -->Select<!-- HTML_TAG_END -->
+        </button></p>
+                
+                <h3 class="svelte-kpy2gu">Tools</h3>
+                <div style="display: flex; flex-direction: row;" class="svelte-kpy2gu">
+<button class="button svelte-8hivfr">
+        <!-- HTML_TAG_START -->Inspect Extensions<!-- HTML_TAG_END -->
+        </button>
+                    
+<button class="button svelte-8hivfr">
+        <!-- HTML_TAG_START -->Censor Images/Audio<!-- HTML_TAG_END -->
+        </button></div>
+                
+                <div style="height:24px" class="svelte-kpy2gu"></div>
+                <div style="display: flex; flex-direction: row; width: 100%;" class="svelte-kpy2gu">
+<button class="button red svelte-8hivfr">
+        <!-- HTML_TAG_START -->Remove<!-- HTML_TAG_END -->
+        </button>
+                    
+<button class="button purple svelte-8hivfr">
+        <!-- HTML_TAG_START -->Hard Delete<!-- HTML_TAG_END -->
+        </button>
+                    <div style="width:24px" class="svelte-kpy2gu"></div>
+                    
+<button class="button red svelte-8hivfr">
+        <!-- HTML_TAG_START -->Remove Thumbnail<!-- HTML_TAG_END -->
+        </button></div>
+                <div style="height:24px" class="svelte-kpy2gu"></div>
+                <div style="display: flex; flex-direction: row; width: 100%;" class="svelte-kpy2gu">
+<button class="button orange svelte-8hivfr">
+        <!-- HTML_TAG_START -->Feature<!-- HTML_TAG_END -->
+        </button>
+                    
+<button class="button red svelte-8hivfr">
+        <!-- HTML_TAG_START -->Unfeature<!-- HTML_TAG_END -->
+        </button>
+                    <div style="width:24px" class="svelte-kpy2gu"></div>
+                    
+<button class="button remix svelte-8hivfr">
+        <!-- HTML_TAG_START -->Allow Community Feature<!-- HTML_TAG_END -->
+        </button>
+                    
+<button class="button red svelte-8hivfr">
+        <!-- HTML_TAG_START -->Disable Community Feature<!-- HTML_TAG_END -->
+        </button></div>
+                <h3 class="svelte-kpy2gu">Removed Projects</h3>
+                <p class="svelte-kpy2gu">Target Removed Project:
+                    <input type="text" class="svelte-kpy2gu" value="0"></p>
+                <div style="display: flex; flex-direction: row; align-items: center;" class="svelte-kpy2gu">
+<button class="button svelte-8hivfr">
+        <!-- HTML_TAG_START --><!-- HTML_TAG_END -->
+        Download</button>
+                    
+<button class="button remix svelte-8hivfr">
+        <!-- HTML_TAG_START --><!-- HTML_TAG_END -->
+        Restore
+                    </button></div></div>
+
+            <br class="svelte-kpy2gu">
+
+            <p class="svelte-kpy2gu"><a class="guidelines-link svelte-kpy2gu" target="_blank" href="/guidelines/uploading">Project Uploading &amp; Updating Guidelines
+                </a></p>
+
+            <br class="svelte-kpy2gu">
+
+            <div class="card svelte-kpy2gu"><h2 class="svelte-kpy2gu">Server Stats</h2>
+                </div>
+            <br class="svelte-kpy2gu">
+
+            
+
+            <div class="card svelte-kpy2gu"><h2 style="margin-block-start:0" class="svelte-kpy2gu">Messages</h2>
+                <p class="svelte-kpy2gu"><a class="guidelines-link svelte-kpy2gu" target="_blank" href="/guidelines/moderation">PenguinMod Moderation Expectations
+                    </a></p>
+                <button class="svelte-kpy2gu">Reply Menu</button>
+                <button class="svelte-kpy2gu">Send Menu</button>
+                <p class="svelte-kpy2gu">Respond to a project dispute/reply here.</p>
+                    <p class="svelte-kpy2gu"><i class="svelte-kpy2gu">NOTE: Your usage of the moderator messaging system
+                            must be appropriate.
+                            <br class="svelte-kpy2gu">
+                            View the
+                            <a target="_blank" href="/guidelines/moderation" class="svelte-kpy2gu">PenguinMod Moderation Expectations
+                            </a> for more info.
+                        </i></p>
+                    <p class="svelte-kpy2gu">Type message ID:</p>
+                    <input type="text" size="50" placeholder="Message ID..." class="svelte-kpy2gu" value="">
+                    <p class="svelte-kpy2gu">Type reply:</p>
+                    <textarea type="text" size="50" placeholder="Reply..." class="svelte-kpy2gu"></textarea>
+                    <br class="svelte-kpy2gu">
+                    <br class="svelte-kpy2gu">
+                    <div class="user-action-row svelte-kpy2gu">
+<button class="button remix svelte-8hivfr">
+        <!-- HTML_TAG_START --><!-- HTML_TAG_END -->
+        Reply
+                        </button></div>
+                <br class="svelte-kpy2gu">
+                <br class="svelte-kpy2gu">
+                <h3 class="svelte-kpy2gu">Delete Mod Message</h3>
+                <p class="svelte-kpy2gu">Type message ID:</p>
+                <input type="text" size="50" placeholder="Message ID..." class="svelte-kpy2gu" value="">
+                
+<button class="button red svelte-8hivfr">
+        <!-- HTML_TAG_START --><!-- HTML_TAG_END -->
+        Delete</button>
+                <br class="svelte-kpy2gu">
+                <br class="svelte-kpy2gu">
+                <h3 class="svelte-kpy2gu">Guidelines</h3>
+                <p class="svelte-kpy2gu">Send update notifications for TOS, Privacy Policy, or
+                    Uploading Guidelines.
+                </p>
+                <p class="svelte-kpy2gu">Will send to all users on the website.</p>
+                <br class="svelte-kpy2gu">
+                <label class="svelte-kpy2gu"><input type="checkbox" class="svelte-kpy2gu">
+                    Terms of Service
+                </label>
+                <br class="svelte-kpy2gu">
+                <label class="svelte-kpy2gu"><input type="checkbox" class="svelte-kpy2gu">
+                    Privacy Policy
+                </label>
+                <br class="svelte-kpy2gu">
+                <label class="svelte-kpy2gu"><input type="checkbox" class="svelte-kpy2gu">
+                    Uploading Guidelines
+                </label>
+                <br class="svelte-kpy2gu">
+                <br class="svelte-kpy2gu">
+                <div class="user-action-row svelte-kpy2gu">
+<button class="button remix svelte-8hivfr">
+        <!-- HTML_TAG_START --><!-- HTML_TAG_END -->
+        Send Guidelines Update
+                    </button></div></div>
+
+            <br class="svelte-kpy2gu">
+
+            <div class="card svelte-kpy2gu"><h2 style="margin-block-start:0" class="svelte-kpy2gu">Users</h2>
+                
+<button class="button svelte-8hivfr">
+        <!-- HTML_TAG_START --><!-- HTML_TAG_END -->
+        Load Permited Users</button>
+                
+                
+<button class="button svelte-8hivfr">
+        <!-- HTML_TAG_START --><!-- HTML_TAG_END -->
+        Show Permited Users</button>
+                <p class="svelte-kpy2gu">Type username:</p>
+                <input type="text" size="50" placeholder="PenguinMod username..." class="svelte-kpy2gu" value="">
+                <br class="svelte-kpy2gu">
+                <br class="svelte-kpy2gu">
+                Temp-Ban Time
+                <input type="number" size="50" class="svelte-kpy2gu" value="0">
+                (in seconds)
+                <br class="svelte-kpy2gu">
+                <br class="svelte-kpy2gu">
+                <input type="text" size="50" placeholder="Action reason..." class="svelte-kpy2gu" value="">
+                <p class="svelte-kpy2gu">Action reasons for user punishments must be translatable.
+                    <br class="svelte-kpy2gu">
+                    This means you should use formal wording and never use profanity.
+                    <br class="svelte-kpy2gu">
+                    Do NOT ban a user with something like &quot;you know why&quot; or &quot;check
+                    (url here) for info&quot;
+                    <br class="svelte-kpy2gu">
+                    <br class="svelte-kpy2gu">
+                    Punishment may occur if your action reasons become informal.
+                </p>
+                <div class="user-action-collumn svelte-kpy2gu"><div class="user-action-row svelte-kpy2gu">
+<button class="button red svelte-8hivfr">
+        <!-- HTML_TAG_START --><!-- HTML_TAG_END -->
+        Ban User</button>
+                        
+<button class="button purple svelte-8hivfr">
+        <!-- HTML_TAG_START --><!-- HTML_TAG_END -->
+        Temp-Ban User</button>
+                        
+<button class="button svelte-8hivfr">
+        <!-- HTML_TAG_START --><!-- HTML_TAG_END -->
+        Unban User</button></div>
+                    <br class="svelte-kpy2gu">
+                    <div class="user-action-row svelte-kpy2gu">
+<button class="button red svelte-8hivfr">
+        <!-- HTML_TAG_START --><!-- HTML_TAG_END -->
+        IP Ban User</button>
+                        
+<button class="button svelte-8hivfr">
+        <!-- HTML_TAG_START --><!-- HTML_TAG_END -->
+        Un-IP Ban User</button></div>
+                    <br class="svelte-kpy2gu">
+                    <div class="user-action-row svelte-kpy2gu">
+<button class="button red svelte-8hivfr">
+        <!-- HTML_TAG_START --><!-- HTML_TAG_END -->
+        Delete User Account</button></div>
+                    <br class="svelte-kpy2gu">
+                    <div class="user-action-row svelte-kpy2gu">
+<button class="button orange svelte-8hivfr">
+        <!-- HTML_TAG_START --><!-- HTML_TAG_END -->
+        Put on watchlist</button>
+                        
+<button class="button blue svelte-8hivfr">
+        <!-- HTML_TAG_START --><!-- HTML_TAG_END -->
+        Take off watchlist</button></div></div>
+                <br class="svelte-kpy2gu">
+                <br class="svelte-kpy2gu">
+                <input type="text" size="50" minlength="3" maxlength="20" placeholder="New username..." class="svelte-kpy2gu" value="">
+                <br class="svelte-kpy2gu">
+                <label class="svelte-kpy2gu">New Profile Picture:
+                    <input type="file" class="svelte-kpy2gu"></label>
+                <br class="svelte-kpy2gu">
+                <br class="svelte-kpy2gu">
+                
+<button class="button purple svelte-8hivfr">
+        <!-- HTML_TAG_START --><!-- HTML_TAG_END -->
+        Rename User</button>
+                
+<button class="button purple svelte-8hivfr">
+        <!-- HTML_TAG_START --><!-- HTML_TAG_END -->
+        Change User&#39;s Profile Picture</button>
+                <br class="svelte-kpy2gu">
+                <br class="svelte-kpy2gu">
+                <label class="svelte-kpy2gu"><input type="checkbox" class="svelte-kpy2gu">
+                    Grant User Admin Perms
+                </label>
+                <br class="svelte-kpy2gu">
+                <label class="svelte-kpy2gu"><input type="checkbox" class="svelte-kpy2gu">
+                    Grant User Moderator Perms
+                </label>
+                <div class="user-action-row svelte-kpy2gu">
+<button class="button remix svelte-8hivfr">
+        <!-- HTML_TAG_START --><!-- HTML_TAG_END -->
+        Assign User Perms</button></div></div>
+
+            <br class="svelte-kpy2gu">
+
+            <div class="card svelte-kpy2gu"><h2 style="margin-block-start:0" class="svelte-kpy2gu">IPs</h2>
+
+                <input type="text" size="50" placeholder="IP Address or Username" class="svelte-kpy2gu" value="">
+
+                <textarea style="width:80%;height:150px;font-family:monospace" readonly class="svelte-kpy2gu"></textarea>
+
+                <div class="user-action-row svelte-kpy2gu">
+<button class="button svelte-8hivfr">
+        <!-- HTML_TAG_START --><!-- HTML_TAG_END -->
+        Get Connected IPs</button>
+                    
+<button class="button svelte-8hivfr">
+        <!-- HTML_TAG_START --><!-- HTML_TAG_END -->
+        Get Connected Users</button>
+                    
+<button class="button red svelte-8hivfr">
+        <!-- HTML_TAG_START --><!-- HTML_TAG_END -->
+        Ban IP</button>
+                    
+<button class="button svelte-8hivfr">
+        <!-- HTML_TAG_START --><!-- HTML_TAG_END -->
+        Unban IP</button>
+                    
+<button class="button svelte-8hivfr">
+        <!-- HTML_TAG_START --><!-- HTML_TAG_END -->
+        Get alt accounts</button></div></div>
+
+            <div class="card svelte-kpy2gu"><h2 style="margin-block-start:0" class="svelte-kpy2gu">Badges</h2>
+
+                <button class="svelte-kpy2gu">Specific User</button>
+                <button class="svelte-kpy2gu">Multiple Users</button>
+
+                <p class="svelte-kpy2gu">Type username:</p>
+                    <input type="text" size="50" placeholder="PenguinMod username..." class="svelte-kpy2gu" value="">
+                    <div class="user-action-row svelte-kpy2gu">
+<button class="button svelte-8hivfr">
+        <!-- HTML_TAG_START --><!-- HTML_TAG_END -->
+        Load Badges</button></div>
+                    <br class="svelte-kpy2gu">
+                    <br class="svelte-kpy2gu">
+                    <p class="svelte-kpy2gu">Badges have not been loaded.</p>
+                <br class="svelte-kpy2gu">
+                <div style="width:100%;height:32px;" class="svelte-kpy2gu"></div>
+                <br class="svelte-kpy2gu">
+                <div class="user-action-row svelte-kpy2gu">
+<button class="button remix svelte-8hivfr">
+        <!-- HTML_TAG_START --><!-- HTML_TAG_END -->
+        Apply Badges
+                    </button></div></div>
+
+            <br class="svelte-kpy2gu">
+            <div class="card svelte-kpy2gu"><h2 class="svelte-kpy2gu">Profanity Filter JSON</h2>
+                <textarea class="svelte-kpy2gu"></textarea>
+                <br class="svelte-kpy2gu">
+                <div class="user-action-row svelte-kpy2gu">
+<button class="button remix svelte-8hivfr">
+        <!-- HTML_TAG_START --><!-- HTML_TAG_END -->
+        Load Current Filter JSON
+                    </button>
+                    
+<button class="button svelte-8hivfr">
+        <!-- HTML_TAG_START --><!-- HTML_TAG_END -->
+        Update Filter
+                    </button></div></div>
+            <br class="svelte-kpy2gu">
+
+            <p class="svelte-kpy2gu">Global Server Toggles: (applies to all users)</p>
+            
+<button class="button red svelte-8hivfr">
+        <!-- HTML_TAG_START --><!-- HTML_TAG_END -->
+        Disable Getting Projects
+            </button>
+            
+<button class="button remix svelte-8hivfr">
+        <!-- HTML_TAG_START --><!-- HTML_TAG_END -->
+        Enable Getting Projects
+            </button>
+            
+<button class="button red svelte-8hivfr">
+        <!-- HTML_TAG_START --><!-- HTML_TAG_END -->
+        Disable Uploading Projects
+            </button>
+            
+<button class="button remix svelte-8hivfr">
+        <!-- HTML_TAG_START --><!-- HTML_TAG_END -->
+        Enable Uploading Projects
+            </button>
+            
+<button class="button red svelte-8hivfr">
+        <!-- HTML_TAG_START --><!-- HTML_TAG_END -->
+        Disable Account Creation
+            </button>
+            
+<button class="button remix svelte-8hivfr">
+        <!-- HTML_TAG_START --><!-- HTML_TAG_END -->
+        Enable Account Creation
+            </button>
+
+            <br class="svelte-kpy2gu">
+            <br class="svelte-kpy2gu"></div>
+        <div class="project-sidebar svelte-kpy2gu"><div class="project-sidebar-actions svelte-kpy2gu">
+<button class="button svelte-8hivfr">
+        <!-- HTML_TAG_START --><!-- HTML_TAG_END -->
+        Refresh</button>
+                <select value="" class="svelte-kpy2gu"><option value="" disabled class="svelte-kpy2gu">(Select an option)</option><option value="" disabled class="svelte-kpy2gu"></option><option value="user" class="svelte-kpy2gu">User Reports</option><option value="project" class="svelte-kpy2gu">Project Reports</option><option value="" disabled class="svelte-kpy2gu"></option><optgroup label="Moderation" class="svelte-kpy2gu"><option value="removed" class="svelte-kpy2gu">Removed Projects</option><option value="" disabled class="svelte-kpy2gu">Assets (in development)
+                        </option></optgroup></select></div>
+            <p class="selection-info svelte-kpy2gu">Please select what type of reports you wish to view
+                </p>
+
+            <div class="list-projects svelte-kpy2gu" style=""></div></div></div>
+</div>
+
+
+			
+			<script>
+				{
+					__sveltekit_1l2pga8 = {
+						base: new URL(".", location).pathname.slice(0, -1),
+						env: {"PUBLIC_API_URL":"https://penguinlab-api.isairethebest.workers.dev","PUBLIC_STUDIO_URL":"https://penguinlab-studio.pages.dev","PUBLIC_MAX_UPLOAD_SIZE":"32","PUBLIC_CAPTCHA_ENABLED":"false"}
+					};
+
+					const element = document.currentScript.parentElement;
+
+					const data = [null,null];
+
+					Promise.all([
+						import("./_app/immutable/entry/start.82f43028.js"),
+						import("./_app/immutable/entry/app.6e7eb3bb.js")
+					]).then(([kit, app]) => {
+						kit.start(app, element, {
+							node_ids: [0, 24],
+							data,
+							form: null,
+							error: null
+						});
+					});
+				}
+			</script>
+		</div>
+	</body>
+</html>

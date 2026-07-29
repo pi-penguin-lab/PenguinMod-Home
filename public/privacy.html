@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		
+		<meta property="theme-color" content="#51D3F4">
+		<meta property="og:type" content="website">
+		<meta property="og:image" content="/favicon.png">
+		<meta property="twitter:image" content="/favicon.png">
+
+		<link rel="icon" href="/favicon.png" />
+		<meta name="viewport" content="width=device-width" />
+
+		<!-- Google tag (gtag.js) -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=G-JEVT078EB6"></script>
+		<script>
+		  window.dataLayer = window.dataLayer || [];
+		  function gtag(){dataLayer.push(arguments);}
+		  gtag('js', new Date());
+		
+		  gtag('config', 'G-JEVT078EB6');
+		</script>
+
+		
+		<link href="./_app/immutable/assets/26.308cd143.css" rel="stylesheet">
+		<link href="./_app/immutable/assets/NavMargin.1686ce92.css" rel="stylesheet">
+		<link rel="modulepreload" href="./_app/immutable/entry/start.82f43028.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/index.5ed2f220.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/singletons.0d3e0209.js">
+		<link rel="modulepreload" href="./_app/immutable/entry/app.6e7eb3bb.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/preload-helper.a4192956.js">
+		<link rel="modulepreload" href="./_app/immutable/nodes/0.f7de5fb5.js">
+		<link rel="modulepreload" href="./_app/immutable/nodes/26.d13fcfde.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/NavMargin.8f9d1426.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/stores.5562c7e1.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/public.d7286744.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/authentication.6c0b5fd9.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/_commonjsHelpers.de833af9.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/language.8ac18006.js"><title>PenguinMod - Privacy Policy</title><!-- HEAD_svelte-bla5w9_START --><meta name="title" content="PenguinMod - Privacy Policy" class="svelte-e95eor"><meta property="og:title" content="PenguinMod - Privacy Policy" class="svelte-e95eor"><meta property="twitter:title" content="PenguinMod - Privacy Policy" class="svelte-e95eor"><meta name="description" content="The status of your privacy while using PenguinMod." class="svelte-e95eor"><meta property="twitter:description" content="The status of your privacy while using PenguinMod." class="svelte-e95eor"><meta property="og:url" content="https://penguinmod.com/privacy" class="svelte-e95eor"><meta property="twitter:url" content="https://penguinmod.com/privacy" class="svelte-e95eor"><!-- HEAD_svelte-bla5w9_END -->
+		
+		<style>
+			.guidelines-warning-box {
+				padding: 8px;
+				border-radius: 4px;
+				border: 1px solid rgb(255, 153, 0);
+				background: rgb(255, 217, 0, 0.5);
+				color: black;
+			}
+			body.dark-mode .guidelines-warning-box {
+				color: white;
+				background: rgb(255, 217, 0, 0.2);
+			}
+
+			.profile-bio-emoji {
+				width: 1.4lh;
+				height: 1.4lh;
+				object-fit: contain;
+				vertical-align: bottom;
+			}
+			em .profile-bio-emoji {
+			    transform: skew(-12deg, 0deg);
+			}
+			strong .profile-bio-emoji {
+			    filter: contrast(2);
+			}
+			s .profile-bio-emoji {
+			    filter: blur(2px);
+			}
+
+    		.donate-card-html p,
+    		.donate-card-html h1 {
+    		    margin-block: 0;
+    		}
+    		.donate-card-html h1 {
+    		    font-size: 48px;
+    		}
+		</style>
+	</head>
+	<body data-sveltekit-preload-data="hover" id="PAGE_BODY">
+		<script>
+			/**
+			 * String.prototype.indexOf, but it returns NaN not -1 on failure
+			 * @param {string} str The string to check in
+			 * @param {string} key The vaue to search for
+			 * @param {number?} offset The offset into the string to start from
+			 * @returns {number} The index of the key, or NaN if no instances where found
+			 */
+			const _lastIndexNaN = (str, key, offset = Infinity) => {
+				if (!str) return NaN;
+				const val = str.lastIndexOf(key, offset);
+				if (val === -1) return NaN;
+				return val;
+			};
+			const browserHasStack = !!new Error().stack;
+			const _parseFirefoxStack = stack => stack.split('\n')
+				.map(line => {
+					const at = line.indexOf('@');
+					const secondCol = line.lastIndexOf(':');
+					const firstCol = line.lastIndexOf(':', secondCol -1);
+					const endLine = line.length;
+					const name = line.slice(0, at);
+					let url = line.slice(at +1, firstCol);
+					let evalType = null;
+					let origin = [
+						Number(line.slice(firstCol +1, secondCol)),
+						Number(line.slice(secondCol +1, endLine))
+					];
+					let evalOrigin = null;
+					/** @type {RegExpMatchArray} */
+					let match;
+					if ((match = url.match(/^ line ([0-9]+) > /))) {
+						url = line.slice(at, match.index);
+						evalOrigin = origin;
+						evalType = line.slice(match.index + match[0].length, firstCol);
+						origin = [Number(match[1]), NaN];
+					}
+
+					return {
+						name,
+						url,
+						evalOrigin,
+						evalType,
+						origin
+					};
+				});
+			const _parseChromeStack = stack => stack.split('\n').slice(1)
+				.map(line => {
+					// we have no use for the human readable fluff
+					line = line.slice(7);
+					let firstOpenParen = line.indexOf('(');
+					const secondOpenParen = line.indexOf('(', firstOpenParen +1);
+					const firstCloseParen = line.indexOf(')');
+					const secondCloseParen = line.indexOf(')', firstCloseParen +1);
+					let fourthCol = line.lastIndexOf(':');
+					let thirdCol = line.lastIndexOf(':', (fourthCol || line.length) -1);
+					let secondCol = _lastIndexNaN(line, ':', (thirdCol || line.length) -1);
+					let firstCol = _lastIndexNaN(line, ':', (secondCol || line.length) -1);
+					if (secondOpenParen === -1) {
+						secondCol = fourthCol;
+						firstCol = thirdCol;
+						fourthCol = NaN;
+						thirdCol = NaN;
+					}
+					if (firstOpenParen === -1) {
+						firstOpenParen = firstCol +1;
+						thirdCol = line.length;
+					}
+					const name = line.slice(0, firstOpenParen -1);
+					const origin = [
+						Number(line.slice(firstCol +1, secondCol)),
+						Number(line.slice(secondCol +1, thirdCol || firstCloseParen))
+					];
+					let url = line.slice(firstOpenParen +1, firstCol);
+					if (!url) url = name;
+					let evalType = null;
+					let evalOrigin = null;
+					if (secondOpenParen !== -1) {
+						url = line.slice(secondOpenParen +1, firstCol);
+						evalType = 'anonymous';
+						evalOrigin = [
+							Number(line.slice(thirdCol +1, fourthCol)),
+							Number(line.slice(fourthCol +1, secondCloseParen))
+						];
+					}
+
+					return {
+						name,
+						url,
+						evalOrigin,
+						evalType,
+						origin
+					};
+				});
+			const parseStack = (stack, url, line, column) => {
+				if (!browserHasStack || !stack) {
+					return [{
+						name: '<inaccessible>',
+						url,
+						origin: [line, column]
+					}];
+				}
+				// firefox has a *completely* different style rule compared to chrome
+				if (stack.split('\n', 2)[0].includes('@')) return _parseFirefoxStack(stack);
+				return _parseChromeStack(stack);
+			};
+
+			class ObjectViewer extends HTMLElement {
+				static observedAttributes = ['key', 'object', 'type'];
+				/** @type {[string,any]} */
+				entries = [];
+				isError = false;
+				constructor() {
+					super();
+					this.attachShadow({ mode: 'open' });
+					const proto = document.createElement('div');
+					proto.style.marginLeft = '6px';
+					const check = document.createElement('div');
+					check.setAttribute('id', 'check');
+					check.style.transform = 'rotate(45deg)';
+					check.style.border = '1px solid grey';
+					check.style.borderTop = 'none';
+					check.style.borderLeft = 'none';
+					check.style.marginRight = '3px';
+					check.style.display = 'inline-block';
+					check.style.width = '0.5rem';
+					check.style.height = '0.5rem';
+					proto.appendChild(check);
+					const key = document.createElement('span');
+					key.setAttribute('id', 'key');
+					proto.appendChild(key);
+					const label = document.createElement('span');
+					label.textContent = '{}';
+					label.setAttribute('id', 'text');
+					proto.appendChild(label);
+					this.shadowRoot.appendChild(proto);
+					const entries = document.createElement('div');
+					entries.hidden = true;
+					entries.style.marginLeft = '6px';
+					proto.onclick = e => {
+						e.preventDefault();
+						e.stopPropagation();
+						if (this.isError) {
+							selectLog(this.object);
+							return;
+						}
+						entries.hidden = !entries.hidden;
+						check.style.transform = entries.hidden
+							? 'rotate(45deg)'
+							: 'rotate(-135deg)';
+
+						const entriesBox = this.shadowRoot.getElementById('entries');
+						for (const [key, value] of this.entries) {
+							const item = new ObjectViewer();
+							item.key = key;
+							item.object = value;
+							item.isError = value instanceof Error;
+							entriesBox.appendChild(item);
+						}
+					}
+					entries.setAttribute('id', 'entries');
+					proto.setAttribute('id', 'prototype');
+					this.shadowRoot.appendChild(entries);
+				}
+				get object() { return Object.fromEntries(this.entries); }
+				set object(value) {
+					if (value instanceof Error) {
+						this.isError = true;
+						value = {
+							cause: value.cause,
+							message: value.message,
+							stack: value.stack,
+							name: value.name,
+							...value
+						}
+					}
+					const text = this.shadowRoot.getElementById('text');
+					text.style.color = 'inherit';
+					const check = this.shadowRoot.getElementById('check');
+					if (typeof value !== 'object' || value === null) {
+						check.style.display = 'none';
+						text.textContent = JSON.stringify(value);
+						text.style.color = typeof value === 'string'
+							? '#A87'
+							: '#6799AE';
+						return;
+					}
+					check.style.display = 'inline-block';
+					const isArray = value instanceof Array;
+					this.entries = Object.entries(value);
+					if (this.entries.length >= 1)
+						text.textContent = isArray ? '[...]' : '{...}';
+					if (this.isError) 
+						text.textContent = value.message;
+				}
+				set key(value) {
+					const keyName = this.shadowRoot.getElementById('key');
+					keyName.textContent = value + ': ';
+				}
+				attributeChangedCallback(name, old, newValue) {
+					if (name !== 'object' && name !== 'key') return;
+					if (name === 'key') return this.key = newValue;
+					if (name === 'type') {
+						if (newValue === '[object Error]') this.isError = true;
+						this.object = this.object;
+						return;
+					}
+					this.object = JSONCircular.parse(newValue);
+				}
+			}
+			window.customElements.define('object-viewer', ObjectViewer);
+			const body = document.getElementById("PAGE_BODY");
+			const isEmbed = location.pathname.replace(/\//gmi, "").startsWith("embed");
+
+			const checkAndApplyLauncher = () => {
+				// check for launcher params
+				const urlParams = new URLSearchParams(location.search);
+				const isLauncher = String(urlParams.get('using_launcher')) === 'true';
+				window._isPenguinModLauncher = false;
+				if (isLauncher) {
+					body.classList.add("launcher-mode");
+					window._isPenguinModLauncher = true;
+				}
+			};
+			const checkAndApplyAprilFools = () => {
+				// check local date or test params
+				const date = new Date(Date.now());
+				const urlParams = new URLSearchParams(location.search);
+				const isAprilFools = date.getMonth() === 3 && date.getDate() === 1; // month is 0 indexed for literally no reason
+				const runningLocal = String(urlParams.get('forceaprilfools')) === 'true' && location.hostname === 'localhost';
+				window._isAprilFools = isAprilFools || runningLocal;
+				if (isAprilFools || runningLocal) {
+					body.classList.add("april-fools");
+				}
+			};
+
+			let prefersDarkMode = false;
+			try {
+				prefersDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
+			} catch {
+				prefersDarkMode = false;
+			}
+			const getDarkModeSetting = () => {
+				const savedDarkMode = localStorage.getItem('darkmode');
+				if (savedDarkMode !== null && savedDarkMode !== undefined) {
+					return String(savedDarkMode) === "true";
+				}
+				return prefersDarkMode;
+			};
+
+			const loop = () => {
+				const darkmode = isEmbed ?
+					location.hash.replace(/#/gmi, "") === "dark=true"
+					: getDarkModeSetting();
+				if (darkmode) {
+					body.classList.add("dark-mode");
+					body.style.background = "#111";
+					return;
+				}
+				body.classList.remove("dark-mode");
+				body.style.background = "";
+			}
+			setInterval(loop, 100);
+			loop();
+			
+			if (!isEmbed) {
+				// checkAndApplyLauncher();
+				checkAndApplyAprilFools();
+			}
+			
+			// warning in case of people pasting random code here
+			console.log(
+				"%cSCAM ALERT! %cDo NOT paste things into here that other people sent you!",
+				"color:red;font-family:sans-serif;font-size:2rem;font-weight:900",
+				"color:white;font-family:sans-serif;font-size:1.75rem;font-weight:900;-webkit-text-stroke: .5px black"
+			);
+			console.log("If you don't know what this window does, EXIT NOW! People can use this to upload inappropriate projects under YOUR name, delete YOUR projects, and get YOU banned from PenguinMod!");
+		</script>
+		<div style="display: contents">
+
+
+
+
+
+<div style="display: none;" class="languageSelect svelte-ce1rlr"><button class="languageOption svelte-ce1rlr" style="margin-bottom: 8px;">Same as browser</button>
+    <p class="languageCount svelte-ce1rlr">25 languages translated</p>
+    <button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg -0.7317073170731447deg, transparent -0.7317073170731447deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg -0.7317073170731447deg, transparent -0.7317073170731447deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">100
+                </span></div>
+            العربية
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 69.51219512195122deg, transparent 69.51219512195122deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 69.51219512195122deg, transparent 69.51219512195122deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">81
+                </span></div>
+            Čeština
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 6.951219512195115deg, transparent 6.951219512195115deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 6.951219512195115deg, transparent 6.951219512195115deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">98
+                </span></div>
+            Dansk
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 248.78048780487805deg, transparent 248.78048780487805deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 248.78048780487805deg, transparent 248.78048780487805deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">31
+                </span></div>
+            Deutsch
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 0deg, transparent 0deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 0deg, transparent 0deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">100
+                </span></div>
+            English
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 2.195121951219514deg, transparent 2.195121951219514deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 2.195121951219514deg, transparent 2.195121951219514deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">99
+                </span></div>
+            Español (España)
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 1.8292682926829418deg, transparent 1.8292682926829418deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 1.8292682926829418deg, transparent 1.8292682926829418deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">99
+                </span></div>
+            Español (Latinoamericano)
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 54.5121951219512deg, transparent 54.5121951219512deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 54.5121951219512deg, transparent 54.5121951219512deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">85
+                </span></div>
+            فارسی
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 206.34146341463418deg, transparent 206.34146341463418deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 206.34146341463418deg, transparent 206.34146341463418deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">43
+                </span></div>
+            Français
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 260.8536585365854deg, transparent 260.8536585365854deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 260.8536585365854deg, transparent 260.8536585365854deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">28
+                </span></div>
+            Français (Canada)
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 163.53658536585365deg, transparent 163.53658536585365deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 163.53658536585365deg, transparent 163.53658536585365deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">55
+                </span></div>
+            עברית
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 236.34146341463415deg, transparent 236.34146341463415deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 236.34146341463415deg, transparent 236.34146341463415deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">34
+                </span></div>
+            Hrvatski
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 233.41463414634148deg, transparent 233.41463414634148deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 233.41463414634148deg, transparent 233.41463414634148deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">35
+                </span></div>
+            Italiano
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg -0.36585365853657237deg, transparent -0.36585365853657237deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg -0.36585365853657237deg, transparent -0.36585365853657237deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">100
+                </span></div>
+            日本語
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 18.65853658536587deg, transparent 18.65853658536587deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 18.65853658536587deg, transparent 18.65853658536587deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">95
+                </span></div>
+            Nederlands
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 201.95121951219514deg, transparent 201.95121951219514deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 201.95121951219514deg, transparent 201.95121951219514deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">44
+                </span></div>
+            Norsk
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 276.9512195121951deg, transparent 276.9512195121951deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 276.9512195121951deg, transparent 276.9512195121951deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">23
+                </span></div>
+            Polski
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 11.707317073170715deg, transparent 11.707317073170715deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 11.707317073170715deg, transparent 11.707317073170715deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">97
+                </span></div>
+            Português (Brasil)
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 233.78048780487805deg, transparent 233.78048780487805deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 233.78048780487805deg, transparent 233.78048780487805deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">35
+                </span></div>
+            Română
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 1.097560975609757deg, transparent 1.097560975609757deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 1.097560975609757deg, transparent 1.097560975609757deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">100
+                </span></div>
+            Русский
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 271.82926829268297deg, transparent 271.82926829268297deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 271.82926829268297deg, transparent 271.82926829268297deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">24
+                </span></div>
+            Slovenčina
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 270deg, transparent 270deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 270deg, transparent 270deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">25
+                </span></div>
+            Svenska
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 1.8292682926829418deg, transparent 1.8292682926829418deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 1.8292682926829418deg, transparent 1.8292682926829418deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">99
+                </span></div>
+            Türkçe
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 227.1951219512195deg, transparent 227.1951219512195deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 227.1951219512195deg, transparent 227.1951219512195deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">37
+                </span></div>
+            Українська
+        </button><button class="languageOption svelte-ce1rlr"><div class="languageProgress svelte-ce1rlr"><div class="only-in-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(#222 50%, transparent 50.001%),
+        conic-gradient(#555 0deg 61.097560975609746deg, transparent 61.097560975609746deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <div class="only-non-dark-mode svelte-ce1rlr"><div id="progress-circle" style="--background: radial-gradient(white 50%, transparent 50.001%),
+        conic-gradient(gainsboro 0deg 61.097560975609746deg, transparent 61.097560975609746deg 360deg),
+        conic-gradient(dodgerblue 0deg, dodgerblue);; width: 28px;height:28px;" class="svelte-1hwog81"></div></div>
+                <span class="svelte-ce1rlr">83
+                </span></div>
+            Tiếng Việt
+        </button></div>
+<div style="display: none;" class="profile-dropdown-menu svelte-ce1rlr"><a href="/profile?user="><button class="svelte-ce1rlr">Profile
+            </button></a>
+    <a href="/mystuff"><button class="svelte-ce1rlr">My Stuff</button></a>
+    <a href="/settings"><button class="svelte-ce1rlr">Settings</button></a>
+    <div class="seperated-navopt svelte-ce1rlr"></div>
+    <button class="svelte-ce1rlr">Logout</button></div>
+<div class="bar svelte-ce1rlr" style=""><a class="logo svelte-ce1rlr" href="/"><img class="logo-image svelte-ce1rlr" src="/navicon.png" alt="PenguinMod"></a>
+    <div style="margin-right: 12px;"></div>
+    <div class="logo-launcher-margin svelte-ce1rlr"></div>
+    <button class="button ca-themeSwitcher svelte-1e8yjh4" style="padding:0.5rem" id="" title="Switch theme"><!-- HTML_TAG_START --><img src='/moon.svg' alt='ThemeSwitcher'><!-- HTML_TAG_END -->
+        </button>
+    <div class="only-non-launcher svelte-ce1rlr"><a href="https://penguinlab-studio.pages.dev/editor.html" target="_self" style="text-decoration: none;" class=" svelte-1e8yjh4" title=""><button class="button svelte-1e8yjh4" style="" id=""><!-- HTML_TAG_START --><!-- HTML_TAG_END -->
+            Create </button></a></div>
+    <div class="only-launcher svelte-ce1rlr"><button class="button svelte-1e8yjh4" style="" id="__home_navigation_create_button" title=""><!-- HTML_TAG_START --><!-- HTML_TAG_END -->
+        <img src="/create.png" alt="Create"></button></div>
+    <div class="search svelte-p82v40"><button class="search-button svelte-p82v40"><svg xmlns="http://www.w3.org/2000/svg" style="width: 30px;height: 20px;margin-bottom:5px; margin-top: 5px;" viewBox="0 0 19.9 19.7"><g class="search-path" fill="none" stroke="#ffffff" stroke-width="2px"><path stroke-linecap="square" d="M18.5 18.3l-5.4-5.4"></path><circle cx="8" cy="8" r="7"></circle></g></svg></button>
+    <input class="search-bar svelte-p82v40" value="" placeholder="Search for projects..." name="search">
+</div>
+    
+    
+    
+    
+    
+    <button class="button ca-languageButton svelte-1e8yjh4" style="padding: 0.5rem; position: absolute; left: 4px;" id="" title="Switch Language"><!-- HTML_TAG_START --><img src='/globe.svg' alt='LanguageSwitcher'><img src='/dropdown-caret.png' style='margin: 0 4px' alt='v'><!-- HTML_TAG_END -->
+        </button>
+</div>
+
+<div class="main svelte-e95eor"><div style="height: 3rem;"></div>
+
+    <div class="section-info svelte-e95eor"><h1 class="svelte-e95eor">Privacy Policy</h1></div>
+
+    <main class="svelte-e95eor">
+        <p class="svelte-e95eor"><i class="svelte-e95eor">Updated February 4th, 2026 (Mountain Time)</i></p>
+
+        
+        <p class="svelte-e95eor">This document applies to
+            <a href="https://penguinmod.com" class="svelte-e95eor">https://penguinmod.com</a>,
+            <a href="https://penguinlab-studio.pages.dev" class="svelte-e95eor">https://penguinlab-studio.pages.dev</a>,
+            <a href="https://extensions.penguinmod.com" class="svelte-e95eor">https://extensions.penguinmod.com</a>,
+            <a href="https://projects.penguinmod.com" class="svelte-e95eor">https://projects.penguinmod.com</a>,
+            and any other penguinmod.com subdomains.
+        </p>
+        <p class="svelte-e95eor">You may see websites such as <a href="https://scratch.mit.edu/" class="svelte-e95eor">&quot;Scratch&quot;</a>,
+            <a href="https://turbowarp.org/" class="svelte-e95eor">&quot;TurboWarp&quot;</a>, <a href="https://oauth2.scratch-wiki.info/" class="svelte-e95eor">&quot;Scratch OAuth2&quot;</a>,
+            and <a href="https://auth.itinerary.eu.org/" class="svelte-e95eor">&quot;Scratch Authentication&quot;</a>
+            referenced in multiple places.
+        </p>
+        <p class="svelte-e95eor">A &quot;Service Administrator&quot;, &quot;Admin&quot;, &quot;Moderator&quot;, &quot;Mod&quot; or &quot;Administrator&quot; is a person who can either
+            directly access the server files for PenguinMod,
+            or a person who can contact the server host that is able to access the server files and server process.
+            &quot;Host&quot; may also refer to the server host of PenguinMod&#39;s project sharing.
+        </p>
+        <p class="svelte-e95eor">A &quot;Project Moderator&quot; is a person who has the ability to remove projects or content from those projects,
+            and reply or send messages to users who had moderation actions happen towards their project or account.
+            These users may also be able to edit profile information about another user.
+            <br class="svelte-e95eor"><br class="svelte-e95eor">
+            These people can contact Administrators aswell, and may have extra permissions such as banning users.
+        </p>
+
+        <h2 class="svelte-e95eor">General</h2>
+        <p class="svelte-e95eor">We may log anonymous aggregated data such as
+                how many people use the site,
+                how often a feature is used,
+                what operating system and browser is used,
+                how much user content is on the site,
+                and diagnostic information such as cache hit ratios.
+        </p>
+        <p class="svelte-e95eor">When using the website, your IP address will be logged and stored to your account if you log in.
+            This is to help us identify users who may be spamming or attacking the site.
+            Project Moderators will be able to view and use this IP address for banning or blocking you from using the site if neccessary.
+            <br class="svelte-e95eor">
+            Your IP address will also be stored temporarily when viewing a project, along with information about the project you viewed being logged temporarily.
+            <br class="svelte-e95eor">
+            <br class="svelte-e95eor">
+            This temporary amount of time will be around 1 week, and this applies to all &quot;temporarily stored&quot; content listed here.
+        </p>
+        <p class="svelte-e95eor">PenguinMod Project Moderators and Service Administrators can identify accounts that share the same IP address as another account.
+        </p>
+
+        <h2 class="svelte-e95eor">How We Use Your Date of Birth and Country Information</h2>
+        <p class="svelte-e95eor">When you provide us with your date of birth and country during registration, we use this information to ensure that:</p>
+        <ul class="svelte-e95eor"><li class="svelte-e95eor">You (or your child) only have access to content that is appropriate for your age, in compliance with laws and regulations that protect minors.</li>
+            <li class="svelte-e95eor">Your account only accesses content that is permitted in your country or region, in accordance with local laws and content rating systems.</li></ul>
+        <p class="svelte-e95eor">This helps us create a safe and age-appropriate environment for all users. We will not use your date of birth or country information for any other purposes without your explicit consent.</p>
+        <p class="svelte-e95eor">Your date of birth and country/region is not shared with project moderators directly.</p>
+
+        <h2 class="svelte-e95eor">Advertisements</h2>
+        <p class="svelte-e95eor">When advertisements are served on any PenguinMod page, third parties may be placing and reading cookies on your browser,
+            or using web beacons to collect information. Your provided birthday and country is not shared by PenguinMod to these third-parties,
+            though they may obtain this information from methods or websites outside of PenguinMod&#39;s control. You may be able to
+            find more information here:
+        </p>
+        <ul class="svelte-e95eor"><li class="svelte-e95eor"><a href="https://support.google.com/publisherpolicies/answer/10437794" class="svelte-e95eor">What we must disclose in our privacy policy</a></li>
+            <li class="svelte-e95eor"><a href="http://www.google.com/policies/privacy/partners/" class="svelte-e95eor">How Google uses data when you use our partners&#39; sites or apps</a></li></ul>
+
+        <h2 class="svelte-e95eor">Content Recommendations</h2>
+        <p class="svelte-e95eor">Content recommended to you on the PenguinMod platform is based on previous projects and content you have seen on PenguinMod before.
+            We do not use data provided by third-parties or information about where you live to recommend you content.
+            You will only have content recommended to you when doing these actions:
+        </p>
+        <ul class="svelte-e95eor"><li class="svelte-e95eor">You have opened a project on PenguinMod to view it.</li>
+            <li class="svelte-e95eor">You liked a PenguinMod project.</li>
+            <li class="svelte-e95eor">You voted for a PenguinMod project.</li>
+            <li class="svelte-e95eor">You interacted with a PenguinMod project.</li>
+            <li class="svelte-e95eor">You followed another user on PenguinMod.</li></ul>
+        
+        <h2 class="svelte-e95eor">Project Sharing &amp; Accounts/Profiles</h2>
+        <p class="svelte-e95eor">Accounts are created and logged into using either a Username and Password, or using one of the OAuth2 login methods.
+            These login methods are <a href="https://oauth2.scratch-wiki.info/" class="svelte-e95eor">&quot;Scratch OAuth2&quot;</a>
+            requiring a <a href="https://scratch.mit.edu/" class="svelte-e95eor">&quot;Scratch&quot;</a> account,
+            <a href="https://google.com/" class="svelte-e95eor">&quot;Google&quot;</a> requiring a &quot;Google&quot; account,
+            or <a href="https://github.com/" class="svelte-e95eor">&quot;GitHub&quot;</a> requiring a &quot;GitHub&quot; account.
+        </p>
+        <p class="svelte-e95eor">When you use the <a href="https://oauth2.scratch-wiki.info/" class="svelte-e95eor">&quot;Scratch OAuth2&quot;</a>,
+            <a href="https://google.com/" class="svelte-e95eor">&quot;Google&quot;</a>,
+            or <a href="https://github.com/" class="svelte-e95eor">&quot;GitHub&quot;</a>
+            login methods, they can access:</p>
+            <ul class="svelte-e95eor"><li class="svelte-e95eor">your IP address</li>
+                <li class="svelte-e95eor">your general location (using your IP address)</li>
+                <li class="svelte-e95eor">your public account information on their respective platforms
+                    (in some cases, emails or other information the login method provides to PenguinMod on authentication)</li></ul>
+
+        <p class="svelte-e95eor">Accounts created will have their IP address and creation date stored with them.
+        </p>
+        <p class="svelte-e95eor">Any logins to an account using any login method will also have that IP address and login date stored on the account.
+            <br class="svelte-e95eor">
+            PenguinMod may require an email to be attached to an account for certain features or account security.
+            <br class="svelte-e95eor">
+            This will be stored on the account if provided.
+        </p>
+        <p class="svelte-e95eor">If you provide a date of birth or country to PenguinMod, it will be stored on your account.
+            <br class="svelte-e95eor">
+            Certain content may be blocked or inaccessible depending on what your date of birth or country is.
+        </p>
+
+        <p class="svelte-e95eor">When using our Services:
+        </p>
+        <ul class="svelte-e95eor"><li class="svelte-e95eor">any projects uploaded will have their project name logged</li>
+            <li class="svelte-e95eor">any projects uploaded are publicly viewable (including projects from accounts with a private profile, or projects under review if you have the URL to them)</li>
+            <li class="svelte-e95eor">any private profiles or projects are visible to site moderators or admins (or visible to other users depending on the profile&#39;s settings)</li>
+            <li class="svelte-e95eor">any profile info you set (bio/about me, featured project) is publicly viewable to all users (and private profiles are visible to site moderators or admins)</li>
+            <li class="svelte-e95eor">any projects uploaded can be modified by admins or hosts of the service in any way (project image, project name, project code, etc.)</li>
+            <li class="svelte-e95eor">any profile info you set can be modified by admins or hosts of the service in any way (profile about me, etc.)</li>
+            <li class="svelte-e95eor">any projects, accounts, or content created on the platform may be logged when deemed neccessary</li>
+            <li class="svelte-e95eor">any account or project information will be logged and stored, even if changed later</li></ul>
+        <p class="svelte-e95eor">Uploaded projects will be publicly visible to all users on the website.
+            Any user may report a project or report another user to Project Moderators if they believe the
+            <a href="https://penguinmod.com/guidelines/uploading" class="svelte-e95eor">Uploading Guidelines</a> have been violated.
+        </p>
+            Project Information available to users, Project Moderators and Service Administrators include:
+            <ul class="svelte-e95eor"><li class="svelte-e95eor">the project name, project instructions &amp; notes, project thumbnail, project data, uploader&#39;s username, and uploader&#39;s profile picture for any project</li>
+                <li class="svelte-e95eor">the date any project was uploaded, updated or featured</li>
+                <li class="svelte-e95eor">the likes, votes, favorites and views attached to that project</li>
+                <li class="svelte-e95eor">whether or not the project has been updated</li>
+                <li class="svelte-e95eor">any other internal information about the project</li>
+                <li class="svelte-e95eor">the uploader&#39;s <a href="https://scratch.mit.edu/" class="svelte-e95eor">Scratch</a> account (if they used it to create the account or use information from it)</li>
+                <li class="svelte-e95eor">the uploader&#39;s <a href="https://github.com/" class="svelte-e95eor">GitHub</a> account (if they used it to create the account or use information from it)</li></ul>
+            Information available only to Project Moderators and Service Administrators include:
+            <ul class="svelte-e95eor"><li class="svelte-e95eor">the date a project was removed</li>
+                <li class="svelte-e95eor">the date, contents, and type of any moderator message or response to a moderator message</li>
+                <li class="svelte-e95eor">any above information users can access</li></ul>
+            Information available only to Service Administrators include:
+            <ul class="svelte-e95eor"><li class="svelte-e95eor">the indiviudal users who liked, favorited or voted a project</li>
+                <li class="svelte-e95eor">the IP addresses of users who viewed a project
+                </li><li class="svelte-e95eor">any above information users or Project Moderators can access</li>
+                <li class="svelte-e95eor">the uploader&#39;s <a href="https://google.com/" class="svelte-e95eor">Google</a> account (if the account has it as a login method)</li>
+                <li class="svelte-e95eor">the uploader&#39;s <a href="https://github.com/" class="svelte-e95eor">GitHub</a> account (if the account has it as a login method)</li>
+                <li class="svelte-e95eor">the uploader&#39;s <a href="https://scratch.mit.edu/" class="svelte-e95eor">Scratch</a> account (if the account has it as a login method)</li></ul>
+        <p class="svelte-e95eor">Your IP address will temporarily be saved in the server when you view a project.
+            This is used to make sure you are not the same user reloading the page to gain multiple views.
+        </p>
+        <p class="svelte-e95eor">Account information may be logged or saved to the server when interacting with a project.</p>
+        <p class="svelte-e95eor">This information is used to save liked, favorited, or voted projects for users and also to debug any issues present in the server.</p>
+
+        <h2 class="svelte-e95eor">Third Parties</h2>
+        <p class="svelte-e95eor">When uploading a project, getting a project &quot;featured&quot;, or having a project deleted by a moderator,
+            information about the project and account&#39;s public information will be sent to the third-party site <a href="https://discord.com/" class="svelte-e95eor">&quot;Discord&quot;</a>.
+        </p>
+        <p class="svelte-e95eor">The purpose of this logging is for site moderators to easily find
+            projects that violate the <a href="https://penguinmod.com/guidelines/uploading" class="svelte-e95eor">Uploading Guidelines</a>
+            or see any previous actions other moderators have done to a project.
+        </p>
+        <p class="svelte-e95eor">The purpose of logging &quot;featured&quot; projects is to allow users to view projects other users may enjoy or like.</p>
+        <p class="svelte-e95eor">When an account is banned, has punishments placed on it, or gets it&#39;s information updated by a moderator, information about the
+            account will be sent to the third-party site <a href="https://discord.com/" class="svelte-e95eor">&quot;Discord&quot;</a>.
+        </p>
+        <p class="svelte-e95eor">When an account sends a message to a moderator, receives a message from a moderator or uses language not appropriate for PenguinMod on the platform,
+            account will be sent to the third-party site <a href="https://discord.com/" class="svelte-e95eor">&quot;Discord&quot;</a>.
+        </p>
+        <p class="svelte-e95eor">The purpose of this logging is for site moderators to handle or respond to users that may have violated PenguinMod&#39;s
+            <a href="https://penguinmod.com/terms" class="svelte-e95eor">Terms of Service</a>.
+        </p>
+        <p class="svelte-e95eor">Information about accounts, projects, or other content on the platform may be sent to the third-party site <a href="https://discord.com/" class="svelte-e95eor">&quot;Discord&quot;</a>
+        for any reason that deems it neccessary.
+        </p>
+        <p class="svelte-e95eor">We may disclose your information to law enforcement agencies, government authorities,
+            or other third parties if we believe it is necessary to comply with legal obligations or ensure the safety of our users, developers and staff.
+            Requests for PenguinMod user information are expected to be sent to us using one of our contact methods.
+        </p>
+
+        <h2 class="svelte-e95eor">YouTube Embedded Content</h2>
+        <p class="svelte-e95eor">We embed videos on our site using YouTube&#39;s &quot;Privacy-Enhanced Mode.&quot;
+            This means that YouTube will not store information about visitors on our website unless they choose to play the video.
+        </p>
+        <p class="svelte-e95eor">If you are logged into a Google account, Google may be able to link watched videos to your profile once you play the video.
+        </p>
+        <p class="svelte-e95eor">YouTube may access or modify the following information:
+        </p>
+        <ul class="svelte-e95eor"><li class="svelte-e95eor">your Google account information</li>
+            <li class="svelte-e95eor">your full IP address (and possibly general location using your IP address)</li>
+            <li class="svelte-e95eor">your general location (using your IP address)</li>
+            <li class="svelte-e95eor">any technical information about your device</li></ul>
+        <p class="svelte-e95eor"><a href="https://policies.google.com/privacy" class="svelte-e95eor">Google&#39;s Privacy Policy</a></p>
+        
+        <h2 class="svelte-e95eor">Other services</h2>
+        <p class="svelte-e95eor">When using cloud variables, the project ID and your username may be logged for up to 14 days.</p>
+        <p class="svelte-e95eor">Your randomly generated or chosen username is stored in your browser&#39;s local storage. To mitigate the potential to track users with this feature, all randomly generated usernames are anonymized before the server receives them. However, usernames explicitly set by a user may be logged to help prevent abuse.</p>
+        <p class="svelte-e95eor">If a user is logged into PenguinMod, their username used by Cloud Variables, other extensions, and the editor &quot;username&quot; block will be set to their PenguinMod account&#39;s username.</p>
+        <p class="svelte-e95eor">Built-in Scratch extensions that require Wi-Fi (such as Translate, Text to Speech, LEGO, micro:bit, etc.) may connect to the Scratch API to implement these features. <a href="https://scratch.mit.edu/privacy_policy/" class="svelte-e95eor">Refer to the Scratch privacy policy for more information</a>. The Translate extension may instead make requests to a TurboWarp API, which may then forward your request to the Scratch API and log the message being translated and the result for caching and performance.</p>
+        <p class="svelte-e95eor">In rare circumstances, connections that are appear to be spam may have their IP address logged for up to 24 hours. This happens very infrequently and only in cases of extreme abuse.</p>
+        <p class="svelte-e95eor">Built-in PenguinMod and Custom extensions that require Wi-Fi or use Wi-Fi to get online data (HTTP, Website Requests, Sound Systems, CloudLink, HTML iframes, Storage, etc.) may connect to any user-specified API, which will grant the owner of the website being connected to:
+        </p>
+        <ul class="svelte-e95eor"><li class="svelte-e95eor">your full IP address (and possibly general location using your IP address)</li>
+            <li class="svelte-e95eor">the ability to show or display anything (if the extension is showing the info returned to the user)</li>
+            <li class="svelte-e95eor">any other things public APIs can do or access</li></ul>
+        <p class="svelte-e95eor">This document does not apply to third-parties, including other users or bots connected to cloud variables, links to external websites, custom extensions, or some advanced URL parameters.</p>
+
+        <h2 class="svelte-e95eor">Editor extensions</h2>
+        <h3 class="svelte-e95eor">Core - HTML iframes (referred to as &quot;iframes&quot; here)</h3>
+        <p class="svelte-e95eor">&quot;iframes&quot; may connect to user-specified websites. These websites may be allowed to access:
+        </p>
+            <ul class="svelte-e95eor"><li class="svelte-e95eor">your IP address</li>
+                <li class="svelte-e95eor">your general location (using your IP address)</li>
+                <li class="svelte-e95eor">any web API</li></ul>
+        <p class="svelte-e95eor">The websites specified may also display any content, however PenguinMod will attempt to automatically scan the website
+            for any potential viruses or vulnerabilities. Major adult websites are also blocked, and most others are blocked aswell.
+        </p>
+        <p class="svelte-e95eor">PenguinMod does not allow projects uploaded to only display content from other websites.
+            Uploaded projects must contain content of their own, and certain websites may cause the uploaded project to be deleted or rejected.
+        </p>
+        <h3 class="svelte-e95eor">Core - Scratch Authentication (referred to as &quot;Scratch Auth Extension&quot; here)</h3>
+        <p class="svelte-e95eor">The &quot;Scratch Auth Extension&quot; will connect to <a href="https://auth.itinerary.eu.org/" class="svelte-e95eor">Scratch Auth</a> for Log-In. Scratch Auth can access:
+            </p>
+            <ul class="svelte-e95eor"><li class="svelte-e95eor">your IP address</li>
+                <li class="svelte-e95eor">your general location (using your IP address)</li>
+                <li class="svelte-e95eor">your public <a href="https://scratch.mit.edu/" class="svelte-e95eor">Scratch</a> Account information</li></ul>
+            <p class="svelte-e95eor">The &quot;Scratch Auth Extension&quot; also allows your public Scratch account information to be accessible to the PenguinMod project,
+            however other tools, extensions or APIs are required to get information past your Scratch username.
+        </p>
+        <h3 class="svelte-e95eor">User-submitted (G1nX) - Better Storage</h3>
+        <p class="svelte-e95eor">Better Storage will connect to <a href="https://auth.itinerary.eu.org/" class="svelte-e95eor">Scratch Auth</a> for Log-In. Scratch Auth can access:</p>
+            <ul class="svelte-e95eor"><li class="svelte-e95eor">your IP address</li>
+                <li class="svelte-e95eor">your general location (using your IP address)</li>
+                <li class="svelte-e95eor">your public <a href="https://scratch.mit.edu/" class="svelte-e95eor">Scratch</a> Account information</li></ul>
+            <p class="svelte-e95eor">Better Storage can also access any info that Scratch Auth can.
+            The owner of Better Storage may also view any saved data using their keys for security and safety.
+        </p>
+        <h3 class="svelte-e95eor">User-submitted (MubiLop) - PenguinGPT</h3>
+        <p class="svelte-e95eor">PenguinGPT will connect to <a href="https://reverse.mubi.tech/" class="svelte-e95eor">reverse.mubi.tech</a> by default for AI communication. This site can access:</p>
+            <ul class="svelte-e95eor"><li class="svelte-e95eor">your IP address</li>
+                <li class="svelte-e95eor">your general location (using your IP address)</li>
+                <li class="svelte-e95eor">any prompt or responses given to any AI on the site</li>
+                <li class="svelte-e95eor">any prompt or responses from any AI on the site</li>
+                <li class="svelte-e95eor">any images from any AI on the site</li></ul>
+            <p class="svelte-e95eor">The owner of PenguinGPT logs and reads this information for security and preventing malicious attacks.
+        </p>
+        <h3 class="svelte-e95eor">User-submitted (RubyDevs) - TurboWeather</h3>
+        <p class="svelte-e95eor">TurboWeather uses Browser APIs to geolocate the user.
+            <br class="svelte-e95eor">
+            PenguinMod will ask the user to confirm this action before the extension attempts to do this.
+            <br class="svelte-e95eor">
+            <br class="svelte-e95eor">
+            PenguinMod will not ask the user to confirm this action if the project is compiled using
+            <a href="https://penguinlab-studio.pages.dev/PenguinMod-Packager/" class="svelte-e95eor">the PenguinMod packager.</a>
+            <br class="svelte-e95eor">
+            In this case it is up to the user&#39;s browser to prompt the user if they would like to allow the website
+            to access their location.
+        </p>
+        <p class="svelte-e95eor">The Ruby Developer team promises that they do not store or keep your location data in any way when using the extension.
+            <br class="svelte-e95eor">
+            TurboWeather does however connect to third-party services to get user information that may store your info:
+        </p>
+        <ul class="svelte-e95eor"><li class="svelte-e95eor"><a href="https://open-meteo.com/en/terms" class="svelte-e95eor">OpenMeteo - Terms of Service</a></li>
+            <li class="svelte-e95eor"><a href="https://osmfoundation.org/wiki/Privacy_Policy" class="svelte-e95eor">OpenStreetMap - Privacy Policy</a></li></ul>
+        <p class="svelte-e95eor">When using the extension, third-party services may be able to access:</p>
+            <ul class="svelte-e95eor"><li class="svelte-e95eor">your IP address</li>
+                <li class="svelte-e95eor">your general location</li>
+                <li class="svelte-e95eor">info about your location (weather, temperature)</li></ul>
+            <p class="svelte-e95eor">TurboWeather does make efforts to avoid returning private info, such as:
+        </p>
+        <ul class="svelte-e95eor"><li class="svelte-e95eor">latitude and longitude</li>
+            <li class="svelte-e95eor">specifically chosen or user coordinates (provided for geolocation)</li>
+            <li class="svelte-e95eor">any other info returned by the third-party services that may be used to find the user in real life</li></ul>
+
+        <h2 class="svelte-e95eor">Contact</h2>
+
+        <p class="svelte-e95eor">Email us at <a href="mailto:penguinmodhelp@gmail.com" class="svelte-e95eor">penguinmodhelp@gmail.com</a></p>
+        <p class="svelte-e95eor">Join <a href="https://discord.gg/NZ9MBMYTZh" class="svelte-e95eor">our Discord Server</a></p>
+        
+        <div style="width: 100%; height: 32px;" class="svelte-e95eor"></div>
+
+        <p class="svelte-e95eor"><a href="/terms" class="svelte-e95eor">Terms of Service</a></p>
+        <p class="svelte-e95eor"><a href="https://penguinlab-studio.pages.dev/contact.html" class="svelte-e95eor">Contact Us</a></p>
+        
+        <div style="width: 100%; height: 32px;" class="svelte-e95eor"></div></main>
+</div>
+
+
+			
+			<script>
+				{
+					__sveltekit_1l2pga8 = {
+						base: new URL(".", location).pathname.slice(0, -1),
+						env: {"PUBLIC_API_URL":"https://penguinlab-api.isairethebest.workers.dev","PUBLIC_STUDIO_URL":"https://penguinlab-studio.pages.dev","PUBLIC_MAX_UPLOAD_SIZE":"32","PUBLIC_CAPTCHA_ENABLED":"false"}
+					};
+
+					const element = document.currentScript.parentElement;
+
+					const data = [null,null];
+
+					Promise.all([
+						import("./_app/immutable/entry/start.82f43028.js"),
+						import("./_app/immutable/entry/app.6e7eb3bb.js")
+					]).then(([kit, app]) => {
+						kit.start(app, element, {
+							node_ids: [0, 26],
+							data,
+							form: null,
+							error: null
+						});
+					});
+				}
+			</script>
+		</div>
+	</body>
+</html>

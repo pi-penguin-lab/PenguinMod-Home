@@ -15,7 +15,7 @@
     import LoadingSpinner from "$lib/LoadingSpinner/Spinner.svelte";
     import ChecksBox from "$lib/ChecksBox/ChecksBox.svelte";
     import Button from "$lib/Button/Button.svelte";
-    import Captcha from "$lib/Captcha.svelte";
+
     // translations
     import LocalizedText from "$lib/LocalizedText/Node.svelte";
     import Language from "../../resources/language.js";
@@ -34,7 +34,6 @@
 
     let username = "";
     let password = "";
-    let email = "";
     let birthday = "";
     let country = "";
     let creatingAccount = false;
@@ -65,7 +64,6 @@
         });
     }
 
-    let emailValid = 0;
     let usernameValid = false;
     let passwordValid = false;
     let birthdayValid = false;
@@ -74,8 +72,6 @@
     let birthdayFaked = false;
     let consentedToDataUsage = false;
     let accurateDataAgreement = false;
-
-    let captcha_token = false;
 
     const usernameRequirements = [
         { name: "username.requirement.length", value: false },
@@ -94,10 +90,8 @@
         const token = await Authentication.createAccount(
             username,
             password,
-            email,
             birthday,
             country,
-            captcha_token,
         );
 
         if (!token) {
@@ -113,33 +107,12 @@
                 alert("Failed to create account:", apiCreateRejectReason);
                 return;
             }
-            if (emailValid === 1) {
-                alert(
-                    TranslationHandler.textSafe(
-                        "forgotpassword.invalidemail",
-                        currentLang,
-                        "Your email is not valid.",
-                    ),
-                );
-                return;
-            }
-
             if (!consentedToDataUsage || !accurateDataAgreement) {
                 return alert(
                     TranslationHandler.textSafe(
                         "agreement.requirement.all",
                         currentLang,
                         "Not all agreements have been checked.",
-                    ),
-                );
-            }
-
-            if (!captcha_token) {
-                return alert(
-                    TranslationHandler.textSafe(
-                        "login.error.captcha.complete",
-                        currentLang,
-                        "Please complete the captcha.",
                     ),
                 );
             }
@@ -277,8 +250,7 @@
         canCreateAccount =
             !(userCheck || passwordCheck) &&
             isUsernameUnique &&
-            hasDoneUsernameCheck &&
-            emailValid !== 1;
+            hasDoneUsernameCheck;
         usernameValid = isUsernameUnique && hasDoneUsernameCheck && !userCheck;
         if (!birthdayValid || !countryValid) {
             canCreateAccount = false;
@@ -298,10 +270,6 @@
             usernameRequirements[2].value = true;
         }
 
-        if (!captcha_token) {
-            canCreateAccount = false;
-        }
-
         return canCreateAccount;
     }
 
@@ -315,27 +283,11 @@
         checkIfValid();
     }
 
-    const validateEmail = (email) => {
-        return email.match(
-            /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-        )
-            ? 2
-            : 1;
-    };
     const getMaxBirthdate = () => {
         const todaysDate = new Date();
         return `${todaysDate.getFullYear()}-${todaysDate.getMonth() + 1}-${todaysDate.getDate()}`;
     };
 
-    function emailInputChanged(event) {
-        if (event.target.value) {
-            emailValid = validateEmail(event.target.value);
-        } else {
-            emailValid = 0;
-        }
-        email = event.target.value;
-        checkIfValid();
-    }
     const birthdayInputChanged = (event) => {
         birthday = event.target.value;
         checkIfValid();
@@ -679,28 +631,6 @@
 
             <span class="input-title">
                 <LocalizedText
-                    text="Email (Optional)"
-                    key="account.fields.email"
-                    lang={currentLang}
-                />
-            </span>
-            <input
-                type="text"
-                placeholder={TranslationHandler.textSafe(
-                    "account.fields.email.placeholder",
-                    currentLang,
-                    "Your email address",
-                )}
-                data-valid={emailValid}
-                class="email-input"
-                maxlength="254"
-                on:input={emailInputChanged}
-                on:focusin={() => (focused = "email")}
-                on:focusout={() => (focused = "")}
-            />
-
-            <span class="input-title">
-                <LocalizedText
                     text="Password"
                     key="account.fields.password"
                     lang={currentLang}
@@ -779,12 +709,6 @@
                 max={getMaxBirthdate()}
                 data-valid={birthdayValid}
                 on:input={birthdayInputChanged}
-            />
-
-            <Captcha
-                on:update={(event) => {
-                    captcha_token = event.detail;
-                }}
             />
 
             {#if birthdayFaked}

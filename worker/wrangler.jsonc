@@ -1,0 +1,23 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "penguinlab-api",
+  "main": "src/index.ts",
+  "compatibility_date": "2025-02-14",
+  "compatibility_flags": ["nodejs_compat"],
+  "durable_objects": {
+    "bindings": [
+      { "name": "UserDO", "class_name": "UserDO" },
+      { "name": "ProjectDO", "class_name": "ProjectDO" },
+      { "name": "AppDO", "class_name": "AppDO" }
+    ]
+  },
+  "migrations": [
+    { "tag": "v1", "new_sqlite_classes": ["UserDO", "ProjectDO", "AppDO"] }
+  ],
+  "observability": {
+    "enabled": true
+  },
+  "r2_buckets": [
+    { "binding": "PROJECT_BUCKET", "bucket_name": "cloud-storage" }
+  ]
+}
