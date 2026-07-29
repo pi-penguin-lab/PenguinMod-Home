@@ -31,7 +31,7 @@ async function readBody(req: Request): Promise<any> {
 async function verifyAuth(env: Env, username: string, token: string): Promise<boolean> {
   if (!username || !token) return false;
   const stub = getUserStub(env, username);
-  const result = await stub.getTokenUser(token);
+  const result = await stub.getTokenUser(token, username);
   return result !== null;
 }
 
@@ -90,13 +90,13 @@ export default {
             const username = q.get("username") || "";
             const token = q.get("token") || "";
             const stub = getUserStub(env, username);
-            return json(await stub.tokenLogin(token));
+            return json(await stub.tokenLogin(token, username));
           }
 
           if (resource === "logout" && method === "POST") {
             const username = body.username || "";
             const stub = getUserStub(env, username);
-            return json(await stub.logout());
+            return json(await stub.logout(username));
           }
 
           if (resource === "userfromcode" && method === "GET") {
@@ -104,15 +104,15 @@ export default {
             const username = q.get("username") || "";
             if (!token) return error("Missing token");
             if (username) {
-              const stub = getUserStub(env, username);
-              const user = await stub.getUserFromToken(token);
-              if ((user as any).error) return json(user, 400);
-              return json({
-                admin: user.is_admin, approver: user.is_approver,
-                birthdayEntered: !!user.birthday, countryEntered: !!user.country,
-                isEmailVerified: !!user.is_email_verified,
-                username: user.username,
-              });
+const stub = getUserStub(env, username);
+            const user = await stub.getUserFromToken(token, username);
+            if ((user as any).error) return json(user, 400);
+            return json({
+              admin: user.is_admin, approver: user.is_approver,
+              birthdayEntered: !!user.birthday, countryEntered: !!user.country,
+              isEmailVerified: !!user.is_email_verified,
+              username: user.username,
+            });
             }
             return error("Missing username");
           }
@@ -122,7 +122,7 @@ export default {
             const username = q.get("username") || "";
             if (!username) return error("Missing username");
             const stub = getUserStub(env, username);
-            return json(await stub.extraInfoStatus(token));
+            return json(await stub.extraInfoStatus(token, username));
           }
 
           if (resource === "changePassword" && method === "POST") {
@@ -130,7 +130,7 @@ export default {
             const stub = getUserStub(env, username);
             const authed = await verifyAuth(env, username, token);
             if (!authed) return error("Unauthorized", 401);
-            return json(await stub.changePassword(token, old_password, new_password));
+            return json(await stub.changePassword(token, username, old_password, new_password));
           }
 
           if (resource === "changeUsername" && method === "POST") {
@@ -138,7 +138,7 @@ export default {
             const authed = await verifyAuth(env, username, token);
             if (!authed) return error("Unauthorized", 401);
             const stub = getUserStub(env, username);
-            return json(await stub.changeUsername(token, newUsername));
+            return json(await stub.changeUsername(token, username, newUsername));
           }
 
           if (resource === "getpfp" && method === "GET") {
@@ -189,7 +189,7 @@ export default {
             const authed = await verifyAuth(env, username, token);
             if (!authed) return error("Unauthorized", 401);
             const stub = getUserStub(env, username);
-            return json(await stub.toggleFollow(target, toggle));
+            return json(await stub.toggleFollow(username, target, toggle));
           }
 
           if (resource === "getMyFeed" && method === "GET") {
@@ -221,43 +221,43 @@ export default {
           if (resource === "markMessageAsRead" && method === "POST") {
             const { username, token, messageID } = body;
             const stub = getUserStub(env, username);
-            return json(await stub.markMessageAsRead(messageID));
+            return json(await stub.markMessageAsRead(messageID, username));
           }
 
           if (resource === "markAllMessagesAsRead" && method === "POST") {
             const { username, token } = body;
             const stub = getUserStub(env, username);
-            return json(await stub.markAllMessagesAsRead());
+            return json(await stub.markAllMessagesAsRead(username));
           }
 
           if (resource === "setBio" && method === "POST") {
             const { username, token, bio } = body;
             const stub = getUserStub(env, username);
-            return json(await stub.setBio(bio));
+            return json(await stub.setBio(username, bio));
           }
 
           if (resource === "setmyfeaturedproject" && method === "POST") {
             const { username, token, project, title } = body;
             const stub = getUserStub(env, username);
-            return json(await stub.setFeaturedProject(project, title));
+            return json(await stub.setFeaturedProject(username, project, title));
           }
 
           if (resource === "filloutSafetyDetails" && method === "POST") {
             const { username, token, birthday, country } = body;
             const stub = getUserStub(env, username);
-            return json(await stub.filloutSafetyDetails(birthday, country));
+            return json(await stub.filloutSafetyDetails(username, birthday, country));
           }
 
           if (resource === "privateProfile" && method === "POST") {
             const { username, token, privateProfile, privateToFollowing } = body;
             const stub = getUserStub(env, username);
-            return json(await stub.privateProfile(!!privateProfile, !!privateToFollowing));
+            return json(await stub.privateProfile(username, !!privateProfile, !!privateToFollowing));
           }
 
           if (resource === "setEmail" && method === "POST") {
             const { username, token, email } = body;
             const stub = getUserStub(env, username);
-            return json(await stub.setEmail(email));
+            return json(await stub.setEmail(username, email));
           }
 
           if (resource === "setBadges" && method === "POST") {
@@ -273,13 +273,13 @@ export default {
           if (resource === "ban" && method === "POST") {
             const { username, token, target } = body;
             const stub = getUserStub(env, target);
-            return json(await stub.ban());
+            return json(await stub.ban(target));
           }
 
           if (resource === "assignPossition" && method === "POST") {
             const { username, token, target, admin, approver } = body;
             const stub = getUserStub(env, target);
-            return json(await stub.assignPosition(!!admin, !!approver));
+            return json(await stub.assignPosition(target, !!admin, !!approver));
           }
 
           if (resource === "addMessage" && method === "POST") {
@@ -291,7 +291,7 @@ export default {
           if (resource === "deleteaccount" && method === "POST") {
             const { username, token, target } = body;
             const stub = getUserStub(env, target);
-            return json(await stub.deleteAccount());
+            return json(await stub.deleteAccount(target));
           }
 
           if (resource === "blockuser" && method === "POST") {
@@ -345,7 +345,7 @@ export default {
           if (resource === "setBioAdmin" && method === "POST") {
             const { username, token, bio, target } = body;
             const stub = getUserStub(env, target || username);
-            return json(await stub.setBio(bio));
+            return json(await stub.setBio(target || username, bio));
           }
 
           if (resource === "setpfp" && method === "POST") {

@@ -88,23 +88,23 @@ export class UserDO extends DurableObject<Env> {
     return { token };
   }
 
-  async tokenLogin(token: string): Promise<{ username: string } | { error: string }> {
+  async tokenLogin(token: string, username: string): Promise<{ username: string } | { error: string }> {
     const tokenHash = await hashToken(token);
     const rows = this.ctx.storage.sql.exec<{ token_hash: string }>("SELECT token_hash FROM tokens WHERE token_hash = ?", tokenHash).toArray();
     if (rows.length === 0) return { error: "InvalidToken" };
-    return { username: this.username };
+    return { username };
   }
 
-  async logout(): Promise<{ success: boolean }> {
+  async logout(_username: string): Promise<{ success: boolean }> {
     this.ctx.storage.sql.exec("DELETE FROM tokens");
     return { success: true };
   }
 
-  async getUserFromToken(token: string): Promise<ProfileRow & { error?: string }> {
+  async getUserFromToken(token: string, username: string): Promise<ProfileRow & { error?: string }> {
     const tokenHash = await hashToken(token);
     const tokRows = this.ctx.storage.sql.exec<{ token_hash: string }>("SELECT token_hash FROM tokens WHERE token_hash = ?", tokenHash).toArray();
     if (tokRows.length === 0) return { error: "InvalidToken" } as any;
-    const rows = this.ctx.storage.sql.exec<ProfileRow>("SELECT * FROM profile WHERE username = ?", this.username).toArray();
+    const rows = this.ctx.storage.sql.exec<ProfileRow>("SELECT * FROM profile WHERE username = ?", username).toArray();
     if (rows.length === 0) return { error: "UserNotFound" } as any;
     return rows[0];
   }
@@ -129,35 +129,35 @@ export class UserDO extends DurableObject<Env> {
     };
   }
 
-  async extraInfoStatus(token: string): Promise<{ birthdayEntered: boolean; countryEntered: boolean; isEmailVerified: boolean } | { error: string }> {
-    const user = await this.getUserFromToken(token);
+  async extraInfoStatus(token: string, username: string): Promise<{ birthdayEntered: boolean; countryEntered: boolean; isEmailVerified: boolean } | { error: string }> {
+    const user = await this.getUserFromToken(token, username);
     if ((user as any).error) return user as any;
     return { birthdayEntered: !!user.birthday, countryEntered: !!user.country, isEmailVerified: !!user.is_email_verified };
   }
 
-  async usernameExists(): Promise<{ exists: boolean }> {
-    const rows = this.ctx.storage.sql.exec<ProfileRow>("SELECT username FROM profile WHERE username = ?", this.username).toArray();
+  async usernameExists(username: string): Promise<{ exists: boolean }> {
+    const rows = this.ctx.storage.sql.exec<ProfileRow>("SELECT username FROM profile WHERE username = ?", username).toArray();
     return { exists: rows.length > 0 };
   }
 
-  async changePassword(token: string, oldPassword: string, newPassword: string): Promise<{ token: string } | { error: string }> {
-    const rows = this.ctx.storage.sql.exec<ProfileRow>("SELECT password_hash, password_salt FROM profile WHERE username = ?", this.username).toArray();
+  async changePassword(token: string, username: string, oldPassword: string, newPassword: string): Promise<{ token: string } | { error: string }> {
+    const rows = this.ctx.storage.sql.exec<ProfileRow>("SELECT password_hash, password_salt FROM profile WHERE username = ?", username).toArray();
     if (rows.length === 0) return { error: "UserNotFound" };
     const { hash: oldHash } = await hashPassword(oldPassword, rows[0].password_salt);
     if (rows[0].password_hash !== oldHash) return { error: "InvalidPassword" };
     const { hash: newHash, salt: newSalt } = await hashPassword(newPassword);
-    this.ctx.storage.sql.exec("UPDATE profile SET password_hash = ?, password_salt = ? WHERE username = ?", newHash, newSalt, this.username);
-    this.ctx.storage.sql.exec("DELETE FROM tokens");
+    this.ctx.storage.sql.exec("UPDATE profile SET password_hash = ?, password_salt = ? WHERE username = ?", newHash, newSalt, username);
+    this.ctx.storage.sql.exec("DELETE FROM tokens WHERE token_hash NOT IN (SELECT token_hash FROM tokens WHERE token_hash = (SELECT token_hash FROM tokens ORDER BY rowid DESC LIMIT 1))");
     const newToken = randomToken();
     const newTokenHash = await hashToken(newToken);
     this.ctx.storage.sql.exec("INSERT INTO tokens (token_hash) VALUES (?)", newTokenHash);
     return { token: newToken };
   }
 
-  async changeUsername(token: string, newUsername: string): Promise<{ token: string } | { error: string }> {
+  async changeUsername(token: string, username: string, newUsername: string): Promise<{ token: string } | { error: string }> {
     const existing = this.ctx.storage.sql.exec<ProfileRow>("SELECT username FROM profile WHERE username = ?", newUsername).toArray();
     if (existing.length > 0) return { error: "UsernameTaken" };
-    this.ctx.storage.sql.exec("UPDATE profile SET username = ? WHERE username = ?", newUsername, this.username);
+    this.ctx.storage.sql.exec("UPDATE profile SET username = ? WHERE username = ?", newUsername, username);
     this.ctx.storage.sql.exec("DELETE FROM tokens");
     const newToken = randomToken();
     const newTokenHash = await hashToken(newToken);
@@ -165,8 +165,8 @@ export class UserDO extends DurableObject<Env> {
     return { token: newToken };
   }
 
-  async setBio(bio: string): Promise<{ success: boolean }> {
-    this.ctx.storage.sql.exec("UPDATE profile SET bio = ? WHERE username = ?", bio, this.username);
+  async setBio(username: string, bio: string): Promise<{ success: boolean }> {
+    this.ctx.storage.sql.exec("UPDATE profile SET bio = ? WHERE username = ?", bio, username);
     return { success: true };
   }
 
@@ -195,10 +195,10 @@ export class UserDO extends DurableObject<Env> {
     return { following: rows.length > 0 };
   }
 
-  async toggleFollow(target: string, toggle: boolean): Promise<{ success: boolean } | { error: string }> {
+  async toggleFollow(username: string, target: string, toggle: boolean): Promise<{ success: boolean } | { error: string }> {
     if (toggle) {
       this.ctx.storage.sql.exec("INSERT OR IGNORE INTO follows (target_username) VALUES (?)", target);
-      this.ctx.storage.sql.exec("INSERT INTO feed (type, from_username, data_json) VALUES (?, ?, ?)", "follow", this.username, JSON.stringify({ username: target }));
+      this.ctx.storage.sql.exec("INSERT INTO feed (type, from_username, data_json) VALUES (?, ?, ?)", "follow", username, JSON.stringify({ username: target }));
     } else {
       this.ctx.storage.sql.exec("DELETE FROM follows WHERE target_username = ?", target);
     }
@@ -246,47 +246,47 @@ export class UserDO extends DurableObject<Env> {
     return { success: true };
   }
 
-  async setFeaturedProject(projectId: number, title: string): Promise<{ success: boolean }> {
-    this.ctx.storage.sql.exec("UPDATE profile SET featured_project = ?, featured_project_title = ? WHERE username = ?", projectId, title, this.username);
+  async setFeaturedProject(username: string, projectId: number, title: string): Promise<{ success: boolean }> {
+    this.ctx.storage.sql.exec("UPDATE profile SET featured_project = ?, featured_project_title = ? WHERE username = ?", projectId, title, username);
     return { success: true };
   }
 
-  async filloutSafetyDetails(birthday: string, country: string): Promise<{ success: boolean }> {
-    this.ctx.storage.sql.exec("UPDATE profile SET birthday = ?, country = ? WHERE username = ?", birthday, country, this.username);
+  async filloutSafetyDetails(username: string, birthday: string, country: string): Promise<{ success: boolean }> {
+    this.ctx.storage.sql.exec("UPDATE profile SET birthday = ?, country = ? WHERE username = ?", birthday, country, username);
     return { success: true };
   }
 
-  async setEmail(email: string): Promise<{ success: boolean }> {
-    this.ctx.storage.sql.exec("UPDATE profile SET email = ? WHERE username = ?", email, this.username);
+  async setEmail(username: string, email: string): Promise<{ success: boolean }> {
+    this.ctx.storage.sql.exec("UPDATE profile SET email = ? WHERE username = ?", email, username);
     return { success: true };
   }
 
-  async privateProfile(privateProfile: boolean, privateToFollowing: boolean): Promise<{ success: boolean }> {
-    this.ctx.storage.sql.exec("UPDATE profile SET private_profile = ?, private_to_following = ? WHERE username = ?", privateProfile ? 1 : 0, privateToFollowing ? 1 : 0, this.username);
+  async privateProfile(username: string, privateProfile: boolean, privateToFollowing: boolean): Promise<{ success: boolean }> {
+    this.ctx.storage.sql.exec("UPDATE profile SET private_profile = ?, private_to_following = ? WHERE username = ?", privateProfile ? 1 : 0, privateToFollowing ? 1 : 0, username);
     return { success: true };
   }
 
-  async ban(): Promise<{ success: boolean }> {
-    this.ctx.storage.sql.exec("UPDATE profile SET is_banned = 1 WHERE username = ?", this.username);
+  async ban(username: string): Promise<{ success: boolean }> {
+    this.ctx.storage.sql.exec("UPDATE profile SET is_banned = 1 WHERE username = ?", username);
     this.ctx.storage.sql.exec("DELETE FROM tokens");
     return { success: true };
   }
 
-  async assignPosition(admin: boolean, approver: boolean): Promise<{ success: boolean }> {
-    this.ctx.storage.sql.exec("UPDATE profile SET is_admin = ?, is_approver = ? WHERE username = ?", admin ? 1 : 0, approver ? 1 : 0, this.username);
+  async assignPosition(username: string, admin: boolean, approver: boolean): Promise<{ success: boolean }> {
+    this.ctx.storage.sql.exec("UPDATE profile SET is_admin = ?, is_approver = ? WHERE username = ?", admin ? 1 : 0, approver ? 1 : 0, username);
     return { success: true };
   }
 
-  async deleteAccount(): Promise<{ success: boolean }> {
-    this.ctx.storage.sql.exec("DELETE FROM profile WHERE username = ?", this.username);
+  async deleteAccount(username: string): Promise<{ success: boolean }> {
+    this.ctx.storage.sql.exec("DELETE FROM profile WHERE username = ?", username);
     this.ctx.storage.sql.exec("DELETE FROM tokens");
     return { success: true };
   }
 
-  async getTokenUser(token: string): Promise<{ username: string } | null> {
+  async getTokenUser(token: string, username: string): Promise<{ username: string } | null> {
     const tokenHash = await hashToken(token);
     const rows = this.ctx.storage.sql.exec<{ token_hash: string }>("SELECT token_hash FROM tokens WHERE token_hash = ?", tokenHash).toArray();
     if (rows.length === 0) return null;
-    return { username: this.username };
+    return { username };
   }
 }
