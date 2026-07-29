@@ -142,8 +142,14 @@ const stub = getUserStub(env, username);
           }
 
           if (resource === "getpfp" && method === "GET") {
-            // Return placeholder
-            return new Response(null, { status: 204 });
+            const username = q.get("username") || "";
+            if (!username) return new Response(null, { status: 204 });
+            const key = `pfps/${username}`;
+            const obj = await env.PROJECT_BUCKET.get(key);
+            if (!obj) return new Response(null, { status: 204 });
+            const headers: Record<string, string> = { "Access-Control-Allow-Origin": "*" };
+            headers["Content-Type"] = obj.httpMetadata?.contentType || "image/png";
+            return new Response(obj.body, { headers });
           }
 
           if (resource === "getusername" && method === "GET") {
@@ -349,6 +355,15 @@ const stub = getUserStub(env, username);
           }
 
           if (resource === "setpfp" && method === "POST") {
+            const username = q.get("username") || "";
+            const token = q.get("token") || "";
+            const stub = getUserStub(env, username);
+            const user = await stub.getTokenUser(token, username);
+            if (!user) return error("Unauthorized", 401);
+            const blob = await request.blob();
+            await env.PROJECT_BUCKET.put(`pfps/${username}`, blob, {
+              httpMetadata: { contentType: blob.type || "image/png" },
+            });
             return json({ success: true });
           }
 

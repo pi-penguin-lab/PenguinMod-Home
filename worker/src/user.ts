@@ -114,6 +114,9 @@ export class UserDO extends DurableObject<Env> {
     if (rows.length === 0) return { error: "UserNotFound" };
     const p = rows[0];
     const badgeRows = this.ctx.storage.sql.exec<{ badge: string }>("SELECT badge FROM badges").toArray();
+    const followerRows = this.ctx.storage.sql.exec<{ target_username: string }>(
+      "SELECT target_username FROM follows WHERE target_username = ?", target
+    ).toArray();
     return {
       username: p.username,
       bio: includeBio ? p.bio : undefined,
@@ -126,6 +129,8 @@ export class UserDO extends DurableObject<Env> {
       featuredProjectTitle: p.featured_project_title,
       badges: badgeRows.map((b) => b.badge),
       created_at: p.created_at,
+      followers: followerRows.length,
+      canFollowingSeeProfile: !!p.private_to_following,
     };
   }
 
