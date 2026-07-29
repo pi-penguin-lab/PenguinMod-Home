@@ -178,7 +178,7 @@ class Authentication {
 
         if (!j.birthdayEntered || !j.countryEntered || !j.isEmailVerified) {
             const extra = await fetch(
-                `${ProjectApi.OriginApiUrl}/api/v1/users/extrainfostatus?token=${token}`,
+                `${ProjectApi.OriginApiUrl}/api/v1/users/extrainfostatus?token=${token}&username=${encodeURIComponent(username)}`,
             ).then((r) => r.json());
 
             j.birthdayEntered = extra.birthdayEntered;
