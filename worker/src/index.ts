@@ -462,7 +462,53 @@ const stub = getUserStub(env, username);
           }
 
           if (resource === "uploadProject" && method === "POST") {
-            return json({ id: Math.floor(Math.random() * 1000000) });
+            const formData = await request.formData();
+            const username = formData.get("username") as string || "";
+            const token = formData.get("token") as string || "";
+            const title = formData.get("title") as string || "Untitled";
+            const instructions = formData.get("instructions") as string || "";
+            const notes = formData.get("notes") as string || "";
+            const remix = formData.get("remix") as string || "0";
+
+            const authed = await verifyAuth(env, username, token);
+            if (!authed) return error("Unauthorized", 401);
+
+            const jsonFile = formData.get("jsonFile") as File | null;
+            const thumbnail = formData.get("thumbnail") as File | null;
+            const assetEntries = formData.getAll("assets") as File[];
+
+            if (!jsonFile) return error("Missing jsonFile", 400);
+
+            const id = String(Date.now());
+            const jsonData = await jsonFile.arrayBuffer();
+            await env.PROJECT_BUCKET.put(`projects/${id}.json`, jsonData, {
+              httpMetadata: { contentType: "application/json" }
+            });
+
+            if (thumbnail) {
+              const thumbData = await thumbnail.arrayBuffer();
+              await env.PROJECT_BUCKET.put(`projects/${id}.png`, thumbData, {
+                httpMetadata: { contentType: thumbnail.type || "image/png" }
+              });
+            }
+
+            for (const asset of assetEntries) {
+              const assetData = await asset.arrayBuffer();
+              await env.PROJECT_BUCKET.put(`assets/${asset.name}`, assetData, {
+                httpMetadata: { contentType: asset.type || "application/octet-stream" }
+              });
+            }
+
+            const stub = getProjectStub(env, id);
+            await stub.create({
+              id: parseInt(id), title, instructions, notes,
+              authorUsername: username, remixOf: parseInt(remix) || 0, tags: ""
+            });
+
+            const app = getAppStub(env);
+            await app.registerProject(parseInt(id), title, username, "");
+
+            return json({ id: parseInt(id) });
           }
 
           if (resource === "studios" && action === "projects" && method === "GET") {
@@ -477,7 +523,63 @@ const stub = getUserStub(env, username);
           }
 
           if (resource === "updateProject" && method === "POST") {
-            return json({ id: q.get("projectID") || body.projectID || "0" });
+            let projectID = "";
+            let updateTitle = "";
+            let updateInstructions = "";
+            let updateNotes = "";
+            let updateUsername = "";
+            let updateToken = "";
+            let updateJsonFile: File | null = null;
+            let updateThumbnail: File | null = null;
+            const updateAssets: File[] = [];
+
+            const ctype = request.headers.get("content-type") || "";
+            if (ctype.includes("multipart/form-data")) {
+              const formData = await request.formData();
+              projectID = formData.get("projectID") as string || "";
+              updateUsername = formData.get("username") as string || "";
+              updateToken = formData.get("token") as string || "";
+              updateTitle = formData.get("title") as string || "";
+              updateInstructions = formData.get("instructions") as string || "";
+              updateNotes = formData.get("notes") as string || "";
+              updateJsonFile = formData.get("jsonFile") as File | null;
+              updateThumbnail = formData.get("thumbnail") as File | null;
+              for (const a of formData.getAll("assets") as File[]) updateAssets.push(a);
+            } else {
+              projectID = body.projectID || q.get("projectID") || "";
+              updateTitle = body.title || "";
+              updateInstructions = body.instructions || "";
+              updateNotes = body.notes || "";
+              updateUsername = body.username || "";
+              updateToken = body.token || "";
+            }
+
+            if (!projectID) return error("Missing projectID", 400);
+            const authed = await verifyAuth(env, updateUsername, updateToken);
+            if (!authed) return error("Unauthorized", 401);
+
+            if (updateJsonFile) {
+              const jsonData = await updateJsonFile.arrayBuffer();
+              await env.PROJECT_BUCKET.put(`projects/${projectID}.json`, jsonData, {
+                httpMetadata: { contentType: "application/json" }
+              });
+            }
+            if (updateThumbnail) {
+              const thumbData = await updateThumbnail.arrayBuffer();
+              await env.PROJECT_BUCKET.put(`projects/${projectID}.png`, thumbData, {
+                httpMetadata: { contentType: updateThumbnail.type || "image/png" }
+              });
+            }
+            for (const asset of updateAssets) {
+              const assetData = await asset.arrayBuffer();
+              await env.PROJECT_BUCKET.put(`assets/${asset.name}`, assetData, {
+                httpMetadata: { contentType: asset.type || "application/octet-stream" }
+              });
+            }
+
+            const stub = getProjectStub(env, projectID);
+            await stub.update({ title: updateTitle, instructions: updateInstructions, notes: updateNotes });
+            return json({ id: parseInt(projectID) });
           }
 
           if (resource === "approve" && method === "GET") {
